@@ -1,5 +1,5 @@
-
-/** Main entrypoint for our application */
+// tetrisgod/app.ts
+// Main entrypoint for our application
 
 // Load up express to resolve requests to /client directory only
 var express = require('express');
