@@ -1,0 +1,25 @@
+#!/bin/bash
+
+for arg in "$@"
+do
+	if [ "$arg" == "help" ]; then
+		echo "./exec [setup | build | run | clean]"
+	fi
+
+	if [ "$arg" == "setup" ] || [ "$arg" == "install" ]; then
+		npm install
+	fi
+
+	if [ "$arg" == "build" ]; then
+		npm run tsc
+	fi
+
+	if [ "$arg" == "run" ]; then
+		node ./build/app.js
+	fi
+
+	if [ "$arg" == "clean" ]; then
+		find ./build/ -type f -name '*.js' -delete
+		find ./build/ -type f -name '*.js.map' -delete
+	fi
+done
