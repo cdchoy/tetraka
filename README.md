@@ -25,21 +25,25 @@ Run the commmand '$ npm run tsc' within the tetrisgod/tetrisgod/ directory to co
 
 tetrisgod  
     build
-        // contains compiled .ts -> .js files. Managed by tsc.     
-    client
-        // client (user) accessible files   
-        img
-        ts
+        // contains compiled .ts -> .js files. Managed by tsc.  
+
+    src
+        // contains uncompiled .ts files    
+        client
+            // client (user) accessible files   
+            img     
+            ts  
+        server      
+            // server files not accessible by user  
+        app.ts  
+            // entrypoint for out application.      
+
     node_modules    
         // contains node package files. Managed by npm.
-    server  
-        // server files not accessible by user  
-    app.ts  
-        // entrypoint for out application.  
     package.json    
-        // node dependencies. Managed by npm.   
-    tsconfig.json   
-        // config file for tsc.    
+        // node dependencies. Managed by npm.       
+    tsconfig.json       
+        // config file for tsc.     
 
 
 ### Tetrimino Names
