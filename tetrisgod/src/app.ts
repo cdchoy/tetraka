@@ -4,21 +4,24 @@
 import User from "./Modules";
 import Pixel from "./Modules";
 
-// Load up express to resolve requests to /client directory only
-var express = require('express');
-var app = express();
-var serv = require('http').Server(app);
+import express from "express";
+import http from "http";
 
-app.get('/',function(request:any,response:any) {
+/* Server Initialization */
+const app = express();
+const server = new http.Server(app);
+
+app.get('/', function(request:any, response:any) {
 	response.sendFile(__dirname + '/client/index.html');
 })
 app.use('/client',express.static(__dirname + '/client'));
 
-serv.listen(2000);
+server.listen(2000);  // TODO: change variable when hosted on heroku
 console.log("Server started");
+/* END Server Initialization */
 
-var SOCKET_LIST = {};
-var PLAYER_LIST = {};
+let SOCKET_LIST : Array<number> = {};
+let PLAYER_LIST = {};
 
 var Player = function(id:String) {
 	var self = {

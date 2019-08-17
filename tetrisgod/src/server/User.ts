@@ -1,9 +1,9 @@
 // server/User.ts
 
 export class User {
-	name : string = "Alexey Pajitnov";
- 	username : string;
-	usertag : string;
+	private name : string = "Alexey Pajitnov";
+ 	private username : string;
+	private usertag : string;
 
 	constructor(name:string, username:string) {
 		this.name = name;
@@ -19,6 +19,9 @@ export class User {
 
 		return tag;
 	}
+
+	public getUsername() : string { return this.username; }
+
 
 	public updateUsername(newUsername:string) : void {
 		this.username = newUsername;
