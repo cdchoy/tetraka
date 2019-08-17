@@ -36,7 +36,9 @@ tetrisgod
         server      
             // server files not accessible by user  
         app.ts  
-            // entrypoint for out application.      
+            // entrypoint for out application.   
+        Modules.ts
+            // wrapper for accessing all modules
 
     node_modules    
         // contains node package files. Managed by npm.
