@@ -2,5 +2,7 @@
 
 export class Pixel {
 	color : string = "empty";
-	active : boolean = false;
+	tetrimino : string = "none";
+	active : boolean = false
+
 }
