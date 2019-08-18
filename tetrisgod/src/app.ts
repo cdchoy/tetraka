@@ -28,8 +28,7 @@ let SOCKET_LIST : any = {};
 var io = require('socket.io') (server,{});
 io.socket.on('connection', function(socket:any) {
 	onConnect(socket);
-	socket.on('disconnect',function() { onDisconnect(socket); });
-
+	socket.on('disconnect', function() { onDisconnect(socket); });
 	socket.on('keyPress', function() { onKeyPress(socket); })
 });
 

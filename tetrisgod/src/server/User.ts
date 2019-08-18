@@ -7,11 +7,12 @@ export class User {
 	private userid 	 : string = "TetrisGod#0123";
 	private socketid : string;
 
-	constructor(name:string, username:string) {
+	constructor(name:string, username:string, socket:any) {
 		this.name 	  = name;
 		this.username = username;
 		this.usertag  = this.generateUsertag();
 		this.userid   = this.username + this.usertag;
+		this.socketid = socket.id;
 	}
 
 	// Getters
