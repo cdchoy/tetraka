@@ -22,28 +22,16 @@ export enum TetriminoForm {
 
 export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
+  form  : TetriminoForm  = TetriminoForm.Up;
+  origin: coordinates    = [1, 3];
 
   constructor(tetval : TetriminoValue) {
     this.value = tetval;
   }
-}
+  public abstract getCoordinates() : Array<coordinates>;
 
-export class TetrominoNonZero extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.None);
-  }
-}
-
-export class TetrominoZero extends Tetromino {
-  constructor () {
-    super()
-  }
-  public getCoordinates() {
-
-  }
-
-  private setOrigin(newOrigin : coordinates) {
-    this.origin = newOrigin;
+  public moveUp() {
+    this.origin[0] += -1;
   }
 
   public moveLeft() {
@@ -67,6 +55,16 @@ export class TetrominoZero extends Tetromino {
   }
 }
 
+export class NoneBlock extends Tetrimino {
+  constructor () {
+    super(TetriminoValue.None);
+  }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
+  }
+}
+
 /**
  *  [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
  *  [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
@@ -76,6 +74,10 @@ export class TetrominoZero extends Tetromino {
 export class LBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.LBlock);
+  }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
   }
 }
 
@@ -89,6 +91,10 @@ export class JBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.JBlock);
   }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
+  }
 }
 
 /**
@@ -101,6 +107,10 @@ export class ZBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.ZBlock);
   }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
+  }
 }
 
 /**
@@ -112,6 +122,10 @@ export class ZBlock extends Tetrimino {
 export class SBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.SBlock);
+  }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
   }
 }
 
@@ -126,6 +140,10 @@ export class IBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.IBlock);
   }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
+  }
 }
 
 /**
@@ -138,6 +156,10 @@ export class TBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.TBlock);
   }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
+  }
 }
 
 /**
@@ -147,5 +169,9 @@ export class TBlock extends Tetrimino {
 export class OBlock extends Tetrimino {
   constructor () {
     super(TetriminoValue.OBlock);
+  }
+
+  getCoordinates () : Array <coordinates>{
+    return [this.origin];
   }
 }
