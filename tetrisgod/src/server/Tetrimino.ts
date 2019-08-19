@@ -90,41 +90,41 @@ function setupCoords(id : TetriminoId) : Array<Array<coordinates>> {
 }
 
 
-/** Orange Ricky */
+/** Orange Ricky (LBlock) */
 const L_UP    : Array<coordinates> = [[1, 0], [1, 2], [1, 2], [2, 2]];  // [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
 const L_RIGHT : Array<coordinates> = [[0, 1], [0, 2], [1, 1], [2, 1]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
 const L_DOWN  : Array<coordinates> = [[0, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 1]  |  [1 0 0]  |  [0 1 0]
 const L_LEFT  : Array<coordinates> = [[0, 1], [1, 1], [2, 0], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-/** Blue Ricky */
+/** Blue Ricky (JBlock) */
 const J_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [2, 0]];  // [1 0 0]  |  [0 1 1]  |  [0 0 0]  |  [0 1 0]
 const J_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [2, 1], [2, 2]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
 const J_DOWN  : Array<coordinates> = [[2, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 0 1]  |  [1 1 0]
 const J_LEFT  : Array<coordinates> = [[0, 0], [0, 1], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-/** Cleveland Z */
+/** Cleveland Z (ZBlock) */
 const Z_UP    : Array<coordinates> = [[1, 1], [1, 2], [2, 0], [2, 1]];  // [1 1 0]  |  [0 0 1]  |  [0 0 0]  |  [0 1 0]
 const Z_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [1, 2], [2, 2]];  // [0 1 1]  |  [0 1 1]  |  [1 1 0]  |  [1 1 0]
 const Z_DOWN  : Array<coordinates> = [[0, 1], [0, 2], [1, 0], [1, 1]];  // [0 0 0]  |  [0 1 0]  |  [0 1 1]  |  [1 0 0]
 const Z_LEFT  : Array<coordinates> = [[0, 0], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-/** Rhode Island Z */
+/** Rhode Island Z (SBlock) */
 const S_UP    : Array<coordinates> = [[1, 0], [1, 1], [2, 1], [2, 2]];  // [0 1 1]  |  [0 1 0]  |  [0 0 0]  |  [1 0 0]
 const S_RIGHT : Array<coordinates> = [[0, 2], [1, 1], [1, 2], [2, 1]];  // [1 1 0]  |  [0 1 1]  |  [0 1 1]  |  [1 1 0]
 const S_DOWN  : Array<coordinates> = [[0, 0], [0, 1], [1, 1], [1, 2]];  // [0 0 0]  |  [0 0 1]  |  [1 1 0]  |  [0 1 0]
 const S_LEFT  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [2, 0]];  //   UP         RIGHT       DOWN        LEFT
 
-/** Hero */                                                             // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
+/** Hero (IBlock) */                                                    // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
 const I_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [1, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [1 1 1 1]  |  [0 0 1 0]
 const I_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [2, 1], [3, 1]];  // [1 1 1 1]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
 const I_DOWN  : Array<coordinates> = [[2, 0], [2, 1], [2, 2], [2, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
 const I_LEFT  : Array<coordinates> = [[0, 2], [1, 2], [2, 2], [3, 2]];  //    UP           RIGHT         DOWN          LEFT
 
-/** Teewee */
+/** Teewee (TBlock) */
 const T_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [2, 1]];  // [0 1 0]  |  [0 1 0]  |  [0 0 0]  |  [0 1 0]
 const T_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [1, 2], [2, 1]];  // [1 1 1]  |  [0 1 1]  |  [1 1 1]  |  [1 1 0]
 const T_DOWN  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 1 0]  |  [0 1 0]
 const T_LEFT  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-/** Smashboy */                                                          // [1 1]
+/** Smashboy (OBlock) */                                                 // [1 1]
 const O_ALL    : Array<coordinates> = [[0, 0], [0, 1], [1, 0], [1, 1]];  // [1 1] ALL
