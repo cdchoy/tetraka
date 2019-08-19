@@ -3,7 +3,7 @@
 import { Pixel } from "../Modules";
 import { Tetrimino, NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
 
-type coordinates = [number, number];
+export type coordinates = [number, number];
 
 export class Grid {
 	private height : number;
