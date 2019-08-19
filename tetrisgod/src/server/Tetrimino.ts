@@ -1,5 +1,13 @@
 // server/Tetrimino.ts
 
+/*
+ * Note: there is not a super good reason to have separate classes. I don't
+ *       know if it will affect runtime, but it affects readability. The
+ *       alternative is to make it all one class, and put each rotations array
+ *       (ORANGERICKY, BLUERICKY, etc.) into a larger array indexed by their
+ *       TetriminoValue.
+ */
+
 import {coordinates} from "../Modules"
 
 export enum TetriminoValue {
