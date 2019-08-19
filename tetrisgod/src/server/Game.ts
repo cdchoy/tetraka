@@ -12,7 +12,8 @@ export class Game {
   constructor(fallSpeed: number = 1000) {
     this.lastFallTime = 0;
     this.fallSpeed = fallSpeed;
-    this.grid = new Grid();
+    this.holdPiece = new NoneBlock();
+    this.grid = new Grid(10, 21);
   }
 
   public update(socket : any) {
@@ -24,7 +25,7 @@ export class Game {
     if (socket.action.pressingHold) {
       this.hold();
     }
-    if (socket.action.pressingHardDrop) {
+    else if (socket.action.pressingHardDrop) {
       this.grid.harddrop();
     }
     else if (socket.action.pressingRotateRight) {
