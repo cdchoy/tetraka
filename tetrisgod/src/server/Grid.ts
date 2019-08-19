@@ -1,9 +1,8 @@
 // server/Grid2d.ts
 
-import { TetriminoValue } from "../Modules"
-import { Tetrimino, NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
+import { Tetrimino, TetriminoValue } from "../Modules"
 
-export type coordinates = [number, number];
+export type coordinates = [number, number];  // row,col
 
 export class Grid {
   private height : number;
@@ -25,10 +24,10 @@ export class Grid {
   }
 
   private checkInBounds(coords:coordinates) : boolean {
-    const x = coords[0];
-    const y = coords[1];
-    if (x<0 || x>this.width) return false;
-    if (y<0 || y>this.height) return false;
+    const row = coords[0];
+    const col = coords[1];
+    if (row<0 || row>this.height) return false;
+    if (col<0 || col>this.width) return false;
     return true;
   }
 
