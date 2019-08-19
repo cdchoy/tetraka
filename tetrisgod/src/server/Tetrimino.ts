@@ -1,5 +1,7 @@
 // server/Tetrimino.ts
 
+import {coordinates} from "../Modules"
+
 export enum TetriminoValue {
   None   = 0,
   LBlock = 1,
@@ -20,16 +22,48 @@ export enum TetriminoForm {
 
 export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
-  form  : TetriminoForm  = TetriminoForm.up;
 
   constructor(tetval : TetriminoValue) {
     this.value = tetval;
   }
 }
 
-export class NoneBlock extends Tetrimino {
+export class TetrominoNonZero extends Tetrimino {
   constructor () {
     super(TetriminoValue.None);
+  }
+}
+
+export class TetrominoZero extends Tetromino {
+  constructor () {
+    super()
+  }
+  public getCoordinates() {
+    
+  }
+
+  private setOrigin(newOrigin : coordinates) {
+    this.origin = newOrigin;
+  }
+
+  public moveLeft() {
+    this.origin[1] += -1; 
+  }
+
+  public moveRight() {
+    this.origin[1] += 1;
+  }
+
+  public moveDown() {
+    this.origin[0] += 1;
+  }
+
+  public rotateRight() {
+    this.form = (this.form + 1) % 4;
+  }
+
+  public rotateLeft() {
+    this.form = (this.form + 3) % 4;
   }
 }
 
