@@ -20,6 +20,35 @@ export enum TetriminoForm {
   Left  = 3,
 }
 
+const ORANGERICKYUP:    coordinates[] = [[1, 0], [1, 2], [1, 3], [2, 2]];
+const ORANGERICKYRIGHT: coordinates[] = [[0, 1], [1, 1], [2, 1], [0, 2]];
+const ORANGERICKYDOWN:  coordinates[] = [[0, 0], [1, 0], [1, 1], [1, 2]];
+const ORANGERICKYLEFT:  coordinates[] = [[0, 1], [1, 1], [2, 0], [2, 1]];
+
+const BLUERICKYUP:     coordinates[] = [[1, 0], [1, 2], [1, 3], [2, 0]];
+const BLUERICKYRIGHT: coordinates[] = [[0, 1], [1, 1], [2, 1], [2, 2]];
+const BLUERICKYDOWN:  coordinates[] = [[2, 0], [1, 0], [1, 1], [1, 2]];
+const BLUERICKYLEFT:  coordinates[] = [[0, 0], [0, 1], [1, 1], [2, 1]];
+
+const rotations: coordinates[][][] = [
+  /* None Block */
+  [],
+  /* Orange Ricky */
+  [ORANGERICKYUP, ORANGERICKYRIGHT, ORANGERICKYDOWN, ORANGERICKYLEFT],
+  /* Blue Ricky */
+  [BLUERICKYUP, BLUERICKYRIGHT, BLUERICKYDOWN, BLUERICKYLEFT],
+  /* Cleveland Z */
+  [],
+  /* Rhode Island Z */
+  [],
+  /* Hero */
+  [],
+  /* Teewee */
+  [],
+  /* Smash Boy */
+  []
+];
+
 export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
   form  : TetriminoForm  = TetriminoForm.Up;
@@ -31,11 +60,11 @@ export abstract class Tetrimino {
   public abstract getCoordinates() : Array<coordinates>;
 
   public moveUp() {
-    this.origin[0] += -1;
+    this.origin[0] += 1;
   }
 
   public moveLeft() {
-    this.origin[1] += -1;
+    this.origin[1] -= 1; 
   }
 
   public moveRight() {
@@ -43,7 +72,7 @@ export abstract class Tetrimino {
   }
 
   public moveDown() {
-    this.origin[0] += 1;
+    this.origin[0] -= 1;
   }
 
   public rotateRight() {
