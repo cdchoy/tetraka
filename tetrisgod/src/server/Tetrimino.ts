@@ -20,11 +20,13 @@ export enum TetriminoForm {
   Left  = 3,
 }
 
+
 export class Tetrimino {
   private id : TetriminoId;
   private form  : TetriminoForm;
   private origin: coordinates;
   private tetriminoCoords: Array<Array<coordinates>>;
+
 
   protected constructor(id : TetriminoId) {
     this.id = id;
