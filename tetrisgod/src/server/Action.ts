@@ -1,10 +1,11 @@
 // server/Action.ts
 
 export class Action {
-	pressingLeft  : boolean = false;
-	pressingUp 	  : boolean = false;
-	pressingRight : boolean = false;
-	pressingDown  : boolean = false;
-	pressingSpace : boolean = false;
-	pressingShift : boolean = false;
+	pressingMoveLeft    : boolean = false;
+  pressingMoveRight   : boolean = false;
+	pressingRotateRight : boolean = false;
+  pressingRotateLeft	: boolean = false;
+	pressingSoftDrop    : boolean = false;
+	pressingHardDrop    : boolean = false;
+	pressingHold        : boolean = false;
 }

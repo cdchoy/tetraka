@@ -46,18 +46,18 @@ function onDisconnect(socket: any) : void {
 }
 
 function onKeyPress(socket: any) : void {
-	if (socket.data.inputId === 'left')
-		socket.action.pressingLeft = socket.data.state;
-	else if (socket.data.inputId === 'up')
-		socket.action.pressingUp = socket.data.state
-	else if (socket.data.inputId === 'right')
-		socket.action.pressingRight = socket.data.state;
-	else if (socket.data.inputId === 'down')
-		socket.action.pressingDown = socket.data.state;
-	else if (socket.data.inputId === 'space')
-		socket.action.pressingDown = socket.data.state;
-	else if (socket.data.inputId === 'shift')
-		socket.action.pressingDown = socket.data.state;
+	if (socket.data.inputId === 'moveleft')
+		socket.action.pressingMoveLeft = socket.data.state;
+	else if (socket.data.inputId === 'rotateright')
+		socket.action.pressingRotateRight = socket.data.state
+	else if (socket.data.inputId === 'moveright')
+		socket.action.pressingMoveRight = socket.data.state;
+	else if (socket.data.inputId === 'softdrop')
+		socket.action.pressingSoftDrop = socket.data.state;
+	else if (socket.data.inputId === 'harddrop')
+		socket.action.pressingHardDrop = socket.data.state;
+	else if (socket.data.inputId === 'hold')
+		socket.action.pressingHold = socket.data.state;
 }
 /* END SOCKET EVENT HANDLER */
 

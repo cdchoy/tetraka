@@ -57,6 +57,10 @@ export class Grid {
 		return this.getNumMatrix();
 	}
 
+  public moveLeft() : Array<Array<number>> {
+    return this.getNumMatrix();
+  }
+
 
 
 }
