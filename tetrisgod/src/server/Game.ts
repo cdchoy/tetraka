@@ -1,8 +1,7 @@
 // server/Game.ts
 
 import { Grid } from "../Modules";
-import { Tetrimino, TetriminoValue } from "../Modules";
-import { NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules";
+import { Tetrimino, TetriminoId } from "../Modules";
 
 export class Game {
   private lastFallTime : number;
@@ -29,7 +28,7 @@ export class Game {
    * This includes handling user input, time functions, score recording, etc...
    * @param socket - user socket object with the action and id params inside of it
    */
-  public update(socket : any) : Array<Array<TetriminoValue>> {
+  public update(socket : any) : Array<Array<TetriminoId>> {
     if ((Date.now() - this.lastFallTime) >= this.fallSpeed) {
       this.grid.fall();
       this.lastFallTime = Date.now();
