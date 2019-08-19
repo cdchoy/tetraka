@@ -1,16 +1,8 @@
 // server/Tetrimino.ts
 
-/*
- * Note: there is not a super good reason to have separate classes. I don't
- *       know if it will affect runtime, but it affects readability. The
- *       alternative is to make it all one class, and put each rotations array
- *       (ORANGERICKY, BLUERICKY, etc.) into a larger array indexed by their
- *       TetriminoValue.
- */
+import { coordinates } from "../Modules"
 
-import {coordinates} from "../Modules"
-
-export enum TetriminoValue {
+export enum TetriminoId {
   None   = 0,
   LBlock = 1,
   JBlock = 2,
@@ -28,86 +20,20 @@ export enum TetriminoForm {
   Left  = 3,
 }
 
-/* Orange Ricky (LBlock) */
-const ORANGERICKYUP:    coordinates[]   = [[1, 0], [1, 2], [1, 2], [2, 2]];
-const ORANGERICKYRIGHT: coordinates[]   = [[0, 1], [0, 2], [1, 1], [2, 1]];
-const ORANGERICKYDOWN:  coordinates[]   = [[0, 0], [1, 0], [1, 1], [1, 2]];
-const ORANGERICKYLEFT:  coordinates[]   = [[0, 1], [1, 1], [2, 0], [2, 1]];
-const ORANGERICKY:      coordinates[][] = [ORANGERICKYUP, ORANGERICKYRIGHT, 
-                                           ORANGERICKYDOWN, ORANGERICKYLEFT];
 
-/* Blue Ricky *JBlock) */
-const BLUERICKYUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [2, 0]];
-const BLUERICKYRIGHT: coordinates[]   = [[0, 1], [1, 1], [2, 1], [2, 2]];
-const BLUERICKYDOWN:  coordinates[]   = [[2, 0], [1, 0], [1, 1], [1, 2]];
-const BLUERICKYLEFT:  coordinates[]   = [[0, 0], [0, 1], [1, 1], [2, 1]];
-const BLUERICKY:      coordinates[][] = [BLUERICKYUP, BLUERICKYRIGHT, 
-                                         BLUERICKYDOWN, BLUERICKYLEFT];
+export class Tetrimino {
+  private id : TetriminoId;
+  private form  : TetriminoForm;
+  private origin: coordinates;
+  private tetriminoCoords: Array<Array<coordinates>>;
 
-/* Cleveland Z (ZBlock) */
-const CLEVELANDUP:    coordinates[]   = [[1, 1], [1, 2], [2, 0], [2, 1]];
-const CLEVELANDRIGHT: coordinates[]   = [[0, 1], [1, 1], [1, 2], [2, 2]];
-const CLEVELANDDOWN:  coordinates[]   = [[0, 1], [0, 2], [1, 0], [1, 1]];
-const CLEVELANDLEFT:  coordinates[]   = [[0, 0], [1, 0], [1, 1], [2, 1]];
-const CLEVELANDZ:     coordinates[][] = [CLEVELANDUP, CLEVELANDRIGHT, 
-                                         CLEVELANDDOWN, CLEVELANDLEFT]
-/* Rhode Island Z (SBlock) */
-const RHODEISLANDUP:    coordinates[]   = [[1, 0], [1, 1], [2, 1], [2, 2]];
-const RHODEISLANDRIGHT: coordinates[]   = [[0, 2], [1, 1], [1, 2], [2, 1]];
-const RHODEISLANDDOWN:  coordinates[]   = [[0, 0], [0, 1], [1, 1], [1, 2]];
-const RHODEISLANDLEFT:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [2, 0]];
-const RHODEISLANDZ:     coordinates[][] = [RHODEISLANDUP, RHODEISLANDRIGHT,
-                                           RHODEISLANDDOWN, RHODEISLANDLEFT];
-/* Hero (IBlock) */
-const HEROUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [1, 3]];
-const HERORIGHT: coordinates[]   = [[0, 1], [1, 1], [2, 1], [3, 1]];
-const HERODOWN:  coordinates[]   = [[2, 0], [2, 1], [2, 2], [2, 3]];
-const HEROLEFT:  coordinates[]   = [[0, 2], [1, 2], [2, 2], [3, 2]];
-const HERO:      coordinates[][] = [HEROUP, HERORIGHT, HERODOWN, HEROLEFT];
 
-/* Teewee (TBlock) */
-const TEEWEEUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [2, 1]];
-const TEEWEERIGHT: coordinates[]   = [[0, 1], [1, 1], [1, 2], [2, 1]];
-const TEEWEEDOWN:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [1, 2]];
-const TEEWEELEFT:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [2, 1]];
-const TEEWEE:      coordinates[][] = [TEEWEEUP, TEEWEERIGHT, 
-                                      TEEWEEDOWN, TEEWEELEFT];
-
-/* SmashBoy (OBlock) */
-const SMASHBOY: coordinates[]   = [[0, 0], [0, 1], [1, 0], [1, 1]];
-
-function TetriminoMaker (tValue: TetriminoValue) : Tetrimino {
-  switch (tValue) {
-    case 0:
-      return new NoneBlock();
-    case 1:
-      return new LBlock();
-    case 2:
-      return new JBlock();
-    case 3:
-      return new ZBlock();
-    case 4:
-      return new SBlock();
-    case 5:
-      return new IBlock();
-    case 6:
-      return new TBlock();
-    case 7:
-      return new OBlock();
-    default:
-      throw new Error('Invalid TetriminoValue passed to TetriminoMaker');
+  protected constructor(id : TetriminoId) {
+    this.id = id;
+    this.form = TetriminoForm.Up;
+    this.origin = [1,3];
+    this.tetriminoCoords = setupCoords(id);
   }
-}
-
-export abstract class Tetrimino {
-  value : TetriminoValue = TetriminoValue.None;
-  form  : TetriminoForm  = TetriminoForm.Up;
-  origin: coordinates    = [1, 3];
-
-  protected constructor(tetval : TetriminoValue) {
-    this.value = tetval;
-  }
-  public abstract getCoordinates() : Array<coordinates>;
 
   public moveUp() {
     this.origin[0] += 1;
@@ -133,141 +59,74 @@ export abstract class Tetrimino {
     this.form = (this.form + 3) % 4;
   }
 
-  protected addOrigin(point: coordinates) : coordinates {
+  public addOrigin(point: coordinates) : coordinates {
     return [this.origin[0] + point[0], this.origin[1] + point[1]];
   }
-}
 
-export class NoneBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.None);
-  }
-
-  getCoordinates () : Array <coordinates>{
-    return [this.origin];
+  public getCoordinates() {
+    this.tetriminoCoords[this.form].map(this.addOrigin);
   }
 }
 
-/**
- *  [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
- *  [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
- *  [0 0 0]  |  [0 1 1]  |  [1 0 0]  |  [0 1 0]
- *    UP         RIGHT       DOWN        LEFT
- */
-export class LBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.LBlock);
-  }
-
-  getCoordinates () : Array <coordinates> {
-    /*
-    return ORANGERICKY[this.form].map((val): coordinates => {
-      val[0] += this.origin[0];
-      val[1] += this.origin[1];
-      return val;
-    });
-    */
-    return ORANGERICKY[this.form].map(this.addOrigin);
-  }
-}
-
-/** BlueRicky
- * 
- *  [1 0 0]  |  [0 1 1]  |  [0 0 0]  |  [0 1 0]
- *  [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
- *  [0 0 0]  |  [0 1 0]  |  [0 0 1]  |  [1 1 0]
- *    UP         RIGHT       DOWN        LEFT
- */
-export class JBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.JBlock);
-  }
-
-  getCoordinates () : Array <coordinates>{
-    return BLUERICKY[this.form].map(this.addOrigin);
+function setupCoords(id : TetriminoId) : Array<Array<coordinates>> {
+  switch (id) {
+    case TetriminoId.None:
+      return [[]];
+    case TetriminoId.LBlock:  // Orange Ricky
+      return [L_UP, L_RIGHT, L_DOWN, L_LEFT];
+    case TetriminoId.JBlock:  // Blue Ricky
+      return [J_UP, J_RIGHT, J_DOWN, J_LEFT];
+    case TetriminoId.ZBlock:  // Cleveland Z
+      return [Z_UP, Z_RIGHT, Z_DOWN, Z_LEFT];
+    case TetriminoId.SBlock:  // Rhode Island Z
+      return [S_UP, S_RIGHT, S_DOWN, S_LEFT];
+    case TetriminoId.IBlock:  // Hero
+      return [I_UP, I_RIGHT, I_DOWN, I_LEFT];
+    case TetriminoId.TBlock:  // Teewee
+      return [T_UP, T_RIGHT, T_DOWN, T_LEFT];
+    case TetriminoId.OBlock:  // Smashboy
+      return [O_ALL, O_ALL, O_ALL, O_ALL];
+    default:
+      throw new Error('Invalid TetriminoId passed to TetriminoMaker');
   }
 }
 
-/** ClevelandZ
- * 
- *  [1 1 0]  |  [0 0 1]  |  [0 0 0]  |  [0 1 0]
- *  [0 1 1]  |  [0 1 1]  |  [1 1 0]  |  [1 1 0]
- *  [0 0 0]  |  [0 1 0]  |  [0 1 1]  |  [1 0 0]
- *    UP         RIGHT       DOWN        LEFT
- */
-export class ZBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.ZBlock);
-  }
 
-  getCoordinates () : Array <coordinates>{
-    return CLEVELANDZ[this.form].map(this.addOrigin);
-  }
-}
+/** Orange Ricky (LBlock) */
+const L_UP    : Array<coordinates> = [[1, 0], [1, 2], [1, 2], [2, 2]];  // [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
+const L_RIGHT : Array<coordinates> = [[0, 1], [0, 2], [1, 1], [2, 1]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
+const L_DOWN  : Array<coordinates> = [[0, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 1]  |  [1 0 0]  |  [0 1 0]
+const L_LEFT  : Array<coordinates> = [[0, 1], [1, 1], [2, 0], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-/** RhodeIslandZ
- * 
- *  [0 1 1]  |  [0 1 0]  |  [0 0 0]  |  [1 0 0]
- *  [1 1 0]  |  [0 1 1]  |  [0 1 1]  |  [1 1 0]
- *  [0 0 0]  |  [0 0 1]  |  [1 1 0]  |  [0 1 0]
- *    UP         RIGHT       DOWN        LEFT
- */
-export class SBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.SBlock);
-  }
+/** Blue Ricky (JBlock) */
+const J_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [2, 0]];  // [1 0 0]  |  [0 1 1]  |  [0 0 0]  |  [0 1 0]
+const J_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [2, 1], [2, 2]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
+const J_DOWN  : Array<coordinates> = [[2, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 0 1]  |  [1 1 0]
+const J_LEFT  : Array<coordinates> = [[0, 0], [0, 1], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-  getCoordinates () : Array <coordinates>{
-    return RHODEISLANDZ[this.form].map(this.addOrigin);
-  }
-}
+/** Cleveland Z (ZBlock) */
+const Z_UP    : Array<coordinates> = [[1, 1], [1, 2], [2, 0], [2, 1]];  // [1 1 0]  |  [0 0 1]  |  [0 0 0]  |  [0 1 0]
+const Z_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [1, 2], [2, 2]];  // [0 1 1]  |  [0 1 1]  |  [1 1 0]  |  [1 1 0]
+const Z_DOWN  : Array<coordinates> = [[0, 1], [0, 2], [1, 0], [1, 1]];  // [0 0 0]  |  [0 1 0]  |  [0 1 1]  |  [1 0 0]
+const Z_LEFT  : Array<coordinates> = [[0, 0], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-/** Hero
- * 
- *  [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
- *  [0 0 0 0]  |  [0 1 0 0]  |  [1 1 1 1]  |  [0 0 1 0]
- *  [1 1 1 1]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
- *  [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
- *     UP           RIGHT         DOWN          LEFT
- */
-export class IBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.IBlock);
-  }
+/** Rhode Island Z (SBlock) */
+const S_UP    : Array<coordinates> = [[1, 0], [1, 1], [2, 1], [2, 2]];  // [0 1 1]  |  [0 1 0]  |  [0 0 0]  |  [1 0 0]
+const S_RIGHT : Array<coordinates> = [[0, 2], [1, 1], [1, 2], [2, 1]];  // [1 1 0]  |  [0 1 1]  |  [0 1 1]  |  [1 1 0]
+const S_DOWN  : Array<coordinates> = [[0, 0], [0, 1], [1, 1], [1, 2]];  // [0 0 0]  |  [0 0 1]  |  [1 1 0]  |  [0 1 0]
+const S_LEFT  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [2, 0]];  //   UP         RIGHT       DOWN        LEFT
 
-  getCoordinates () : Array <coordinates>{
-    return HERO[this.form].map(this.addOrigin);
-  }
-}
+/** Hero (IBlock) */                                                    // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
+const I_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [1, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [1 1 1 1]  |  [0 0 1 0]
+const I_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [2, 1], [3, 1]];  // [1 1 1 1]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
+const I_DOWN  : Array<coordinates> = [[2, 0], [2, 1], [2, 2], [2, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
+const I_LEFT  : Array<coordinates> = [[0, 2], [1, 2], [2, 2], [3, 2]];  //    UP           RIGHT         DOWN          LEFT
 
-/** Teewee
- * 
- *  [0 1 0]  |  [0 1 0]  |  [0 0 0]  |  [0 1 0]
- *  [1 1 1]  |  [0 1 1]  |  [1 1 1]  |  [1 1 0]
- *  [0 0 0]  |  [0 1 0]  |  [0 1 0]  |  [0 1 0]
- *    UP         RIGHT       DOWN        LEFT
- */
-export class TBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.TBlock);
-  }
+/** Teewee (TBlock) */
+const T_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [2, 1]];  // [0 1 0]  |  [0 1 0]  |  [0 0 0]  |  [0 1 0]
+const T_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [1, 2], [2, 1]];  // [1 1 1]  |  [0 1 1]  |  [1 1 1]  |  [1 1 0]
+const T_DOWN  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 1 0]  |  [0 1 0]
+const T_LEFT  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
-  getCoordinates () : Array <coordinates>{
-    return TEEWEE[this.form].map(this.addOrigin);
-  }
-}
-
-/** SmashBoy
- * 
- *  [1 1]
- *  [1 1]
- */
-export class OBlock extends Tetrimino {
-  constructor () {
-    super(TetriminoValue.OBlock);
-  }
-
-  getCoordinates () : Array <coordinates>{
-    return SMASHBOY.map(this.addOrigin);
-  }
-}
+/** Smashboy (OBlock) */                                                 // [1 1]
+const O_ALL    : Array<coordinates> = [[0, 0], [0, 1], [1, 0], [1, 1]];  // [1 1] ALL
