@@ -1,6 +1,6 @@
 // server/Tetrimino.ts
 
-enum TetriminoValue {
+export enum TetriminoValue {
   None   = 0,
   LBlock = 1,
   JBlock = 2,
@@ -11,7 +11,7 @@ enum TetriminoValue {
   OBlock = 7,
 }
 
-abstract class Tetrimino {
+export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
 
   constructor(tetval : TetriminoValue) {

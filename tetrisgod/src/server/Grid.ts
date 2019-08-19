@@ -1,15 +1,20 @@
 // server/Grid2d.ts
 
-import { Pixel, Tetrimino } from "../Modules";
+import { Pixel } from "../Modules";
+import { Tetrimino, NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
+
+type coordinates = [number, number];
 
 export class Grid {
-	private height : number = 10;
-	private width : number = 20;
-    private grid : Array<Array<Pixel>>;
+	private height : number;
+	private width : number;
+  private grid : Array<Array<Pixel>>;
+  private activeCoords : Array<coordinates>;
 
-	constructor(height:number, width:number) {
+	constructor(height:number = 10, width:number = 20) {
 		this.height = height;
 		this.width = width;
+    this.activeCoords = [];
 
 		this.grid = new Array(height);
         this.grid.forEach(function (row) {
@@ -24,7 +29,7 @@ export class Grid {
 			let matrixRow = new Array<number>();
 			for (let col = 0; col < this.width; col++) {
 				const px = this.grid[row][col];
-				matrixRow.push(px.tetriminoValue);
+				matrixRow.push(px.tetrimino.value);
 			}
 			matrix.push(matrixRow);
 		}
@@ -36,7 +41,22 @@ export class Grid {
 
 	}
 
+  public fall() : Array<Array<number>> {
+    return this.getNumMatrix();
+  }
+
+  public harddrop() : Array<Array<number>> {
+    return this.getNumMatrix();
+  }
+
 	public rotateLeft() : Array<Array<number>> {
 		return this.getNumMatrix();
 	}
+
+  public rotateRight() : Array<Array<number>> {
+		return this.getNumMatrix();
+	}
+
+
+
 }

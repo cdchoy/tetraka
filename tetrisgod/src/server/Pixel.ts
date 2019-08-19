@@ -1,10 +1,10 @@
 // server/Pixel.ts
 
-import { Tetrimino } from "../Modules"
+import { Tetrimino, NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
 
 export class Pixel {
 	color : string = "empty";
-	tetriminoValue : Tetrimino = Tetrimino.None;
+	tetrimino : Tetrimino = new NoneBlock();
 	active : boolean = false
 
 }
