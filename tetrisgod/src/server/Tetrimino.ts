@@ -54,7 +54,7 @@ export abstract class Tetrimino {
   form  : TetriminoForm  = TetriminoForm.Up;
   origin: coordinates    = [1, 3];
 
-  constructor(tetval : TetriminoValue) {
+  protected constructor(tetval : TetriminoValue) {
     this.value = tetval;
   }
   public abstract getCoordinates() : Array<coordinates>;

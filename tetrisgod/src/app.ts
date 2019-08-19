@@ -3,9 +3,9 @@
 
 import express from "express";
 import http from "http";
-import { User, Pixel, Action } from "./Modules";
+import {User, Action, Game} from "./Modules";
 
-/* SERVER INITIALIZATION */
+/** SERVER INITIALIZATION */
 const app = express();
 const port = process.env.PORT || 2000;
 app.set("port", port);
@@ -20,9 +20,9 @@ server.listen(port, function() {
 });
 
 console.log("Server started");
-/* END SERVER INITIALIZATION */
+/** END SERVER INITIALIZATION */
 
-/* SOCKET EVENT HANDLER */
+/** SOCKET EVENT HANDLER */
 let SOCKET_LIST : any = {};
 
 var io = require('socket.io') (server,{});
@@ -59,9 +59,13 @@ function onKeyPress(socket: any) : void {
 	else if (socket.data.inputId === 'hold')
 		socket.action.pressingHold = socket.data.state;
 }
-/* END SOCKET EVENT HANDLER */
+/** END SOCKET EVENT HANDLER */
 
-/* MAIN FUNCTION */
-setInterval(function() {  // trigger every set amt of frames
-
+/** MAIN FUNCTION
+ *  Determines fps and runs every frame */
+setInterval(function() {
+	let game = new Game();  // todo this should be run on setup and not every frame
+	for (let socket in SOCKET_LIST) {
+		game.update(socket);
+	}
 },1000/25);  // 25fps
