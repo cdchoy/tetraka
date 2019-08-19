@@ -11,11 +11,19 @@ export enum TetriminoValue {
   OBlock = 7,
 }
 
+export enum TetriminoForm {
+  Up    = 0,
+  Right = 1,
+  Down  = 2,
+  Left  = 3,
+}
+
 export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
+  form  : TetriminoForm  = TetriminoForm.up;
 
   constructor(tetval : TetriminoValue) {
-    this.value = tetval
+    this.value = tetval;
   }
 }
 
