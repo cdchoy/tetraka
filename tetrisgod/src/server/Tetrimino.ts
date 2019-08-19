@@ -25,7 +25,7 @@ const ORANGERICKYRIGHT: coordinates[] = [[0, 1], [1, 1], [2, 1], [0, 2]];
 const ORANGERICKYDOWN:  coordinates[] = [[0, 0], [1, 0], [1, 1], [1, 2]];
 const ORANGERICKYLEFT:  coordinates[] = [[0, 1], [1, 1], [2, 0], [2, 1]];
 
-const BLUERICKYUP:     coordinates[] = [[1, 0], [1, 2], [1, 3], [2, 0]];
+const BLUERICKYUP:    coordinates[] = [[1, 0], [1, 2], [1, 3], [2, 0]];
 const BLUERICKYRIGHT: coordinates[] = [[0, 1], [1, 1], [2, 1], [2, 2]];
 const BLUERICKYDOWN:  coordinates[] = [[2, 0], [1, 0], [1, 1], [1, 2]];
 const BLUERICKYLEFT:  coordinates[] = [[0, 0], [0, 1], [1, 1], [2, 1]];
