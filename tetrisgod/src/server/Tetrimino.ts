@@ -21,13 +21,15 @@ export enum TetriminoForm {
 }
 
 export class Tetrimino {
-  private value : TetriminoId = TetriminoId.None;
-  private form  : TetriminoForm  = TetriminoForm.Up;
-  private origin: coordinates    = [1, 3];
+  private id : TetriminoId;
+  private form  : TetriminoForm;
+  private origin: coordinates;
   private tetriminoCoords: Array<Array<coordinates>>;
 
   protected constructor(id : TetriminoId) {
-    this.value = id;
+    this.id = id;
+    this.form = TetriminoForm.Up;
+    this.origin = [1,3]
     this.tetriminoCoords = setupCoords(id);
   }
 
