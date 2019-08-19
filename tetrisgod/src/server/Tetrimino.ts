@@ -1,5 +1,13 @@
 // server/Tetrimino.ts
 
+/*
+ * Note: there is not a super good reason to have separate classes. I don't
+ *       know if it will affect runtime, but it affects readability. The
+ *       alternative is to make it all one class, and put each rotations array
+ *       (ORANGERICKY, BLUERICKY, etc.) into a larger array indexed by their
+ *       TetriminoValue.
+ */
+
 import {coordinates} from "../Modules"
 
 export enum TetriminoValue {
@@ -20,34 +28,55 @@ export enum TetriminoForm {
   Left  = 3,
 }
 
-const ORANGERICKYUP:    coordinates[] = [[1, 0], [1, 2], [1, 3], [2, 2]];
-const ORANGERICKYRIGHT: coordinates[] = [[0, 1], [1, 1], [2, 1], [0, 2]];
-const ORANGERICKYDOWN:  coordinates[] = [[0, 0], [1, 0], [1, 1], [1, 2]];
-const ORANGERICKYLEFT:  coordinates[] = [[0, 1], [1, 1], [2, 0], [2, 1]];
+/* Orange Ricky (LBlock) */
 
-const BLUERICKYUP:    coordinates[] = [[1, 0], [1, 2], [1, 3], [2, 0]];
-const BLUERICKYRIGHT: coordinates[] = [[0, 1], [1, 1], [2, 1], [2, 2]];
-const BLUERICKYDOWN:  coordinates[] = [[2, 0], [1, 0], [1, 1], [1, 2]];
-const BLUERICKYLEFT:  coordinates[] = [[0, 0], [0, 1], [1, 1], [2, 1]];
+const ORANGERICKYUP:    coordinates[]   = [[1, 0], [1, 2], [1, 2], [2, 2]];
+const ORANGERICKYRIGHT: coordinates[]   = [[0, 1], [0, 2], [1, 1], [2, 1]];
+const ORANGERICKYDOWN:  coordinates[]   = [[0, 0], [1, 0], [1, 1], [1, 2]];
+const ORANGERICKYLEFT:  coordinates[]   = [[0, 1], [1, 1], [2, 0], [2, 1]];
+const ORANGERICKY:      coordinates[][] = [ORANGERICKYUP, ORANGERICKYRIGHT, 
+                                           ORANGERICKYDOWN, ORANGERICKYLEFT];
 
-const rotations: coordinates[][][] = [
-  /* None Block */
-  [],
-  /* Orange Ricky */
-  [ORANGERICKYUP, ORANGERICKYRIGHT, ORANGERICKYDOWN, ORANGERICKYLEFT],
-  /* Blue Ricky */
-  [BLUERICKYUP, BLUERICKYRIGHT, BLUERICKYDOWN, BLUERICKYLEFT],
-  /* Cleveland Z */
-  [],
-  /* Rhode Island Z */
-  [],
-  /* Hero */
-  [],
-  /* Teewee */
-  [],
-  /* Smash Boy */
-  []
-];
+/* Blue Ricky *JBlock) */
+const BLUERICKYUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [2, 0]];
+const BLUERICKYRIGHT: coordinates[]   = [[0, 1], [1, 1], [2, 1], [2, 2]];
+const BLUERICKYDOWN:  coordinates[]   = [[2, 0], [1, 0], [1, 1], [1, 2]];
+const BLUERICKYLEFT:  coordinates[]   = [[0, 0], [0, 1], [1, 1], [2, 1]];
+const BLUERICKY:      coordinates[][] = [BLUERICKYUP, BLUERICKYRIGHT, 
+                                         BLUERICKYDOWN, BLUERICKYLEFT];
+
+/* Cleveland Z (ZBlock) */
+const CLEVELANDUP:    coordinates[]   = [[1, 1], [1, 2], [2, 0], [2, 1]];
+const CLEVELANDRIGHT: coordinates[]   = [[0, 1], [1, 1], [1, 2], [2, 2]];
+const CLEVELANDDOWN:  coordinates[]   = [[0, 1], [0, 2], [1, 0], [1, 1]];
+const CLEVELANDLEFT:  coordinates[]   = [[0, 0], [1, 0], [1, 1], [2, 1]];
+const CLEVELANDZ:     coordinates[][] = [CLEVELANDUP, CLEVELANDRIGHT, 
+                                         CLEVELANDDOWN, CLEVELANDLEFT]
+
+/* Rhode Island Z (SBlock) */
+const RHODEISLANDUP:    coordinates[]   = [[1, 0], [1, 1], [2, 1], [2, 2]];
+const RHODEISLANDRIGHT: coordinates[]   = [[0, 2], [1, 1], [1, 2], [2, 1]];
+const RHODEISLANDDOWN:  coordinates[]   = [[0, 0], [0, 1], [1, 1], [1, 2]];
+const RHODEISLANDLEFT:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [2, 0]];
+const RHODEISLANDZ:     coordinates[][] = [RHODEISLANDUP, RHODEISLANDRIGHT,
+                                           RHODEISLANDDOWN, RHODEISLANDLEFT];
+
+/* Hero (IBlock) */
+const HEROUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [1, 3]];
+const HERORIGHT: coordinates[]   = [[0, 1], [1, 1], [2, 1], [3, 1]];
+const HERODOWN:  coordinates[]   = [[2, 0], [2, 1], [2, 2], [2, 3]];
+const HEROLEFT:  coordinates[]   = [[0, 2], [1, 2], [2, 2], [3, 2]];
+const HERO:      coordinates[][] = [HEROUP, HERORIGHT, HERODOWN, HEROLEFT];
+
+/* Teewee (TBlock) */
+const TEEWEEUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [2, 1]];
+const TEEWEERIGHT: coordinates[]   = [[0, 1], [1, 1], [1, 2], [2, 1]];
+const TEEWEEDOWN:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [1, 2]];
+const TEEWEELEFT:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [2, 1]];
+const TEEWEE:      coordinates[][] = [TEEWEEUP, TEEWEERIGHT, 
+                                      TEEWEEDOWN, TEEWEELEFT];
+
+const SMASHBOY: coordinates[]   = [[0, 0], [0, 1], [1, 0], [1, 1]];
 
 export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
@@ -82,6 +111,10 @@ export abstract class Tetrimino {
   public rotateLeft() {
     this.form = (this.form + 3) % 4;
   }
+
+  protected addOrigin(point: coordinates) : coordinates {
+    return [this.origin[0] + point[0], this.origin[1] + point[1]];
+  }
 }
 
 export class NoneBlock extends Tetrimino {
@@ -105,12 +138,20 @@ export class LBlock extends Tetrimino {
     super(TetriminoValue.LBlock);
   }
 
-  getCoordinates () : Array <coordinates>{
-    return [this.origin];
+  getCoordinates () : Array <coordinates> {
+    /*
+    return ORANGERICKY[this.form].map((val): coordinates => {
+      val[0] += this.origin[0];
+      val[1] += this.origin[1];
+      return val;
+    });
+    */
+    return ORANGERICKY[this.form].map(this.addOrigin);
   }
 }
 
-/**
+/** BlueRicky
+ * 
  *  [1 0 0]  |  [0 1 1]  |  [0 0 0]  |  [0 1 0]
  *  [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
  *  [0 0 0]  |  [0 1 0]  |  [0 0 1]  |  [1 1 0]
@@ -122,11 +163,12 @@ export class JBlock extends Tetrimino {
   }
 
   getCoordinates () : Array <coordinates>{
-    return [this.origin];
+    return BLUERICKY[this.form].map(this.addOrigin);
   }
 }
 
-/**
+/** ClevelandZ
+ * 
  *  [1 1 0]  |  [0 0 1]  |  [0 0 0]  |  [0 1 0]
  *  [0 1 1]  |  [0 1 1]  |  [1 1 0]  |  [1 1 0]
  *  [0 0 0]  |  [0 1 0]  |  [0 1 1]  |  [1 0 0]
@@ -138,11 +180,12 @@ export class ZBlock extends Tetrimino {
   }
 
   getCoordinates () : Array <coordinates>{
-    return [this.origin];
+    return CLEVELANDZ[this.form].map(this.addOrigin);
   }
 }
 
-/**
+/** RhodeIslandZ
+ * 
  *  [0 1 1]  |  [0 1 0]  |  [0 0 0]  |  [1 0 0]
  *  [1 1 0]  |  [0 1 1]  |  [0 1 1]  |  [1 1 0]
  *  [0 0 0]  |  [0 0 1]  |  [1 1 0]  |  [0 1 0]
@@ -154,11 +197,12 @@ export class SBlock extends Tetrimino {
   }
 
   getCoordinates () : Array <coordinates>{
-    return [this.origin];
+    return RHODEISLANDZ[this.form].map(this.addOrigin);
   }
 }
 
-/**
+/** Hero
+ * 
  *  [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
  *  [0 0 0 0]  |  [0 1 0 0]  |  [1 1 1 1]  |  [0 0 1 0]
  *  [1 1 1 1]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
@@ -171,11 +215,12 @@ export class IBlock extends Tetrimino {
   }
 
   getCoordinates () : Array <coordinates>{
-    return [this.origin];
+    return HERO[this.form].map(this.addOrigin);
   }
 }
 
-/**
+/** Teewee
+ * 
  *  [0 1 0]  |  [0 1 0]  |  [0 0 0]  |  [0 1 0]
  *  [1 1 1]  |  [0 1 1]  |  [1 1 1]  |  [1 1 0]
  *  [0 0 0]  |  [0 1 0]  |  [0 1 0]  |  [0 1 0]
@@ -187,11 +232,12 @@ export class TBlock extends Tetrimino {
   }
 
   getCoordinates () : Array <coordinates>{
-    return [this.origin];
+    return TEEWEE[this.form].map(this.addOrigin);
   }
 }
 
-/**
+/** SmashBoy
+ * 
  *  [1 1]
  *  [1 1]
  */
@@ -201,6 +247,6 @@ export class OBlock extends Tetrimino {
   }
 
   getCoordinates () : Array <coordinates>{
-    return [this.origin];
+    return SMASHBOY.map(this.addOrigin);
   }
 }
