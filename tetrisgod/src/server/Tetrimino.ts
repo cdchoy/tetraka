@@ -20,7 +20,7 @@ export enum TetriminoForm {
   Left  = 3,
 }
 
-export abstract class Tetrimino {
+export class Tetrimino {
   private value : TetriminoId = TetriminoId.None;
   private form  : TetriminoForm  = TetriminoForm.Up;
   private origin: coordinates    = [1, 3];
@@ -71,6 +71,8 @@ function setupCoords(id : TetriminoId) : Array<Array<coordinates>> {
   let leftCoords  : Array<coordinates>;
 
   switch (id) {
+    case TetriminoId.None:
+      return [[]];
     case TetriminoId.LBlock:  // Orange Ricky
       upCoords    = [[1, 0], [1, 2], [1, 2], [2, 2]];  // [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
       rightCoords = [[0, 1], [0, 2], [1, 1], [2, 1]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
