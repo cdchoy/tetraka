@@ -76,7 +76,31 @@ const TEEWEELEFT:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [2, 1]];
 const TEEWEE:      coordinates[][] = [TEEWEEUP, TEEWEERIGHT, 
                                       TEEWEEDOWN, TEEWEELEFT];
 
+/* SmashBoy (OBlock) */
 const SMASHBOY: coordinates[]   = [[0, 0], [0, 1], [1, 0], [1, 1]];
+
+function TetriminoMaker (tValue: TetriminoValue) : Tetrimino {
+  switch (tValue) {
+    case 0:
+      return new NoneBlock();
+    case 1:
+      return new LBlock();
+    case 2:
+      return new JBlock();
+    case 3:
+      return new ZBlock();
+    case 4:
+      return new SBlock();
+    case 5:
+      return new IBlock();
+    case 6:
+      return new TBlock();
+    case 7:
+      return new OBlock();
+    default:
+      throw new Error('Invalid TetriminoValue passed to TetriminoMaker');
+  }
+}
 
 export abstract class Tetrimino {
   value : TetriminoValue = TetriminoValue.None;
