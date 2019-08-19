@@ -29,7 +29,6 @@ export enum TetriminoForm {
 }
 
 /* Orange Ricky (LBlock) */
-
 const ORANGERICKYUP:    coordinates[]   = [[1, 0], [1, 2], [1, 2], [2, 2]];
 const ORANGERICKYRIGHT: coordinates[]   = [[0, 1], [0, 2], [1, 1], [2, 1]];
 const ORANGERICKYDOWN:  coordinates[]   = [[0, 0], [1, 0], [1, 1], [1, 2]];
@@ -52,7 +51,6 @@ const CLEVELANDDOWN:  coordinates[]   = [[0, 1], [0, 2], [1, 0], [1, 1]];
 const CLEVELANDLEFT:  coordinates[]   = [[0, 0], [1, 0], [1, 1], [2, 1]];
 const CLEVELANDZ:     coordinates[][] = [CLEVELANDUP, CLEVELANDRIGHT, 
                                          CLEVELANDDOWN, CLEVELANDLEFT]
-
 /* Rhode Island Z (SBlock) */
 const RHODEISLANDUP:    coordinates[]   = [[1, 0], [1, 1], [2, 1], [2, 2]];
 const RHODEISLANDRIGHT: coordinates[]   = [[0, 2], [1, 1], [1, 2], [2, 1]];
@@ -60,7 +58,6 @@ const RHODEISLANDDOWN:  coordinates[]   = [[0, 0], [0, 1], [1, 1], [1, 2]];
 const RHODEISLANDLEFT:  coordinates[]   = [[0, 1], [1, 0], [1, 1], [2, 0]];
 const RHODEISLANDZ:     coordinates[][] = [RHODEISLANDUP, RHODEISLANDRIGHT,
                                            RHODEISLANDDOWN, RHODEISLANDLEFT];
-
 /* Hero (IBlock) */
 const HEROUP:    coordinates[]   = [[1, 0], [1, 1], [1, 2], [1, 3]];
 const HERORIGHT: coordinates[]   = [[0, 1], [1, 1], [2, 1], [3, 1]];
