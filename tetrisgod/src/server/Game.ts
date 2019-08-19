@@ -1,8 +1,8 @@
 // server/Game.ts
 
 import { Grid } from "../Modules";
-import { Tetrimino, TetriminoValue }
-import { NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
+import { Tetrimino, TetriminoValue } from "../Modules";
+import { NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules";
 
 export class Game {
   private lastFallTime : number;
