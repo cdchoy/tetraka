@@ -39,7 +39,7 @@ export class TetrominoZero extends Tetromino {
     super()
   }
   public getCoordinates() {
-    
+
   }
 
   private setOrigin(newOrigin : coordinates) {
@@ -47,7 +47,7 @@ export class TetrominoZero extends Tetromino {
   }
 
   public moveLeft() {
-    this.origin[1] += -1; 
+    this.origin[1] += -1;
   }
 
   public moveRight() {

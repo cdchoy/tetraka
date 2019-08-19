@@ -1,22 +1,25 @@
 // server/Game.ts
 
 import { Grid } from "../Modules";
-import { Tetrimino, NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
+import { Tetrimino, TetriminoValue }
+import { NoneBlock, JBlock, LBlock, ZBlock, SBlock, IBlock, TBlock, OBlock } from "../Modules"
 
 export class Game {
   private lastFallTime : number;
   private fallSpeed : number;  // millis
-  private holdPiece : Tetrimino;
+  private holdMino : Tetrimino;
+  private activeMino : Tetrimino;
   private grid : Grid;
 
   constructor(fallSpeed: number = 1000) {
     this.lastFallTime = 0;
     this.fallSpeed = fallSpeed;
-    this.holdPiece = new NoneBlock();
+    this.holdMino = new NoneBlock();
+    this.activeMino = new NoneBlock();
     this.grid = new Grid(10, 21);
   }
 
-  public update(socket : any) {
+  public update(socket : any) : Array<Array<TetriminoValue>> {
     if ((Date.now() - this.lastFallTime) >= this.fallSpeed) {
       this.grid.fall();
       this.lastFallTime = Date.now();
@@ -37,10 +40,15 @@ export class Game {
     else if (socket.action.pressingMoveRight) {
       this.grid.moveRight();
     }
+
+    return this.grid.matrix;
   }
 
   private hold() {
-
+    const held = this.holdMino;
+    this.holdMino = this.activeMino;
+    this.activeMino = held;
+    // todo grid state must delete activeMino and spawn heldMino
   }
 
 }
