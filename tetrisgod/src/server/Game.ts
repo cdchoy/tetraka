@@ -10,6 +10,10 @@ export class Game {
   private nextQueue : Array<TetriminoId>;  // push() onto end of array. shift() from front of array.
   private grid : Grid;
 
+  private score : number;
+  private time : number;
+  private lines : number;
+
   constructor(fallSpeed: number = 1000) {
     this.lastFallTime = 0;
     this.fallSpeed = fallSpeed;
@@ -30,7 +34,6 @@ export class Game {
    * @param socket - user socket object with the action and id params inside of it
    */
   public update(socket : any) : void {
-
     // Input processing
     if (socket.action.pressingHold) {
       this.hold();
@@ -62,8 +65,9 @@ export class Game {
 
     // Landed Check
     if (this.grid.activeMino.landed) {
-      this.grid.clearCompleteLines();
-      // todo this logic can be moved to grid.land() unless we want frames between landing and line clearing
+      const linesCleared = this.grid.clearCompleteLines();
+      this.updateScore(linesCleared);
+      this.spawnTetrimino();
     }
 
   }
@@ -72,10 +76,10 @@ export class Game {
    * Spawn the next tetrimino on the grid and update the queue
    */
   private spawnTetrimino() {
-    const nextMino = this.nextQueue.shift();
+    const nextMino : TetriminoId | undefined = this.nextQueue.shift();
     this.nextQueue.push(this.getRandomTetriminoId());
     this.grid.spawnTetrimino(nextMino);
-
+    this.lastFallTime = Date.now();
   }
 
   /**
@@ -91,19 +95,26 @@ export class Game {
    * Move the current tetrimino into the hold block.
    * If the hold block is not empty spawn the currently held tetrimino. Otherwise, spawn from next queue.
    */
-  private hold() {
-    let nextMino : TetriminoId = this.holdMino;
+  private hold() : void {
+    let nextMino : TetriminoId | undefined = this.holdMino;
     this.holdMino = this.activeMino;
     this.activeMino = nextMino;
 
-    if (nextMino == TetriminoId.None) {
-      nextMino = this.nextQueue.shift();
-      this.nextQueue.push(this.getRandomTetriminoId());
+    if (nextMino == TetriminoId.None)
+      this.spawnTetrimino()
+    else {
+      this.grid.deleteTetrimino();
+      this.grid.spawnTetrimino(nextMino);
+      this.lastFallTime = Date.now();
     }
-    this.grid.deleteTetrimino();
-    this.grid.spawnTetrimino(nextMino);
 
-    this.lastFallTime = Date.now();
+  }
+
+  /**
+   * Updates score and sends lines to opponent
+   */
+  private updateScore(linesCleared: number){
+    // TODO
   }
 
   /**

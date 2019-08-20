@@ -16,7 +16,6 @@ export class Grid {
   public activeMino : Tetrimino;
   public matrix : Array<Array<TetriminoId>>;
 
-
   constructor(height:number = 10, width:number = 21) {
     this.height = height;
     this.width = width;
@@ -122,6 +121,14 @@ export class Grid {
     // clean metadata
     this.completeLines = [];
     return linesCleared;
+  }
+
+  /**
+   * Add garbage lines to bottom of grid
+   * @param lines
+   */
+  public addGarbage(lines:number) {
+    // TODO
   }
 
   /**
