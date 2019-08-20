@@ -27,14 +27,21 @@ export class Grid {
     }
   }
 
+  /**
+   * Checks if the potential coordinates are occupied or out of bounds
+   * @param coords : array of new 4 coordinates to verify
+   */
   private isIllegalMove(coords: Array<coordinate>) : boolean {
     for (let [row,col] of coords) {
-      if (row<0 || row>this.height || col<0 || col>this.width) return true;  // OutOfBounds
+      if (row < 0 || row > this.height || col < 0 || col > this.width) return true;  // OutOfBounds
       if (this.matrix[row][col] != TetriminoId.None) return true;  // OccupiedCoordinate
     }
     return false;
   }
 
+  /**
+   * Clears matrix of previous tetrimino coordinates and write in new ones
+   */
   private updatePosition(newPosition : Array<coordinate>) {
     for (let [row,col] of this.currPosition) {
       this.matrix[row][col] = TetriminoId.None;
@@ -45,6 +52,9 @@ export class Grid {
     this.currPosition = newPosition;
   }
 
+  /**
+   * Writes in new tetrimino to grid
+   */
   public spawnTetrimino(type:TetriminoId) : Array<Array<TetriminoId>> {
     this.activeMino = new Tetrimino(type);
     //todo
@@ -89,8 +99,7 @@ export class Grid {
   public rotateRight() : Array<Array<TetriminoId>> {
     //todo
     let newPosition = this.activeMino.rotateRight();
-    while (this.isIllegalMove(newPosition)) {
-      //todo
+    if (this.i) {
 
     }
     this.updatePosition(newPosition);
@@ -98,7 +107,23 @@ export class Grid {
   }
 
   public rotateLeft() : Array<Array<TetriminoId>> {
-    //todo
+    let newPosition = this.activeMino.rotateLeft();
+    let canRotate : boolean = false;
+
+    // Kick logic for illegal movement
+    if (this.isIllegalMove(newPosition)) {
+      const testNums = [2,3,4,5];  // based on SRS test numbers
+      for (let n of testNums) {
+        let proposed = this.activeMino.kickLeft(n);
+        if (this.isIllegalMove(proposed) == false) {
+          newPosition = proposed;
+          canRotate = true;
+          break;
+        }
+      }
+    }
+
+    if (canRotate) this.updatePosition(newPosition);
     return this.matrix;
   }
 

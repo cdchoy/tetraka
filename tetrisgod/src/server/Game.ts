@@ -56,7 +56,6 @@ export class Game {
       this.grid.rotateLeft();
     }
 
-
     return this.grid.matrix;
   }
 

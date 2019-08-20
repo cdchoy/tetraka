@@ -74,6 +74,56 @@ export class Tetrimino {
     return this.getCoordinates();
   }
 
+  public kickRight(testNum : number) : Array<coordinate> {
+    let position : Array<coordinate>;
+    if (this.id in [TetriminoId.JBlock, TetriminoId.LBlock, TetriminoId.ZBlock, TetriminoId.SBlock,TetriminoId.TBlock]) {
+      switch (testNum) {
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        default:
+          throw new Error("kickRight received unknown testNum");
+      }
+    }
+    else if (this.id == TetriminoId.IBlock) {
+      switch (testNum) {
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        default:
+          throw new Error("kickRight received unknown testNum");
+      }
+    }
+  }
+
+  public kickLeft(testNum : number) : Array<coordinate> {
+    let position : Array<coordinate>;
+    if (this.id in [TetriminoId.JBlock, TetriminoId.LBlock, TetriminoId.ZBlock, TetriminoId.SBlock,TetriminoId.TBlock]) {
+      switch (testNum) { // based on SRS test numbers
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        default:
+          throw new Error("kickRight received unknown testNum");
+      }
+    }
+    else if (this.id == TetriminoId.IBlock) {
+      switch (testNum) {
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        default:
+          throw new Error("kickRight received unknown testNum");
+      }
+    }
+    return position;
+  }
+
+
 }
 
 function setupCoords(id : TetriminoId) : Array<Array<coordinate>> {
