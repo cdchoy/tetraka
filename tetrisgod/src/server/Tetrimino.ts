@@ -24,14 +24,12 @@ export enum TetriminoForm {
 export class Tetrimino {
   public id : TetriminoId;
   private form  : TetriminoForm;
-  private origin: coordinate;
   private tetriminoCoords: Array<Array<coordinate>>;
   public landed : boolean;
 
   constructor(id : TetriminoId) {
     this.id = id;
     this.form = TetriminoForm.Up;
-    this.origin = [1,3];
     this.tetriminoCoords = setupCoords(id);
     this.landed = false;
   }

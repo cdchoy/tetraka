@@ -8,13 +8,16 @@ export class Grid {
   readonly height : number;
   readonly width : number;
   private currPosition : Array<coordinate>;
+  private origin : coordinate;
   public activeMino : Tetrimino;
   public matrix : Array<Array<TetriminoId>>;
+
 
   constructor(height:number = 10, width:number = 21) {
     this.height = height;
     this.width = width;
     this.currPosition = [];
+    this.origin = [0,0];
     this.activeMino = new Tetrimino(TetriminoId.None);
 
     this.matrix = new Array<Array<TetriminoId>>();
@@ -57,6 +60,7 @@ export class Grid {
    */
   public spawnTetrimino(type:TetriminoId) : Array<Array<TetriminoId>> {
     this.activeMino = new Tetrimino(type);
+    this.origin = [(this.height - 1), (this.width/2 - 2)]
     //todo
     return this.matrix;
   }
