@@ -11,10 +11,11 @@ export class Game {
   private grid : Grid;
 
   private score : number;
-  private time : number;
-  private lines : number;
+  private linesSent : number;
+  private time : number;  // millis
+  private timeStart : number;
 
-  constructor(fallSpeed: number = 1000) {
+  constructor(fallSpeed: number = 1000, time: number = 120000) {
     this.lastFallTime = 0;
     this.fallSpeed = fallSpeed;
     this.holdMino = TetriminoId.None;
@@ -25,7 +26,12 @@ export class Game {
       let nextMino = this.getRandomTetriminoId();
       this.nextQueue.push(nextMino);
     }
+
     this.grid = new Grid(10, 21);
+    this.score = 0;
+    this.linesSent = 0;
+    this.time = time;
+    this.timeStart = Date.now();
   }
 
   /**
@@ -34,6 +40,8 @@ export class Game {
    * @param socket - user socket object with the action and id params inside of it
    */
   public update(socket : any) : void {
+    if (Date.now() - this.timeStart >= this.time) return; // game should end
+
     // Input processing
     if (socket.action.pressingHold) {
       this.hold();
@@ -77,6 +85,9 @@ export class Game {
    */
   private spawnTetrimino() {
     const nextMino : TetriminoId | undefined = this.nextQueue.shift();
+    if (nextMino == undefined) {
+      throw new Error("Next queue empty while trying to spawn tetrimino");
+    }
     this.nextQueue.push(this.getRandomTetriminoId());
     this.grid.spawnTetrimino(nextMino);
     this.lastFallTime = Date.now();
@@ -93,7 +104,7 @@ export class Game {
 
   /**
    * Move the current tetrimino into the hold block.
-   * If the hold block is not empty spawn the currently held tetrimino. Otherwise, spawn from next queue.
+   * If the hold block is not empty spawwn the currently held tetrimino. Otherwise, spawn from next queue.
    */
   private hold() : void {
     let nextMino : TetriminoId | undefined = this.holdMino;

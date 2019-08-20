@@ -5,10 +5,12 @@ const usertagLength = 4;
 export class User {
 	private name 	 : string = "Alexey Pajitnov";
 	private email	 : string;  // unique identifier
+	private socketid : string;
+
 	private username : string = "TetrisGod";
 	private usertag  : string = "#0123";
 	private userid 	 : string = "TetrisGod#0123";
-	private socketid : string;
+	private rank     : number = 1;
 
 	constructor(name:string, username:string, email:string, socket:any) {
 		this.name 	  = name;
