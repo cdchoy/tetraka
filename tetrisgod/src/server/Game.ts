@@ -1,24 +1,25 @@
 // server/Game.ts
 
-import { Grid } from "../Modules";
-import { Tetrimino, TetriminoId } from "../Modules";
+import {Grid, Tetrimino, TetriminoId} from "../Modules";
 
 export class Game {
   private lastFallTime : number;
   private fallSpeed : number;  // millis
-  private holdMino : Tetrimino;
-  private activeMino : Tetrimino;
-  private nextMinos : Array<Tetrimino>;
+  private holdMino : TetriminoId;
+  private activeMino : TetriminoId;
+  private nextMinos : Array<TetriminoId>;
   private grid : Grid;
 
   constructor(fallSpeed: number = 1000) {
     this.lastFallTime = 0;
     this.fallSpeed = fallSpeed;
-    this.holdMino = new NoneBlock();
-    this.activeMino = new NoneBlock();
+    this.holdMino = TetriminoId.None;
+    this.activeMino = TetriminoId.None;
+
+    this.nextMinos = [];
     for (let i=0; i<4; i++) {
-      let newTetrimino =
-      this.nextMinos.push()
+      let nextMino = this.generateNextTetrimino();
+      this.nextMinos.push(nextMino);
     }
     this.grid = new Grid(10, 21);
   }
@@ -29,11 +30,8 @@ export class Game {
    * @param socket - user socket object with the action and id params inside of it
    */
   public update(socket : any) : Array<Array<TetriminoId>> {
-    if ((Date.now() - this.lastFallTime) >= this.fallSpeed) {
-      this.grid.fall();
-      this.lastFallTime = Date.now();
-    }
 
+    // Input processing
     if (socket.action.pressingHold) {
       this.hold();
     }
@@ -41,13 +39,13 @@ export class Game {
       this.grid.harddrop();
     }
     else if (socket.action.pressingSoftDrop) {
-      this.grid.softdrop();
+      this.grid.moveTetrimino("down");
     }
     else if (socket.action.pressingMoveLeft) {
-      this.grid.moveLeft();
+      this.grid.moveTetrimino("left");
     }
     else if (socket.action.pressingMoveRight) {
-      this.grid.moveRight();
+      this.grid.moveTetrimino("right");
     }
     else if (socket.action.pressingRotateRight) {
       this.grid.rotateRight();
@@ -56,20 +54,30 @@ export class Game {
       this.grid.rotateLeft();
     }
 
+    // Fall speed processing
+    if ((Date.now() - this.lastFallTime) >= this.fallSpeed) {
+      this.grid.fall();
+      this.lastFallTime = Date.now();
+    }
     return this.grid.matrix;
   }
 
-  private generateNextTetrimino() : Tetrimino {
+  private generateNextTetrimino() : TetriminoId {  // generate 1 of the 7 valid TetriminoIds
     const max : number = Math.ceil(1);
     const min : number = Math.floor(7);
-    const id : number = Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   private hold() {
     const held = this.holdMino;
     this.holdMino = this.activeMino;
     this.activeMino = held;
-    // todo grid state must delete activeMino and spawn heldMino
+
+    this.grid.deleteTetrimino();
+    this.grid.spawnTetrimino(held);
   }
 
+  public setFallSpeed(newMsInterval: number) {
+    this.fallSpeed = newMsInterval;
+  }
 }

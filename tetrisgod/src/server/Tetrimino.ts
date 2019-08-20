@@ -22,7 +22,7 @@ export enum TetriminoForm {
 
 
 export class Tetrimino {
-  public id : TetriminoId;
+  readonly id : TetriminoId;
   private form  : TetriminoForm;
   private tetriminoCoords: Array<Array<coordinate>>;
   public landed : boolean;
@@ -34,96 +34,58 @@ export class Tetrimino {
     this.landed = false;
   }
 
-  private addOrigin(point: coordinate) : coordinate {
-    return [this.origin[0] + point[0], this.origin[1] + point[1]];
+  private addOrigin(origin:coordinate) : any {
+    return function(point : coordinate) : coordinate {
+      return [origin[0] + point[0], origin[1] + point[1]]
+    };
   }
 
-  private getCoordinates() : Array<coordinate> {
-    return this.tetriminoCoords[this.form].map(this.addOrigin);
+  public getCoordinates(origin: coordinate) : Array<coordinate> {
+    return this.tetriminoCoords[this.form].map(this.addOrigin(origin));
   }
 
-  public moveUp() : Array<coordinate> {
-    this.origin[0] += 1;
-    return this.getCoordinates();
-  }
-
-  public moveLeft() : Array<coordinate> {
-    this.origin[1] -= 1;
-    return this.getCoordinates();
-  }
-
-  public moveRight() : Array<coordinate> {
-    this.origin[1] += 1;
-    return this.getCoordinates();
-  }
-
-  public moveDown() : Array<coordinate> {
-    this.origin[0] -= 1;
-    return this.getCoordinates();
-  }
-
-  public rotateRight() : Array<coordinate> {
+  public rotateRight(origin:coordinate) : Array<coordinate> {
     this.form = (this.form + 1) % 4;
-    return this.getCoordinates();
+    return this.getCoordinates(origin);
   }
 
-  public rotateLeft() : Array<coordinate> {
+  public rotateLeft(origin:coordinate) : Array<coordinate> {
     this.form = (this.form + 3) % 4;
-    return this.getCoordinates();
+    return this.getCoordinates(origin);
   }
 
-  public kickRight(testNum : number) : Array<coordinate> {
-    let position : Array<coordinate>;
+  /**
+   * Moves origin coordinate according to "wall kick" rules set by Tetris' Super Rotation System
+   * @param origin - the current origin coordinate to transform
+   * @param offsetIteration - SRS specifies different origin offsets to apply for numbered kick iteration attempts
+   *                          This value is 1 indexed bc fuck me.
+   */
+  public kickOrigin(origin: coordinate, offsetIteration : number) : coordinate {
+    let [originRow, originCol] = origin;
+
+    if (offsetIteration < 1 || offsetIteration > 5)
+      throw new Error("Unknown offsetIteration: " + offsetIteration);
+
     if (this.id in [TetriminoId.JBlock, TetriminoId.LBlock, TetriminoId.ZBlock, TetriminoId.SBlock,TetriminoId.TBlock]) {
-      switch (testNum) {
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        default:
-          throw new Error("kickRight received unknown testNum");
-      }
+      originRow += KICK_OFFSET[offsetIteration - 1][this.form][0];
+      originCol += KICK_OFFSET[offsetIteration - 1][this.form][1];
     }
+
     else if (this.id == TetriminoId.IBlock) {
-      switch (testNum) {
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        default:
-          throw new Error("kickRight received unknown testNum");
-      }
+      originRow += IKICK_OFFSET[offsetIteration - 1][this.form][0];
+      originCol += IKICK_OFFSET[offsetIteration - 1][this.form][1];
     }
+
+    return [originRow, originCol];
   }
-
-  public kickLeft(testNum : number) : Array<coordinate> {
-    let position : Array<coordinate>;
-    if (this.id in [TetriminoId.JBlock, TetriminoId.LBlock, TetriminoId.ZBlock, TetriminoId.SBlock,TetriminoId.TBlock]) {
-      switch (testNum) { // based on SRS test numbers
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        default:
-          throw new Error("kickRight received unknown testNum");
-      }
-    }
-    else if (this.id == TetriminoId.IBlock) {
-      switch (testNum) {
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        default:
-          throw new Error("kickRight received unknown testNum");
-      }
-    }
-    return position;
-  }
-
-
 }
 
+/**
+ * Sets up the tetrimino class' base coordinates. Applying these to the grid's origin coordinate will produce
+ * the 4 coordinates that the tetrimino is currently at. The origin is set to be the coordinate of the bottom
+ * left box in the matrix that makes up the tetrimino.
+ * @param id - TetriminoId of the Tetrimino class we're creating
+ */
 function setupCoords(id : TetriminoId) : Array<Array<coordinate>> {
   switch (id) {
     case TetriminoId.None:
@@ -147,6 +109,23 @@ function setupCoords(id : TetriminoId) : Array<Array<coordinate>> {
   }
 }
 
+/** J,L,Z,S,T Tetrimino Offset Transformation Data for Kicks
+ *  Access = KICK_OFFSET[offsetIteration][form][rowAdjustment, colAdjustment]  */
+const OFFSET_1 : Array<coordinate> = [[0,0], [0,0],  [0,0], [0,0]];
+const OFFSET_2 : Array<coordinate> = [[0,0], [0,1],  [0,0], [0,-1]];
+const OFFSET_3 : Array<coordinate> = [[0,0], [-1,1], [0,0], [-1,-1]];
+const OFFSET_4 : Array<coordinate> = [[0,0], [2,0],  [0,0], [2,0]];
+const OFFSET_5 : Array<coordinate> = [[0,0], [2,1],  [0,0], [2,-1]];
+const KICK_OFFSET : Array<Array<coordinate>> = [OFFSET_1, OFFSET_2, OFFSET_3, OFFSET_4, OFFSET_5];
+
+/** I Tetrimino Offset Transformation Data for Kicks
+ *  Access = IKICK_OFFSET[offsetIteration][form][rowAdjustment, colAdjustment]  */
+const I_OFFSET_1 : Array<coordinate> = [[0,0],  [0,-1], [1,-1], [1,0]];
+const I_OFFSET_2 : Array<coordinate> = [[0,-1], [0,0],  [1,1],  [1,0]];
+const I_OFFSET_3 : Array<coordinate> = [[0,2],  [0,0],  [1,-2], [1,0]];
+const I_OFFSET_4 : Array<coordinate> = [[0,-1], [1,0],  [0,1],  [-1,0]];
+const I_OFFSET_5 : Array<coordinate> = [[0,2],  [-2,0], [0,-2], [2,0]];
+const IKICK_OFFSET : Array<Array<coordinate>> = [I_OFFSET_1, I_OFFSET_2, I_OFFSET_3, I_OFFSET_4, I_OFFSET_5];
 
 /** Orange Ricky (LBlock) */
 const L_UP    : Array<coordinate> = [[1, 0], [1, 2], [1, 2], [2, 2]];  // [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]

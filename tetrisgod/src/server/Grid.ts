@@ -34,18 +34,19 @@ export class Grid {
    * Checks if the potential coordinates are occupied or out of bounds
    * @param coords : array of new 4 coordinates to verify
    */
-  private isIllegalMove(coords: Array<coordinate>) : boolean {
+  private isLegalMove(coords: Array<coordinate>) : boolean {
     for (let [row,col] of coords) {
-      if (row < 0 || row > this.height || col < 0 || col > this.width) return true;  // OutOfBounds
-      if (this.matrix[row][col] != TetriminoId.None) return true;  // OccupiedCoordinate
+      if (row < 0 || row > this.height || col < 0 || col > this.width) return false;  // OutOfBounds
+      if (this.matrix[row][col] != TetriminoId.None) return false;  // OccupiedCoordinate
     }
-    return false;
+    return true;
   }
 
   /**
-   * Clears matrix of previous tetrimino coordinates and write in new ones
+   * Erases old position on the grid and writes in the new ones
+   * @param newPosition
    */
-  private updatePosition(newPosition : Array<coordinate>) {
+  private updatePosition(newOrigin: coordinate, newPosition : Array<coordinate>) {
     for (let [row,col] of this.currPosition) {
       this.matrix[row][col] = TetriminoId.None;
     }
@@ -53,102 +54,134 @@ export class Grid {
       this.matrix[row][col] = this.activeMino.id;
     }
     this.currPosition = newPosition;
+    this.origin = newOrigin;
   }
 
   /**
    * Writes in new tetrimino to grid
    */
-  public spawnTetrimino(type:TetriminoId) : Array<Array<TetriminoId>> {
+  public spawnTetrimino(type:TetriminoId) : void {
     this.activeMino = new Tetrimino(type);
-    this.origin = [(this.height - 1), (this.width/2 - 2)]
-    //todo
-    return this.matrix;
+    this.origin = [(this.height - 1), Math.floor(this.width/2) - 2];
+    this.currPosition = this.activeMino.getCoordinates(this.origin);
+    // TODO: if spawn position is illegal --> KO
+    this.updatePosition(this.origin, this.currPosition);
   }
 
-  public fall() : Array<Array<TetriminoId>> {
-    let newPosition = this.activeMino.moveDown();
-    if (this.isIllegalMove(newPosition)) {
-      newPosition = this.activeMino.moveUp();
+  /**
+   * Deletes the current active tetrimino from the grid
+   */
+  public deleteTetrimino() : void {
+    for (let [row,col] of this.currPosition) {
+      this.matrix[row][col] = TetriminoId.None;
+    }
+  }
+
+  /**
+   * Triggers every couple of frames as determined by fall speed
+   * Increments the tetrimino down 1 if possible. If not, it lands the tetrimino.
+   */
+  public fall() : void {
+    const newOrigin: coordinate = [this.origin[0]-1, this.origin[1]];
+    const newPosition = this.activeMino.getCoordinates(newOrigin);
+
+    if (this.isLegalMove(newPosition))
+      this.updatePosition(newOrigin, newPosition);
+    else
       this.activeMino.landed = true;
-    } else {
-      this.updatePosition(newPosition);
-    }
-    return this.matrix;
   }
 
-  public harddrop() : Array<Array<TetriminoId>> {
-    let newPosition = this.currPosition;
-    while (this.activeMino.landed != true) {
-      newPosition = this.activeMino.moveDown();
-      if (this.isIllegalMove(newPosition)) {
-        this.activeMino.moveUp();
-        this.activeMino.landed = true;
+  /**
+   * Triggers on hard drop input.
+   * Drops tetrimino until it lands. TODO: allow slight movement before locking
+   */
+  public harddrop() : void {
+    while (!this.activeMino.landed) {
+      this.fall();
+    }
+  }
+
+  /**
+   * Triggers on move {left,right,down} input.
+   * Moves the tetrimino if possible. Does not set it in landed.
+   */
+  public moveTetrimino(direction: string) : void {
+    let newOrigin: coordinate;
+    switch (direction) {
+      case "down":
+        newOrigin = [this.origin[0]-1, this.origin[1]]; // soft drop
         break;
-      }
+      case "left":
+        newOrigin = [this.origin[0], this.origin[1]-1]; // move left
+        break;
+      case "right":
+        newOrigin = [this.origin[0], this.origin[1]+1]; // move right
+        break;
+      default:
+        throw new Error("Unknown movement for moveTetrimino(): " + direction)
     }
-    this.updatePosition(newPosition);
-    return this.matrix;
+
+    const newPosition = this.activeMino.getCoordinates(newOrigin);
+
+    if (this.isLegalMove(newPosition))
+      this.updatePosition(newOrigin, newPosition);
   }
 
-  public softdrop() : Array<Array<TetriminoId>> {
-    let newPosition = this.activeMino.moveDown();
-    if (this.isIllegalMove(newPosition)) {
-      this.activeMino.moveUp();
-    } else {
-      this.updatePosition(newPosition);
+  /**
+   * Triggers on rotate right input.
+   * Rotates the piece clockwise. Handles rotations into illegal space.
+   * Uses the "Super Rotation System" to handle these cases.
+   */
+  public rotateRight() : void {
+    let newPosition = this.activeMino.rotateRight(this.origin);
+
+    // Try basic rotation
+    if (this.isLegalMove(newPosition)) {
+      this.updatePosition(this.origin, newPosition);
+      return;
     }
-    return this.matrix;
-  }
 
-  public rotateRight() : Array<Array<TetriminoId>> {
-    //todo
-    let newPosition = this.activeMino.rotateRight();
-    if (this.i) {
-
-    }
-    this.updatePosition(newPosition);
-    return this.matrix;
-  }
-
-  public rotateLeft() : Array<Array<TetriminoId>> {
-    let newPosition = this.activeMino.rotateLeft();
-    let canRotate : boolean = false;
-
-    // Kick logic for illegal movement
-    if (this.isIllegalMove(newPosition)) {
-      const testNums = [2,3,4,5];  // based on SRS test numbers
-      for (let n of testNums) {
-        let proposed = this.activeMino.kickLeft(n);
-        if (this.isIllegalMove(proposed) == false) {
-          newPosition = proposed;
-          canRotate = true;
-          break;
-        }
+    // Trying to rotate into illegal space. Try kicking the piece
+    for (let offset = 2; offset <= 5; offset++) {
+      let newOrigin = this.activeMino.kickOrigin(this.origin, offset);
+      newPosition = this.activeMino.getCoordinates(newOrigin);
+      if (this.isLegalMove(newPosition)) {
+        this.updatePosition(newOrigin, newPosition);
+        return;
       }
     }
 
-    if (canRotate) this.updatePosition(newPosition);
-    return this.matrix;
+    // No possible rotation iterations even with kicking.
+    // Undo Form change and don't change the matrix
+    this.activeMino.rotateLeft(this.origin);
   }
 
-  public moveLeft() : Array<Array<TetriminoId>> {
-    let newPosition = this.activeMino.moveLeft();
-    if (this.isIllegalMove(newPosition)) {
-      this.activeMino.moveRight();
-    } else {
-      this.updatePosition(newPosition);
-    }
-    return this.matrix;
-  }
+  /**
+   * Triggers on rotate left input.
+   * Rotates the piece counter-clockwise. Handles rotations into illegal space.
+   * Uses the "Super Rotation System" to handle these cases.
+   */
+  public rotateLeft() : void {
+    let newPosition = this.activeMino.rotateRight(this.origin);
 
-  public moveRight() : Array<Array<TetriminoId>> {
-    let newPosition = this.activeMino.moveRight();
-    if (this.isIllegalMove(newPosition)) {
-      this.activeMino.moveLeft();
-    } else {
-      this.updatePosition(newPosition);
+    if (this.isLegalMove(newPosition)) {
+      this.updatePosition(this.origin, newPosition);
+      return;
     }
-    return this.matrix;
+
+    // Trying to rotate into illegal space. Try kicking the piece
+    for (let offset = 2; offset <= 5; offset++) {
+      let newOrigin = this.activeMino.kickOrigin(this.origin, offset);
+      newPosition = this.activeMino.getCoordinates(newOrigin);
+      if (this.isLegalMove(newPosition)) {
+        this.updatePosition(newOrigin, newPosition);
+        return;
+      }
+    }
+
+    // No possible rotation iterations even with kicking.
+    // Undo Form change and don't change the matrix
+    this.activeMino.rotateLeft(this.origin);
   }
 
 }
