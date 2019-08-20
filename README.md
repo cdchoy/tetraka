@@ -3,7 +3,7 @@ Codebase for TetrisGod.com
 
 ## Collaborators  
 Chris Choy (contact@chrischoy.net)  
-Cole Koester ()  
+Cole Koester (cole.koester@tufts.edu)  
 Cameron Diperna ()  
 Mollie Wild ()  
 Michael Goldsmith ()  
