@@ -6,5 +6,6 @@ export * from "./server/Input";
 export * from "./server/Tetrimino";
 export * from "./server/Grid";
 export * from "./server/Game";
+export * from "./server/Score";
 
 export * from "./client/scripts/Pixel";
