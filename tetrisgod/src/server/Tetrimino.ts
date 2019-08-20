@@ -1,6 +1,6 @@
 // server/Tetrimino.ts
 
-import { coordinates } from "../Modules"
+import { coordinate } from "../Modules"
 
 export enum TetriminoId {
   None   = 0,
@@ -22,53 +22,61 @@ export enum TetriminoForm {
 
 
 export class Tetrimino {
-  private id : TetriminoId;
+  public id : TetriminoId;
   private form  : TetriminoForm;
-  private origin: coordinates;
-  private tetriminoCoords: Array<Array<coordinates>>;
+  private origin: coordinate;
+  private tetriminoCoords: Array<Array<coordinate>>;
+  public landed : boolean;
 
-
-  protected constructor(id : TetriminoId) {
+  constructor(id : TetriminoId) {
     this.id = id;
     this.form = TetriminoForm.Up;
     this.origin = [1,3];
     this.tetriminoCoords = setupCoords(id);
+    this.landed = false;
   }
 
-  public moveUp() {
-    this.origin[0] += 1;
-  }
-
-  public moveLeft() {
-    this.origin[1] -= 1; 
-  }
-
-  public moveRight() {
-    this.origin[1] += 1;
-  }
-
-  public moveDown() {
-    this.origin[0] -= 1;
-  }
-
-  public rotateRight() {
-    this.form = (this.form + 1) % 4;
-  }
-
-  public rotateLeft() {
-    this.form = (this.form + 3) % 4;
-  }
-
-  public addOrigin(point: coordinates) : coordinates {
+  private addOrigin(point: coordinate) : coordinate {
     return [this.origin[0] + point[0], this.origin[1] + point[1]];
   }
 
-  public getCoordinates() {
-    this.tetriminoCoords[this.form].map(this.addOrigin);
+  private getCoordinates() : Array<coordinate> {
+    return this.tetriminoCoords[this.form].map(this.addOrigin);
   }
+
+  public moveUp() : Array<coordinate> {
+    this.origin[0] += 1;
+    return this.getCoordinates();
+  }
+
+  public moveLeft() : Array<coordinate> {
+    this.origin[1] -= 1;
+    return this.getCoordinates();
+  }
+
+  public moveRight() : Array<coordinate> {
+    this.origin[1] += 1;
+    return this.getCoordinates();
+  }
+
+  public moveDown() : Array<coordinate> {
+    this.origin[0] -= 1;
+    return this.getCoordinates();
+  }
+
+  public rotateRight() : Array<coordinate> {
+    this.form = (this.form + 1) % 4;
+    return this.getCoordinates();
+  }
+
+  public rotateLeft() : Array<coordinate> {
+    this.form = (this.form + 3) % 4;
+    return this.getCoordinates();
+  }
+
 }
 
-function setupCoords(id : TetriminoId) : Array<Array<coordinates>> {
+function setupCoords(id : TetriminoId) : Array<Array<coordinate>> {
   switch (id) {
     case TetriminoId.None:
       return [[]];
@@ -93,40 +101,40 @@ function setupCoords(id : TetriminoId) : Array<Array<coordinates>> {
 
 
 /** Orange Ricky (LBlock) */
-const L_UP    : Array<coordinates> = [[1, 0], [1, 2], [1, 2], [2, 2]];  // [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
-const L_RIGHT : Array<coordinates> = [[0, 1], [0, 2], [1, 1], [2, 1]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
-const L_DOWN  : Array<coordinates> = [[0, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 1]  |  [1 0 0]  |  [0 1 0]
-const L_LEFT  : Array<coordinates> = [[0, 1], [1, 1], [2, 0], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
+const L_UP    : Array<coordinate> = [[1, 0], [1, 2], [1, 2], [2, 2]];  // [0 0 1]  |  [0 1 0]  |  [0 0 0]  |  [1 1 0]
+const L_RIGHT : Array<coordinate> = [[0, 1], [0, 2], [1, 1], [2, 1]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
+const L_DOWN  : Array<coordinate> = [[0, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 1]  |  [1 0 0]  |  [0 1 0]
+const L_LEFT  : Array<coordinate> = [[0, 1], [1, 1], [2, 0], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
 /** Blue Ricky (JBlock) */
-const J_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [2, 0]];  // [1 0 0]  |  [0 1 1]  |  [0 0 0]  |  [0 1 0]
-const J_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [2, 1], [2, 2]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
-const J_DOWN  : Array<coordinates> = [[2, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 0 1]  |  [1 1 0]
-const J_LEFT  : Array<coordinates> = [[0, 0], [0, 1], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
+const J_UP    : Array<coordinate> = [[1, 0], [1, 1], [1, 2], [2, 0]];  // [1 0 0]  |  [0 1 1]  |  [0 0 0]  |  [0 1 0]
+const J_RIGHT : Array<coordinate> = [[0, 1], [1, 1], [2, 1], [2, 2]];  // [1 1 1]  |  [0 1 0]  |  [1 1 1]  |  [0 1 0]
+const J_DOWN  : Array<coordinate> = [[2, 0], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 0 1]  |  [1 1 0]
+const J_LEFT  : Array<coordinate> = [[0, 0], [0, 1], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
 /** Cleveland Z (ZBlock) */
-const Z_UP    : Array<coordinates> = [[1, 1], [1, 2], [2, 0], [2, 1]];  // [1 1 0]  |  [0 0 1]  |  [0 0 0]  |  [0 1 0]
-const Z_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [1, 2], [2, 2]];  // [0 1 1]  |  [0 1 1]  |  [1 1 0]  |  [1 1 0]
-const Z_DOWN  : Array<coordinates> = [[0, 1], [0, 2], [1, 0], [1, 1]];  // [0 0 0]  |  [0 1 0]  |  [0 1 1]  |  [1 0 0]
-const Z_LEFT  : Array<coordinates> = [[0, 0], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
+const Z_UP    : Array<coordinate> = [[1, 1], [1, 2], [2, 0], [2, 1]];  // [1 1 0]  |  [0 0 1]  |  [0 0 0]  |  [0 1 0]
+const Z_RIGHT : Array<coordinate> = [[0, 1], [1, 1], [1, 2], [2, 2]];  // [0 1 1]  |  [0 1 1]  |  [1 1 0]  |  [1 1 0]
+const Z_DOWN  : Array<coordinate> = [[0, 1], [0, 2], [1, 0], [1, 1]];  // [0 0 0]  |  [0 1 0]  |  [0 1 1]  |  [1 0 0]
+const Z_LEFT  : Array<coordinate> = [[0, 0], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
 /** Rhode Island Z (SBlock) */
-const S_UP    : Array<coordinates> = [[1, 0], [1, 1], [2, 1], [2, 2]];  // [0 1 1]  |  [0 1 0]  |  [0 0 0]  |  [1 0 0]
-const S_RIGHT : Array<coordinates> = [[0, 2], [1, 1], [1, 2], [2, 1]];  // [1 1 0]  |  [0 1 1]  |  [0 1 1]  |  [1 1 0]
-const S_DOWN  : Array<coordinates> = [[0, 0], [0, 1], [1, 1], [1, 2]];  // [0 0 0]  |  [0 0 1]  |  [1 1 0]  |  [0 1 0]
-const S_LEFT  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [2, 0]];  //   UP         RIGHT       DOWN        LEFT
+const S_UP    : Array<coordinate> = [[1, 0], [1, 1], [2, 1], [2, 2]];  // [0 1 1]  |  [0 1 0]  |  [0 0 0]  |  [1 0 0]
+const S_RIGHT : Array<coordinate> = [[0, 2], [1, 1], [1, 2], [2, 1]];  // [1 1 0]  |  [0 1 1]  |  [0 1 1]  |  [1 1 0]
+const S_DOWN  : Array<coordinate> = [[0, 0], [0, 1], [1, 1], [1, 2]];  // [0 0 0]  |  [0 0 1]  |  [1 1 0]  |  [0 1 0]
+const S_LEFT  : Array<coordinate> = [[0, 1], [1, 0], [1, 1], [2, 0]];  //   UP         RIGHT       DOWN        LEFT
 
 /** Hero (IBlock) */                                                    // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
-const I_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [1, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [1 1 1 1]  |  [0 0 1 0]
-const I_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [2, 1], [3, 1]];  // [1 1 1 1]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
-const I_DOWN  : Array<coordinates> = [[2, 0], [2, 1], [2, 2], [2, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
-const I_LEFT  : Array<coordinates> = [[0, 2], [1, 2], [2, 2], [3, 2]];  //    UP           RIGHT         DOWN          LEFT
+const I_UP    : Array<coordinate> = [[1, 0], [1, 1], [1, 2], [1, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [1 1 1 1]  |  [0 0 1 0]
+const I_RIGHT : Array<coordinate> = [[0, 1], [1, 1], [2, 1], [3, 1]];  // [1 1 1 1]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
+const I_DOWN  : Array<coordinate> = [[2, 0], [2, 1], [2, 2], [2, 3]];  // [0 0 0 0]  |  [0 1 0 0]  |  [0 0 0 0]  |  [0 0 1 0]
+const I_LEFT  : Array<coordinate> = [[0, 2], [1, 2], [2, 2], [3, 2]];  //    UP           RIGHT         DOWN          LEFT
 
 /** Teewee (TBlock) */
-const T_UP    : Array<coordinates> = [[1, 0], [1, 1], [1, 2], [2, 1]];  // [0 1 0]  |  [0 1 0]  |  [0 0 0]  |  [0 1 0]
-const T_RIGHT : Array<coordinates> = [[0, 1], [1, 1], [1, 2], [2, 1]];  // [1 1 1]  |  [0 1 1]  |  [1 1 1]  |  [1 1 0]
-const T_DOWN  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 1 0]  |  [0 1 0]
-const T_LEFT  : Array<coordinates> = [[0, 1], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
+const T_UP    : Array<coordinate> = [[1, 0], [1, 1], [1, 2], [2, 1]];  // [0 1 0]  |  [0 1 0]  |  [0 0 0]  |  [0 1 0]
+const T_RIGHT : Array<coordinate> = [[0, 1], [1, 1], [1, 2], [2, 1]];  // [1 1 1]  |  [0 1 1]  |  [1 1 1]  |  [1 1 0]
+const T_DOWN  : Array<coordinate> = [[0, 1], [1, 0], [1, 1], [1, 2]];  // [0 0 0]  |  [0 1 0]  |  [0 1 0]  |  [0 1 0]
+const T_LEFT  : Array<coordinate> = [[0, 1], [1, 0], [1, 1], [2, 1]];  //   UP         RIGHT       DOWN        LEFT
 
 /** Smashboy (OBlock) */                                                 // [1 1]
-const O_ALL    : Array<coordinates> = [[0, 0], [0, 1], [1, 0], [1, 1]];  // [1 1] ALL
+const O_ALL    : Array<coordinate> = [[0, 0], [0, 1], [1, 0], [1, 1]];  // [1 1] ALL
