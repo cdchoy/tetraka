@@ -24,13 +24,13 @@ export enum TetriminoForm {
 export class Tetrimino {
   readonly id : TetriminoId;
   private form  : TetriminoForm;
-  private tetriminoCoords: Array<Array<coordinate>>;
+  private basicCoordinates: Array<Array<coordinate>>;
   public landed : boolean;
 
   constructor(id : TetriminoId) {
     this.id = id;
     this.form = TetriminoForm.Up;
-    this.tetriminoCoords = setupCoords(id);
+    this.basicCoordinates = setupCoords(id);
     this.landed = false;
   }
 
@@ -41,7 +41,7 @@ export class Tetrimino {
   }
 
   public getCoordinates(origin: coordinate) : Array<coordinate> {
-    return this.tetriminoCoords[this.form].map(this.addOrigin(origin));
+    return this.basicCoordinates[this.form].map(this.addOrigin(origin));
   }
 
   public rotateRight(origin:coordinate) : Array<coordinate> {

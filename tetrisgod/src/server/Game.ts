@@ -1,13 +1,13 @@
 // server/Game.ts
 
-import {Grid, Tetrimino, TetriminoId} from "../Modules";
+import {Grid, TetriminoId} from "../Modules";
 
 export class Game {
   private lastFallTime : number;
   private fallSpeed : number;  // millis
   private holdMino : TetriminoId;
   private activeMino : TetriminoId;
-  private nextMinos : Array<TetriminoId>;
+  private nextQueue : Array<TetriminoId>;  // push() onto end of array. shift() from front of array.
   private grid : Grid;
 
   constructor(fallSpeed: number = 1000) {
@@ -16,10 +16,10 @@ export class Game {
     this.holdMino = TetriminoId.None;
     this.activeMino = TetriminoId.None;
 
-    this.nextMinos = [];
+    this.nextQueue = [];
     for (let i=0; i<4; i++) {
-      let nextMino = this.generateNextTetrimino();
-      this.nextMinos.push(nextMino);
+      let nextMino = this.getRandomTetriminoId();
+      this.nextQueue.push(nextMino);
     }
     this.grid = new Grid(10, 21);
   }
@@ -29,7 +29,7 @@ export class Game {
    * This includes handling user input, time functions, score recording, etc...
    * @param socket - user socket object with the action and id params inside of it
    */
-  public update(socket : any) : Array<Array<TetriminoId>> {
+  public update(socket : any) : void {
 
     // Input processing
     if (socket.action.pressingHold) {
@@ -39,19 +39,19 @@ export class Game {
       this.grid.harddrop();
     }
     else if (socket.action.pressingSoftDrop) {
-      this.grid.moveTetrimino("down");
+      this.grid.move("down");
     }
     else if (socket.action.pressingMoveLeft) {
-      this.grid.moveTetrimino("left");
+      this.grid.move("left");
     }
     else if (socket.action.pressingMoveRight) {
-      this.grid.moveTetrimino("right");
+      this.grid.move("right");
     }
     else if (socket.action.pressingRotateRight) {
-      this.grid.rotateRight();
+      this.grid.rotate("right");
     }
     else if (socket.action.pressingRotateLeft) {
-      this.grid.rotateLeft();
+      this.grid.rotate("left");
     }
 
     // Fall speed processing
@@ -59,24 +59,57 @@ export class Game {
       this.grid.fall();
       this.lastFallTime = Date.now();
     }
-    return this.grid.matrix;
+
+    // Landed Check
+    if (this.grid.activeMino.landed) {
+      this.grid.clearCompleteLines();
+      // todo this logic can be moved to grid.land() unless we want frames between landing and line clearing
+    }
+
   }
 
-  private generateNextTetrimino() : TetriminoId {  // generate 1 of the 7 valid TetriminoIds
+  /**
+   * Spawn the next tetrimino on the grid and update the queue
+   */
+  private spawnTetrimino() {
+    const nextMino = this.nextQueue.shift();
+    this.nextQueue.push(this.getRandomTetriminoId());
+    this.grid.spawnTetrimino(nextMino);
+
+  }
+
+  /**
+   * Randomly generate 1 of the 7 valid TetriminoIds
+   */
+  private getRandomTetriminoId() : TetriminoId {
     const max : number = Math.ceil(1);
     const min : number = Math.floor(7);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  /**
+   * Move the current tetrimino into the hold block.
+   * If the hold block is not empty spawn the currently held tetrimino. Otherwise, spawn from next queue.
+   */
   private hold() {
-    const held = this.holdMino;
+    let nextMino : TetriminoId = this.holdMino;
     this.holdMino = this.activeMino;
-    this.activeMino = held;
+    this.activeMino = nextMino;
 
+    if (nextMino == TetriminoId.None) {
+      nextMino = this.nextQueue.shift();
+      this.nextQueue.push(this.getRandomTetriminoId());
+    }
     this.grid.deleteTetrimino();
-    this.grid.spawnTetrimino(held);
+    this.grid.spawnTetrimino(nextMino);
+
+    this.lastFallTime = Date.now();
   }
 
+  /**
+   * Update the fall speed
+   * @param newMsInterval
+   */
   public setFallSpeed(newMsInterval: number) {
     this.fallSpeed = newMsInterval;
   }

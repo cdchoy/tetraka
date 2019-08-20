@@ -1,15 +1,19 @@
 // server/User.ts
 
+const usertagLength = 4;
+
 export class User {
 	private name 	 : string = "Alexey Pajitnov";
- 	private username : string = "TetrisGod";
+	private email	 : string;  // unique identifier
+	private username : string = "TetrisGod";
 	private usertag  : string = "#0123";
 	private userid 	 : string = "TetrisGod#0123";
 	private socketid : string;
 
-	constructor(name:string, username:string, socket:any) {
+	constructor(name:string, username:string, email:string, socket:any) {
 		this.name 	  = name;
 		this.username = username;
+		this.email    = email;
 		this.usertag  = this.generateUsertag();
 		this.userid   = this.username + this.usertag;
 		this.socketid = socket.id;
@@ -30,10 +34,15 @@ export class User {
 
 	// Class Methods
 	private generateUsertag() : string {
-		let tag : string = "#";
+		const max : number = 10 ** usertagLength;
+		const min : number = 0;
 
-		// todo generate random 4 digit number
-		// confirm no one else has the full string of username#usertag
+		// generate random num in range [min,max) and pad it
+		let s : string = Math.floor(min + (max-min) * Math.random()).toString();
+		while (s.length < usertagLength) s = "0" + s;
+		let tag : string = "#" + s;
+
+		//TODO: confirm no other user with this username has this tag
 
 		return tag;
 	}

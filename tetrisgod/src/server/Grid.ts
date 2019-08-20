@@ -1,14 +1,18 @@
 // server/Grid2d.ts
 
-import { Tetrimino, TetriminoId } from "../Modules"
+import {Tetrimino, TetriminoId} from "../Modules"
 
 export type coordinate = [number, number];  // row,col
 
 export class Grid {
   readonly height : number;
   readonly width : number;
-  private currPosition : Array<coordinate>;
+
   private origin : coordinate;
+  private currPosition : Array<coordinate>;
+  private lineOccupancy : Array<number>;
+  private completeLines : Array<number>;
+
   public activeMino : Tetrimino;
   public matrix : Array<Array<TetriminoId>>;
 
@@ -16,12 +20,16 @@ export class Grid {
   constructor(height:number = 10, width:number = 21) {
     this.height = height;
     this.width = width;
-    this.currPosition = [];
     this.origin = [0,0];
+    this.currPosition = new Array<coordinate>();
+    this.lineOccupancy = new Array<number>();
+    this.completeLines = new Array<number>();
     this.activeMino = new Tetrimino(TetriminoId.None);
-
     this.matrix = new Array<Array<TetriminoId>>();
+
+    // Initiate lineOccupancy and matrix
     for (let row = 0; row < height; row++) {
+      this.lineOccupancy.push(0);
       let newRow = new Array<number>();
       for (let col = 0; col < width; col++) {
           newRow.push(TetriminoId.None);
@@ -58,6 +66,19 @@ export class Grid {
   }
 
   /**
+   * Land the tetrimino and update grid metadata
+   */
+  private land() : void {
+    this.activeMino.landed = true;
+    for (let [row,col] of this.currPosition) {
+      this.lineOccupancy[row] += 1;
+      if (this.lineOccupancy[row] == this.width) {
+        this.completeLines.push(row);
+      }
+    }
+  }
+
+  /**
    * Writes in new tetrimino to grid
    */
   public spawnTetrimino(type:TetriminoId) : void {
@@ -78,6 +99,32 @@ export class Grid {
   }
 
   /**
+   * Clear complete lines from the grid and shift all above rows down
+   */
+  public clearCompleteLines() : number {
+    const linesCleared = this.completeLines.length;
+    this.completeLines.sort((n1,n2) => n1-n2); // sort array small to large
+
+    for (let row = this.completeLines[0]; row < this.height; row++) {
+      let targetRow = row + linesCleared;
+      if (targetRow < this.height) {
+        this.lineOccupancy[row] = this.lineOccupancy[targetRow];
+        this.matrix[row] = this.matrix[targetRow];
+      }
+      else {
+        this.lineOccupancy[row] = 0;
+        for (let col in this.matrix[row]) {  // empty row
+          this.matrix[row][col] = TetriminoId.None;
+        }
+      }
+    }
+
+    // clean metadata
+    this.completeLines = [];
+    return linesCleared;
+  }
+
+  /**
    * Triggers every couple of frames as determined by fall speed
    * Increments the tetrimino down 1 if possible. If not, it lands the tetrimino.
    */
@@ -88,12 +135,12 @@ export class Grid {
     if (this.isLegalMove(newPosition))
       this.updatePosition(newOrigin, newPosition);
     else
-      this.activeMino.landed = true;
+      this.land();
   }
 
   /**
    * Triggers on hard drop input.
-   * Drops tetrimino until it lands. TODO: allow slight movement before locking
+   * Drops tetrimino until it lands. TODO: allow slight movement before locking?
    */
   public harddrop() : void {
     while (!this.activeMino.landed) {
@@ -105,7 +152,7 @@ export class Grid {
    * Triggers on move {left,right,down} input.
    * Moves the tetrimino if possible. Does not set it in landed.
    */
-  public moveTetrimino(direction: string) : void {
+  public move(direction: string) : void {
     let newOrigin: coordinate;
     switch (direction) {
       case "down":
@@ -118,7 +165,7 @@ export class Grid {
         newOrigin = [this.origin[0], this.origin[1]+1]; // move right
         break;
       default:
-        throw new Error("Unknown movement for moveTetrimino(): " + direction)
+        throw new Error("Unknown movement for move(): " + direction)
     }
 
     const newPosition = this.activeMino.getCoordinates(newOrigin);
@@ -132,8 +179,8 @@ export class Grid {
    * Rotates the piece clockwise. Handles rotations into illegal space.
    * Uses the "Super Rotation System" to handle these cases.
    */
-  public rotateRight() : void {
-    let newPosition = this.activeMino.rotateRight(this.origin);
+  public rotate(direction: string) : void {
+    let newPosition = (direction == "left") ? this.activeMino.rotateLeft(this.origin) : this.activeMino.rotateRight(this.origin);
 
     // Try basic rotation
     if (this.isLegalMove(newPosition)) {
@@ -153,35 +200,6 @@ export class Grid {
 
     // No possible rotation iterations even with kicking.
     // Undo Form change and don't change the matrix
-    this.activeMino.rotateLeft(this.origin);
+    (direction == "left") ? this.activeMino.rotateRight(this.origin) : this.activeMino.rotateLeft(this.origin);
   }
-
-  /**
-   * Triggers on rotate left input.
-   * Rotates the piece counter-clockwise. Handles rotations into illegal space.
-   * Uses the "Super Rotation System" to handle these cases.
-   */
-  public rotateLeft() : void {
-    let newPosition = this.activeMino.rotateRight(this.origin);
-
-    if (this.isLegalMove(newPosition)) {
-      this.updatePosition(this.origin, newPosition);
-      return;
-    }
-
-    // Trying to rotate into illegal space. Try kicking the piece
-    for (let offset = 2; offset <= 5; offset++) {
-      let newOrigin = this.activeMino.kickOrigin(this.origin, offset);
-      newPosition = this.activeMino.getCoordinates(newOrigin);
-      if (this.isLegalMove(newPosition)) {
-        this.updatePosition(newOrigin, newPosition);
-        return;
-      }
-    }
-
-    // No possible rotation iterations even with kicking.
-    // Undo Form change and don't change the matrix
-    this.activeMino.rotateLeft(this.origin);
-  }
-
 }
