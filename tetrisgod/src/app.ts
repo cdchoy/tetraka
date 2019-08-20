@@ -3,7 +3,7 @@
 
 import express from "express";
 import http from "http";
-import {User, Action, Game} from "./Modules";
+import {User, Input, Game} from "./Modules";
 
 /** SERVER INITIALIZATION */
 const app = express();
@@ -35,7 +35,7 @@ io.socket.on('connection', function(socket:any) {
 function onConnect(socket: any) : void {
 	socket.id = Math.random();
 
-	let action = new Action();
+	let action = new Input();
 	socket.action = action;
 
 	SOCKET_LIST[socket.id] = socket;

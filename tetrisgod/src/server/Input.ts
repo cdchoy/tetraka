@@ -1,6 +1,6 @@
-// server/Action.ts
+// server/Input.ts
 
-export class Action {
+export class Input {
 	pressingMoveLeft    : boolean = false;
   	pressingMoveRight   : boolean = false;
 	pressingRotateRight : boolean = false;
