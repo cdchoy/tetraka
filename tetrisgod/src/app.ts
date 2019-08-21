@@ -35,8 +35,8 @@ io.socket.on('connection', function(socket:any) {
 function onConnect(socket: any) : void {
 	socket.id = Math.random();
 
-	let action = new Input();
-	socket.action = action;
+	let keyInput = new Input();
+	socket.keyInput = keyInput;
 
 	SOCKET_LIST[socket.id] = socket;
 }
@@ -47,17 +47,17 @@ function onDisconnect(socket: any) : void {
 
 function onKeyPress(socket: any) : void {
 	if (socket.data.inputId === 'moveleft')
-		socket.action.pressingMoveLeft = socket.data.state;
+		socket.keyInput.pressingMoveLeft = socket.data.state;
 	else if (socket.data.inputId === 'rotateright')
-		socket.action.pressingRotateRight = socket.data.state
+		socket.keyInput.pressingRotateRight = socket.data.state
 	else if (socket.data.inputId === 'moveright')
-		socket.action.pressingMoveRight = socket.data.state;
+		socket.keyInput.pressingMoveRight = socket.data.state;
 	else if (socket.data.inputId === 'softdrop')
-		socket.action.pressingSoftDrop = socket.data.state;
+		socket.keyInput.pressingSoftDrop = socket.data.state;
 	else if (socket.data.inputId === 'harddrop')
-		socket.action.pressingHardDrop = socket.data.state;
+		socket.keyInput.pressingHardDrop = socket.data.state;
 	else if (socket.data.inputId === 'hold')
-		socket.action.pressingHold = socket.data.state;
+		socket.keyInput.pressingHold = socket.data.state;
 }
 /** END SOCKET EVENT HANDLER */
 

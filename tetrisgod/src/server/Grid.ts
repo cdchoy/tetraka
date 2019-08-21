@@ -11,8 +11,8 @@ export class Grid {
   private origin : coordinate;
   private currPosition : Array<coordinate>;
   private lineOccupancy : Array<number>;
-  private completeLines : Array<number>;
 
+  public completeLines : Array<number>;
   public activeMino : Tetrimino;
   public matrix : Array<Array<TetriminoId>>;
 
@@ -69,12 +69,29 @@ export class Grid {
    */
   private land() : void {
     this.activeMino.landed = true;
-    for (let [row,col] of this.currPosition) {
+
+    // Check for KO
+    // TODO
+    // Update line occupancies and complete lines array as needed
+    for (let [row,__] of this.currPosition) {
       this.lineOccupancy[row] += 1;
       if (this.lineOccupancy[row] == this.width) {
         this.completeLines.push(row);
       }
     }
+  }
+
+  /**
+   * Determines if active tetrimino has been t-spun
+   * We define a tspin as rotating into a piece such that it cannot move in any cardinal direction
+   */
+  public isTSpin() : boolean {
+    let [row,col] : coordinate = this.origin;
+    const up = this.activeMino.getCoordinates([row,col+1]);
+    const down = this.activeMino.getCoordinates([row,col-1]);
+    const left = this.activeMino.getCoordinates([row-1,col]);
+    const right = this.activeMino.getCoordinates([row+1,col]);
+    return !(this.isLegalMove(up) || this.isLegalMove(down) || this.isLegalMove(left) || this.isLegalMove(right));
   }
 
   /**
@@ -98,14 +115,26 @@ export class Grid {
   }
 
   /**
+   * Returns the level the tetrimino is at. Used in calculating the score update.
+   * !!! MUST be called before clearCompleteLines() in landing processing. !!!
+   * Level is 0 indexed from the bottom of the matrix.
+   */
+  public getLevel() : number {
+    return this.completeLines.sort((n1,n2) => n1-n2)[0];  // row number of lowest complete line
+  }
+
+  /**
    * Clear complete lines from the grid and shift all above rows down
    */
-  public clearCompleteLines() : number {
-    const linesCleared = this.completeLines.length;
+  public clearCompleteLines() : void {
+    const numLinesToClear = this.completeLines.length;
+
+    if (!numLinesToClear) return 0; // early exit
+
     this.completeLines.sort((n1,n2) => n1-n2); // sort array small to large
 
-    for (let row = this.completeLines[0]; row < this.height; row++) {
-      let targetRow = row + linesCleared;
+    for (let row = this.completeLines[0]; row < this.height; row++) {  // clears and pulls down lines
+      let targetRow = row + numLinesToClear;
       if (targetRow < this.height) {
         this.lineOccupancy[row] = this.lineOccupancy[targetRow];
         this.matrix[row] = this.matrix[targetRow];
@@ -120,7 +149,6 @@ export class Grid {
 
     // clean metadata
     this.completeLines = [];
-    return linesCleared;
   }
 
   /**
@@ -147,12 +175,16 @@ export class Grid {
 
   /**
    * Triggers on hard drop input.
+   * Returns the number of cells moved.
    * Drops tetrimino until it lands. TODO: allow slight movement before locking?
    */
-  public harddrop() : void {
+  public harddrop() : number {
+    let cellsMoved = 0;
     while (!this.activeMino.landed) {
       this.fall();
+      cellsMoved += 1;
     }
+    return cellsMoved;
   }
 
   /**

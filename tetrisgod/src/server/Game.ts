@@ -1,6 +1,6 @@
 // server/Game.ts
 
-import {Grid, TetriminoId} from "../Modules";
+import {Grid, Score, TetriminoId} from "../Modules";
 
 export class Game {
   private lastFallTime : number;
@@ -9,9 +9,7 @@ export class Game {
   private activeMino : TetriminoId;
   private nextQueue : Array<TetriminoId>;  // push() onto end of array. shift() from front of array.
   private grid : Grid;
-
-  private score : number;
-  private linesSent : number;
+  private score: Score;
   private time : number;  // millis
   private timeStart : number;
 
@@ -28,8 +26,7 @@ export class Game {
     }
 
     this.grid = new Grid(10, 21);
-    this.score = 0;
-    this.linesSent = 0;
+    this.score = new Score();
     this.time = time;
     this.timeStart = Date.now();
   }
@@ -40,28 +37,30 @@ export class Game {
    * @param socket - user socket object with the action and id params inside of it
    */
   public update(socket : any) : void {
-    if (Date.now() - this.timeStart >= this.time) return; // game should end
+    if (Date.now() - this.timeStart >= this.time) return; // TODO game should end
 
     // Input processing
-    if (socket.action.pressingHold) {
+    if (socket.keyInput.pressingHold) {
       this.hold();
     }
-    else if (socket.action.pressingHardDrop) {
-      this.grid.harddrop();
+    else if (socket.keyInput.pressingHardDrop) {
+      let cellsMoved = this.grid.harddrop();
+      this.score.dropScore("hard",cellsMoved);
     }
-    else if (socket.action.pressingSoftDrop) {
+    else if (socket.keyInput.pressingSoftDrop) {
       this.grid.move("down");
+      this.score.dropScore("soft", 1);
     }
-    else if (socket.action.pressingMoveLeft) {
+    else if (socket.keyInput.pressingMoveLeft) {
       this.grid.move("left");
     }
-    else if (socket.action.pressingMoveRight) {
+    else if (socket.keyInput.pressingMoveRight) {
       this.grid.move("right");
     }
-    else if (socket.action.pressingRotateRight) {
+    else if (socket.keyInput.pressingRotateRight) {
       this.grid.rotate("right");
     }
-    else if (socket.action.pressingRotateLeft) {
+    else if (socket.keyInput.pressingRotateLeft) {
       this.grid.rotate("left");
     }
 
@@ -71,11 +70,15 @@ export class Game {
       this.lastFallTime = Date.now();
     }
 
-    // Landed Check
+    // Landed processing
     if (this.grid.activeMino.landed) {
-      const linesCleared = this.grid.clearCompleteLines();
-      this.updateScore(linesCleared);
-      this.spawnTetrimino();
+      const level = this.grid.getLevel();
+      const isTSpin = this.grid.isTSpin();
+      const linesCleared = this.grid.completeLines.length;
+
+      this.score.update(linesCleared, level, isTSpin);
+      this.grid.clearCompleteLines();
+      this.spawnNextTetrimino();
     }
 
   }
@@ -83,13 +86,14 @@ export class Game {
   /**
    * Spawn the next tetrimino on the grid and update the queue
    */
-  private spawnTetrimino() {
+  private spawnNextTetrimino() {
     const nextMino : TetriminoId | undefined = this.nextQueue.shift();
     if (nextMino == undefined) {
       throw new Error("Next queue empty while trying to spawn tetrimino");
     }
     this.nextQueue.push(this.getRandomTetriminoId());
     this.grid.spawnTetrimino(nextMino);
+    this.activeMino = nextMino;
     this.lastFallTime = Date.now();
   }
 
@@ -112,20 +116,12 @@ export class Game {
     this.activeMino = nextMino;
 
     if (nextMino == TetriminoId.None)
-      this.spawnTetrimino()
+      this.spawnNextTetrimino()
     else {
       this.grid.deleteTetrimino();
       this.grid.spawnTetrimino(nextMino);
       this.lastFallTime = Date.now();
     }
-
-  }
-
-  /**
-   * Updates score and sends lines to opponent
-   */
-  private updateScore(linesCleared: number){
-    // TODO
   }
 
   /**
