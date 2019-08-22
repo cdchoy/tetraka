@@ -22,4 +22,14 @@ do
 		find ./build/ -type f -name '*.js' -delete
 		find ./build/ -type f -name '*.js.map' -delete
 	fi
+
+	if ["$arg" == "heroku"]; then
+		echo "Deploy locally: heroku local web"
+		echo "Deploy to live: git push heroku master"
+		echo "Scale the app: heroku ps:scale web=0"
+		echo "Visit live: heroku open"
+		echo "View inside dyno: heroku run bash"
+		echo "See config vars: heroku config"
+	fi
+
 done

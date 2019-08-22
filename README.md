@@ -40,8 +40,14 @@ tetrisgod
         Modules.ts
             // wrapper for accessing all modules
 
+    .env
+        // Environment variables for heroku app     
+    exec  
+        // contains shortcuts for shell scripts
     node_modules    
         // contains node package files. Managed by npm.
+    Procfile    
+        // heroku deployment scripts
     package.json    
         // node dependencies. Managed by npm.       
     tsconfig.json       
