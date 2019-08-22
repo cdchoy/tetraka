@@ -1,10 +1,13 @@
-
-# Created by https://www.gitignore.io/api/node
-# Edit at https://www.gitignore.io/?templates=node
-
 ## IntelliJ ##
 .idea/
 *.iml
+
+## TetrisGod structure ##
+build/
+
+
+# Created by https://www.gitignore.io/api/node
+# Edit at https://www.gitignore.io/?templates=node
 
 ### Node ###
 # Logs
