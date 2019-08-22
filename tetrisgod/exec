@@ -8,6 +8,11 @@ for arg in "$@"
 do
 	if [[ "$arg" == "help" ]]; then
 		echo "./exec [ setup | build | run | clean | heroku ]"
+		echo "\t setup - install node dependencies"
+		echo "\t build - run tsc to populate build/ dir with relevant js and html files."
+		echo "\t run - run the application"
+		echo "\t clean - clear all files and directories from build directory"
+		echo "\t heroku - list heroku relevant commands for server hosting"
 	fi
 
 	if [[ "$arg" == "setup" ]] || [[ "$arg" == "install" ]]; then
