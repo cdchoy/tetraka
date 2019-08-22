@@ -11,7 +11,7 @@ const port = process.env.PORT || 2000;
 app.set("port", port);
 app.get("/", (request: any, response: any) => {
 	response.sendFile(__dirname + '/client/index.html');
-})
+});
 app.use('/client',express.static(__dirname + '/client'));
 
 const server = new http.Server(app);
@@ -24,8 +24,9 @@ console.log("Server started");
 
 /** SOCKET EVENT HANDLER */
 let SOCKET_LIST : any = {};
+let GAME_LIST : any = {};
 
-var io = require('socket.io') (server,{});
+let io = require('socket.io') (server,{});
 io.socket.on('connection', function(socket:any) {
 	onConnect(socket);
 	socket.on('disconnect', function() { onDisconnect(socket); });
@@ -39,6 +40,7 @@ function onConnect(socket: any) : void {
 	socket.keyInput = keyInput;
 
 	SOCKET_LIST[socket.id] = socket;
+	GAME_LIST[socket.id] = new Game();
 }
 
 function onDisconnect(socket: any) : void {
@@ -64,8 +66,9 @@ function onKeyPress(socket: any) : void {
 /** MAIN FUNCTION
  *  Determines fps and runs every frame */
 setInterval(function() {
-	let game = new Game();  // todo this should be run on setup and not every frame
-	for (let socket in SOCKET_LIST) {
+
+	for (let socket of SOCKET_LIST) {
+		let game = GAME_LIST[socket.id];
 		game.update(socket);
 	}
 },1000/25);  // 25fps

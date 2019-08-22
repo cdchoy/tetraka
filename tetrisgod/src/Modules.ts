@@ -9,3 +9,4 @@ export * from "./server/Game";
 export * from "./server/Score";
 
 export * from "./client/scripts/Pixel";
+export * from "./client/scripts/Settings";

@@ -1,62 +1,17 @@
-<!-- This is kind of our main file for the client -->
+<!DOCTYPE HTML>
 
 <canvas id="ctx" width="500" height="500"></canvas>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-<script src="./scripts/Inputs.ts"></script>
+<script src="./scripts/Inputs.js"></script>
 
-<script>
-	var ctx = document.getElementById("ctx").getContext("2d");
-	ctx.font = "30px Arial";
-	var socket = io();
+<!--DevNote: .js files aren't resolved until build time-->
 
-	// https://keycode.info/
-	document.onkeydown = function(event) {
-	    switch(event.code) {
-        case 37:  // arrowLeft
-            socket.emit('keyPress',{inputId:'moveleft',state:true});
-            break;
-        case 39:  // arrowRight
-            socket.emit('keyPress',{inputId:'moveright',state:true});
-            break;
-        case 38:  // arrowUp
-            socket.emit('keyPress',{inputId:'rotateright',state:true});
-            break;
-        case 40:  // arrowDown
-            socket.emit('keyPress',{inputId:'softdrop',state:true});
-            break;
-        case 32:  // spacebar
-            socket.emit('keyPress',{inputId:'harddrop',state:true});
-            break;
-        case 16:  // shift
-            socket.emit('keyPress',{inputId:'hold',state:true});
-            break;
-        default:
-            // do nothing
-        }
-	};
+<html>
+<head>
+    <title>TetrisGod</title>
+</head>
 
-	document.onkeyup = function(event) {
-        switch(event.code) {
-            case 37:  // arrowLeft
-                socket.emit('keyPress',{inputId:'moveleft',state:false});
-                break;
-            case 39:  // arrowRight
-                socket.emit('keyPress',{inputId:'moveright',state:false});
-                break;
-            case 38:  // arrowUp
-                socket.emit('keyPress',{inputId:'rotateright',state:false});
-                break;
-            case 40:  // arrowDown
-                socket.emit('keyPress',{inputId:'softdrop',state:false});
-                break;
-            case 32:  // spacebar
-                socket.emit('keyPress',{inputId:'harddrop',state:false});
-                break;
-            case 16:  // shift
-                socket.emit('keyPress',{inputId:'hold',state:false});
-                break;
-            default:
-                // do nothing
-        }
-	}
-</script>
+<body>
+Hello World
+</body>
+</html>

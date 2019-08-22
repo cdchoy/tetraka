@@ -25,7 +25,7 @@ do
 	fi
 
 	if [[ "$arg" == "run" ]]; then
-		node ./build/app.js
+	    npm run start
 	fi
 
 	if [[ "$arg" == "clean" ]]; then
