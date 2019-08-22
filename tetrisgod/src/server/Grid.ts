@@ -129,7 +129,7 @@ export class Grid {
   public clearCompleteLines() : void {
     const numLinesToClear = this.completeLines.length;
 
-    if (!numLinesToClear) return 0; // early exit
+    if (!numLinesToClear) return; // early exit
 
     this.completeLines.sort((n1,n2) => n1-n2); // sort array small to large
 

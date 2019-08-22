@@ -1,29 +1,34 @@
 #!/bin/bash
 
+if [[ "$#" < 1 ]]; then
+    echo "No argument given. Run './exec help' for options."
+fi
+
 for arg in "$@"
 do
-	if [ "$arg" == "help" ]; then
-		echo "./exec [setup | build | run | clean]"
+	if [[ "$arg" == "help" ]]; then
+		echo "./exec [ setup | build | run | clean | heroku ]"
 	fi
 
-	if [ "$arg" == "setup" ] || [ "$arg" == "install" ]; then
+	if [[ "$arg" == "setup" ]] || [[ "$arg" == "install" ]]; then
 		npm install
 	fi
 
-	if [ "$arg" == "build" ]; then
+	if [[ "$arg" == "build" ]]; then
 		npm run tsc
+		npm run html
 	fi
 
-	if [ "$arg" == "run" ]; then
+	if [[ "$arg" == "run" ]]; then
 		node ./build/app.js
 	fi
 
-	if [ "$arg" == "clean" ]; then
-		find ./build/ -type f -name '*.js' -delete
-		find ./build/ -type f -name '*.js.map' -delete
+	if [[ "$arg" == "clean" ]]; then
+        rm -r ./build/*
+		echo "Deleted all files from ./build"
 	fi
 
-	if ["$arg" == "heroku"]; then
+	if [[ "$arg" == "heroku" ]]; then
 		echo "Deploy locally: heroku local web"
 		echo "Deploy to live: git push heroku master"
 		echo "Scale the app: heroku ps:scale web=0"

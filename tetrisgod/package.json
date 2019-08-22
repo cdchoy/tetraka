@@ -13,7 +13,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "html": "find ./src -name '*.html' -o -name '*.css' -type f -exec cp -p {} ./build \\;"
   },
   "repository": {
     "type": "git",
