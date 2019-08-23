@@ -37,22 +37,25 @@ document.onkeydown = function(event) {
 
 document.onkeyup = function(event) {
     switch(event.code) {
-    case 37:  // arrowLeft
+    case settings.moveLeftKey:
         socket.emit('keyPress',{inputId:'moveleft',state:false});
         break;
-    case 39:  // arrowRight
+    case settings.moveRightKey:
         socket.emit('keyPress',{inputId:'moveright',state:false});
         break;
-    case 38:  // arrowUp
+    case settings.rotateRightKey:
         socket.emit('keyPress',{inputId:'rotateright',state:false});
         break;
-    case 40:  // arrowDown
+    case settings.rotateLeftKey:
+        socket.emit('keyPress',{inputId:'rotateleft',state:false});
+        break;
+    case settings.softDropKey:
         socket.emit('keyPress',{inputId:'softdrop',state:false});
         break;
-    case 32:  // spacebar
+    case settings.hardDropKey:
         socket.emit('keyPress',{inputId:'harddrop',state:false});
         break;
-    case 16:  // shift
+    case settings.holdKey:
         socket.emit('keyPress',{inputId:'hold',state:false});
         break;
     default:
