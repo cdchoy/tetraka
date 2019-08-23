@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Settings_1 = require("./Settings");
-var ctx = document.getElementById("ctx").getContext("2d");
+var canvas = document.getElementById("ctx");
+var ctx = canvas.getContext("2d");
 ctx.font = "30px Arial";
 var socket = require('socket.io')(80);
 var settings = new Settings_1.Settings;
