@@ -30,16 +30,16 @@ do
 
 	if [[ "$arg" == "clean" ]]; then
         rm -r ./build/*
-		echo "Deleted all files from ./build"
+		echo "Deleted all files from build/"
 	fi
 
 	if [[ "$arg" == "heroku" ]]; then
-		echo "Deploy locally: heroku local web"
-		echo "Deploy to live: git push heroku master"
-		echo "Scale the app: heroku ps:scale web=0"
-		echo "Visit live: heroku open"
-		echo "View inside dyno: heroku run bash"
-		echo "See config vars: heroku config"
+		echo -e "\t Deploy locally: heroku local web"
+		echo -e "\t Deploy to live: git push heroku master"
+		echo -e "\t Scale the app: heroku ps:scale web=0"
+		echo -e "\t Visit live: heroku open"
+		echo -e "\t View inside dyno: heroku run bash"
+		echo -e "\t See config vars: heroku config"
 	fi
 
 done

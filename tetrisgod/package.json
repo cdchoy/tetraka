@@ -1,7 +1,7 @@
 {
   "name": "tetrisgod",
   "version": "1.0.0",
-  "description": "",
+  "description": "An in-browser tetris game",
   "main": "app.js",
   "dependencies": {
     "@types/express": "^4.17.0",
@@ -15,7 +15,7 @@
     "start": "node ./build/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "html": "find ./src -name '*.html' -o -name '*.css' -type f -exec cp -p {} ./build \\;"
+    "html": "rsync -a --include '*/' --include '*.html' --include '*.css' --exclude '*' src/ build/"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   "keywords": [
     "tetris"
   ],
-  "license": "GNU",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/cchoy96/tetrisgod/issues"
   },
