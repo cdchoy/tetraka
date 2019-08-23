@@ -2,8 +2,10 @@
 
 import { Settings } from "./Settings";
 
-let ctx : any = document.getElementById("ctx").getContext("2d");
+let canvas : any = document.getElementById("ctx");
+let ctx : any = canvas.getContext("2d");
 ctx.font = "30px Arial";
+
 let socket  = require('socket.io') (80);
 let settings = new Settings;
 
