@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node ./build/app.js",
+    "start": "node build/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "html": "rsync -a --include '*/' --include '*.html' --include '*.css' --exclude '*' src/ build/"
