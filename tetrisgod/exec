@@ -17,6 +17,7 @@ do
 
 	if [[ "$arg" == "setup" ]] || [[ "$arg" == "install" ]]; then
 		npm install
+		npm ci
 	fi
 
 	if [[ "$arg" == "build" ]]; then
