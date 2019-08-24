@@ -33,12 +33,9 @@ var Grid = (function () {
         return true;
     };
     Grid.prototype.updatePosition = function (newOrigin, newPosition) {
-        for (var _i = 0, _a = this.currPosition; _i < _a.length; _i++) {
-            var _b = _a[_i], row = _b[0], col = _b[1];
-            this.matrix[row][col] = Modules_1.TetriminoId.None;
-        }
-        for (var _c = 0, newPosition_1 = newPosition; _c < newPosition_1.length; _c++) {
-            var _d = newPosition_1[_c], row = _d[0], col = _d[1];
+        this.deleteTetrimino();
+        for (var _i = 0, newPosition_1 = newPosition; _i < newPosition_1.length; _i++) {
+            var _a = newPosition_1[_i], row = _a[0], col = _a[1];
             this.matrix[row][col] = this.activeMino.id;
         }
         this.currPosition = newPosition;

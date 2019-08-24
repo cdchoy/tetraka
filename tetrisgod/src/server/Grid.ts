@@ -54,9 +54,7 @@ export class Grid {
    * @param newPosition
    */
   private updatePosition(newOrigin: coordinate, newPosition : Array<coordinate>) {
-    for (let [row,col] of this.currPosition) {
-      this.matrix[row][col] = TetriminoId.None;
-    }
+    this.deleteTetrimino();
     for (let [row,col] of newPosition) {
       this.matrix[row][col] = this.activeMino.id;
     }

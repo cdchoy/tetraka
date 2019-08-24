@@ -1,13 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ScoreAction;
-(function (ScoreAction) {
-    ScoreAction[ScoreAction["None"] = 0] = "None";
-    ScoreAction[ScoreAction["Single"] = 1] = "Single";
-    ScoreAction[ScoreAction["Double"] = 2] = "Double";
-    ScoreAction[ScoreAction["Triple"] = 3] = "Triple";
-    ScoreAction[ScoreAction["Tetris"] = 4] = "Tetris";
-})(ScoreAction || (ScoreAction = {}));
 var Score = (function () {
     function Score() {
         this.back2backTetris = false;

@@ -5,7 +5,7 @@ const usertagLength = 4;
 export class User {
 	private name 	 : string = "Alexey Pajitnov";
 	private email	 : string;  // unique identifier
-	private socketid : string;
+	private socketid : number;
 
 	private username : string = "TetrisGod";
 	private usertag  : string = "#0123";
@@ -48,5 +48,4 @@ export class User {
 
 		return tag;
 	}
-
 }

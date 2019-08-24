@@ -1,13 +1,5 @@
 // server/Score
 
-enum ScoreAction {
-    None = 0,
-    Single = 1,
-    Double = 2,
-    Triple = 3,
-    Tetris = 4,
-}
-
 export class Score {
     private back2backTetris: boolean;
     private back2backTSpin: boolean;

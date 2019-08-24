@@ -86,7 +86,7 @@ export class Game {
   /**
    * Spawn the next tetrimino on the grid and update the queue
    */
-  private spawnNextTetrimino() {
+  private spawnNextTetrimino() : void {
     const nextMino : TetriminoId | undefined = this.nextQueue.shift();
     if (nextMino == undefined) {
       throw new Error("Next queue empty while trying to spawn tetrimino");
