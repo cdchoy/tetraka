@@ -27,8 +27,7 @@ let SOCKET_LIST : any = {};
 let GAME_LIST : any = {};
 
 let io : any = require('socket.io') (server,{});
-let socket = io.socket;
-socket.on('connection', function(socket:any) {
+io.socket.on('connection', function(socket:any) {
 	onConnect(socket);
 	socket.on('disconnect', function() { onDisconnect(socket); });
 	socket.on('keyPress', function() { onKeyPress(socket); })

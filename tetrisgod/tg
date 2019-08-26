@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [[ "$#" < 1 ]]; then
-    echo "No argument given. Run './tg help' for options."
+    echo -e "\033[31m No argument given. Run './tg help' for options. \033[0m"
 fi
 
 for arg in "$@"
 do
 	if [[ "$arg" == "help" ]]; then
-		echo -e "./tg [ setup | build | run | clean | heroku ]"
+		echo -e "\033[96m./tg [ setup | build | run | clean | heroku ] \033[0m"
 		echo -e "\t setup - install node dependencies"
 		echo -e "\t build - run tsc to populate build/ dir with relevant js and html files."
 		echo -e "\t run - run the application"
@@ -31,7 +31,7 @@ do
 
 	if [[ "$arg" == "clean" ]]; then
         rm -r ./build/*
-		echo -e "\e[32m Deleted all files from build/"
+		echo -e "\033[92mDeleted all files from build/ \033[0m"
 	fi
 
 	if [[ "$arg" == "heroku" ]]; then
