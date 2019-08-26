@@ -26,8 +26,8 @@ console.log("Server started");
 let SOCKET_LIST : any = {};
 let GAME_LIST : any = {};
 
-let io : any = require('socket.io') (server,{});
-io.socket.on('connection', function(socket:any) {
+let io = require('socket.io') (server,{});
+io.on('connection', function(socket:any) {
 	onConnect(socket);
 	socket.on('disconnect', function() { onDisconnect(socket); });
 	socket.on('keyPress', function() { onKeyPress(socket); })
