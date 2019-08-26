@@ -3,7 +3,7 @@
 
 import express from "express";
 import http from "http";
-import {User, Input, Game} from "./Modules";
+import { Input, Game} from "./Modules";
 
 /** SERVER INITIALIZATION */
 const app = express();
