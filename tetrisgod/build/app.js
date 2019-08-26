@@ -21,7 +21,8 @@ console.log("Server started");
 var SOCKET_LIST = {};
 var GAME_LIST = {};
 var io = require('socket.io')(server, {});
-io.socket.on('connection', function (socket) {
+var socket = io.socket;
+socket.on('connection', function (socket) {
     onConnect(socket);
     socket.on('disconnect', function () { onDisconnect(socket); });
     socket.on('keyPress', function () { onKeyPress(socket); });
@@ -52,9 +53,9 @@ function onKeyPress(socket) {
 }
 setInterval(function () {
     for (var _i = 0, SOCKET_LIST_1 = SOCKET_LIST; _i < SOCKET_LIST_1.length; _i++) {
-        var socket = SOCKET_LIST_1[_i];
-        var game = GAME_LIST[socket.id];
-        game.update(socket);
+        var socket_1 = SOCKET_LIST_1[_i];
+        var game = GAME_LIST[socket_1.id];
+        game.update(socket_1);
     }
 }, 1000 / 25);
 //# sourceMappingURL=app.js.map

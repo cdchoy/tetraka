@@ -31,7 +31,7 @@ do
 
 	if [[ "$arg" == "clean" ]]; then
         rm -r ./build/*
-		echo "Deleted all files from build/"
+		echo -e "\e[32m Deleted all files from build/"
 	fi
 
 	if [[ "$arg" == "heroku" ]]; then
