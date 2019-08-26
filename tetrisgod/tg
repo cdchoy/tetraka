@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [[ "$#" < 1 ]]; then
-    echo "No argument given. Run './exec help' for options."
+    echo "No argument given. Run './tg help' for options."
 fi
 
 for arg in "$@"
 do
 	if [[ "$arg" == "help" ]]; then
-		echo -e "./exec [ setup | build | run | clean | heroku ]"
+		echo -e "./tg [ setup | build | run | clean | heroku ]"
 		echo -e "\t setup - install node dependencies"
 		echo -e "\t build - run tsc to populate build/ dir with relevant js and html files."
 		echo -e "\t run - run the application"
