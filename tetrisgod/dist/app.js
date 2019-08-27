@@ -12,7 +12,7 @@ app.set("port", port);
 app.get("/", function (request, response) {
     response.sendFile(__dirname + '/client/index.html');
 });
-app.use('/client', express_1.default.static(__dirname + '/client'));
+app.use(express_1.default.static(__dirname + '/client'));
 var server = new http_1.default.Server(app);
 server.listen(port, function () {
     console.log("listening on " + port);
@@ -57,4 +57,3 @@ setInterval(function () {
         game.update(socket);
     }
 }, 1000 / 25);
-//# sourceMappingURL=app.js.map

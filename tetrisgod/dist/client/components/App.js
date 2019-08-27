@@ -14,4 +14,3 @@ function App() {
         react_1.default.createElement(Footer_1.default, null)));
 }
 exports.default = App;
-//# sourceMappingURL=App.js.map

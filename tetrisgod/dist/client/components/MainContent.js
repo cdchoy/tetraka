@@ -10,4 +10,3 @@ function MainContent() {
         react_1.default.createElement("p", null, "This is a paragraph! Now we can type stuff.")));
 }
 exports.default = MainContent;
-//# sourceMappingURL=MainContent.js.map

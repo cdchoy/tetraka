@@ -12,4 +12,3 @@ function Header() {
             react_1.default.createElement("li", null, "3"))));
 }
 exports.default = Header;
-//# sourceMappingURL=Header.js.map

@@ -10,4 +10,3 @@ var Pixel = (function () {
     return Pixel;
 }());
 exports.Pixel = Pixel;
-//# sourceMappingURL=Pixel.js.map

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Settings_1 = require("./Settings");
+var UserSettings_1 = require("./UserSettings");
 var canvas = document.getElementById("ctx");
 var ctx = canvas.getContext("2d");
 ctx.font = "30px Arial";
 var socket = require('socket.io')(80);
-var settings = new Settings_1.Settings;
+var settings = new UserSettings_1.UserSettings;
 document.onkeydown = function (event) {
     switch (event.code) {
         case settings.moveLeftKey:
@@ -58,4 +58,3 @@ document.onkeyup = function (event) {
         default:
     }
 };
-//# sourceMappingURL=Input.js.map

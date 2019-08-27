@@ -1,6 +1,6 @@
-// server/Settings.ts
+// server/UserSettings.tss.ts
 
-export class Settings {
+export class UserSettings {
     /* Key Codes - https://keycode.info/ */
     public moveRightKey  : string = "39";  // rightArrow
     public moveLeftKey   : string = "37";  // leftArrow

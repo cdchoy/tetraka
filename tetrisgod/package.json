@@ -9,17 +9,21 @@
     "@types/react-dom": "^16.9.0",
     "@types/socket.io": "^2.1.2",
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "socket.io": "^2.2.0",
-    "typescript": "^3.5.3"
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node build/app.js",
+    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "html": "rsync -a --include '*/' --include '*.html' --include '*.css' --exclude '*' src/ build/"
+    "html": "rsync -a --include '*/' --include '*.html' --include '*.css' --exclude '*' src/ dist/"
   },
   "repository": {
     "type": "git",

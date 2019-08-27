@@ -1,13 +1,13 @@
 // client/scripts/Input.ts
 
-import { Settings } from "./Settings";
+import {UserSettings} from "./UserSettings";
 
 let canvas : any = document.getElementById("ctx");
 let ctx : any = canvas.getContext("2d");
 ctx.font = "30px Arial";
 
 let socket  = require('socket.io') (80);
-let settings = new Settings;
+let settings = new UserSettings;
 
 document.onkeydown = function(event) {
     switch(event.code) {
@@ -63,4 +63,4 @@ document.onkeyup = function(event) {
     default:
     // do nothing
     }
-}
+};

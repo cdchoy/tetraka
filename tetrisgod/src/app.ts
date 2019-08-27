@@ -12,7 +12,7 @@ app.set("port", port);
 app.get("/", (request: any, response: any) => {
 	response.sendFile(__dirname + '/client/index.html');
 });
-app.use('/client',express.static(__dirname + '/client'));
+app.use(express.static(__dirname + '/client'));
 
 const server = new http.Server(app);
 server.listen(port, function() {

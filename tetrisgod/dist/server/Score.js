@@ -75,4 +75,3 @@ var Score = (function () {
     return Score;
 }());
 exports.Score = Score;
-//# sourceMappingURL=Score.js.map

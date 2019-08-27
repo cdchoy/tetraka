@@ -117,4 +117,3 @@ var T_RIGHT = [[0, 1], [1, 1], [1, 2], [2, 1]];
 var T_DOWN = [[0, 1], [1, 0], [1, 1], [1, 2]];
 var T_LEFT = [[0, 1], [1, 0], [1, 1], [2, 1]];
 var O_ALL = [[0, 0], [0, 1], [1, 0], [1, 1]];
-//# sourceMappingURL=Tetrimino.js.map
