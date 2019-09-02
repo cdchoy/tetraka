@@ -1,4 +1,4 @@
-// tetrisgod/src/app.ts
+// tetrisgod/src/serverver.ts
 // Main entrypoint for our application
 
 import express from "express";
@@ -6,15 +6,15 @@ import http from "http";
 import { Input, Game} from "./Modules";
 
 /** SERVER INITIALIZATION */
-const app = express();
+const server = express();
 const port = process.env.PORT || 2000;
-app.set("port", port);
-app.get("/", (request: any, response: any) => {
+server.set("port", port);
+server.get("/", (request: any, response: any) => {
 	response.sendFile(__dirname + '/client/index.html');
 });
-app.use(express.static(__dirname + '/client'));
+server.use(express.static(__dirname + '/client'));
 
-const server = new http.Server(app);
+const server = new http.Server(server);
 server.listen(port, function() {
 	console.log("listening on " + port);
 });

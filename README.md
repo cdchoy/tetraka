@@ -35,13 +35,13 @@ tetrisgod
             ts  
         server      
             // server files not accessible by user  
-        app.ts  
+        server.ts.ts  
             // entrypoint for out application.   
         Modules.ts
             // wrapper for accessing all modules
 
     .env
-        // Environment variables for heroku app     
+        // Environment variables for heroku server     
     exec  
         // contains shortcuts for shell scripts
     node_modules    
