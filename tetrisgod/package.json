@@ -28,5 +28,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cchoy96/tetrisgod.git"
+  },
+  "keywords": [
+    "tetris"
+  ],
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/cchoy96/tetrisgod/issues"
+  },
+  "homepage": "https://github.com/cchoy96/tetrisgod#readme"
 }
