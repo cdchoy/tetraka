@@ -1,4 +1,4 @@
-// tetrisgod/src/serverver.ts
+// tetrisgod/src/serverMain.ts
 // Main entrypoint for our application
 
 import express from "express";
@@ -51,7 +51,7 @@ function onKeyPress(socket: any) : void {
 	if (socket.data.inputId === 'moveleft')
 		socket.keyInput.pressingMoveLeft = socket.data.state;
 	else if (socket.data.inputId === 'rotateright')
-		socket.keyInput.pressingRotateRight = socket.data.state
+		socket.keyInput.pressingRotateRight = socket.data.state;
 	else if (socket.data.inputId === 'moveright')
 		socket.keyInput.pressingMoveRight = socket.data.state;
 	else if (socket.data.inputId === 'softdrop')
