@@ -1,6 +1,6 @@
 // server/Tetrimino.ts
 
-import { coordinate } from "../Modules"
+import { coordinate } from "./Modules"
 
 export enum TetriminoId {
   None   = 0,

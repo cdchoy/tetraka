@@ -1,6 +1,6 @@
 // server/Game.ts
 
-import {Grid, Score, TetriminoId} from "../Modules";
+import {Grid, Score, TetriminoId} from "./Modules";
 
 export class Game {
   private lastFallTime : number;

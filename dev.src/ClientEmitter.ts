@@ -1,4 +1,4 @@
-// client/scripts/Input.ts
+// client/scripts/ClientEmitter.ts
 
 import {UserSettings} from "./UserSettings";
 

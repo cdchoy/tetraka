@@ -1,6 +1,6 @@
 // client/scripts/Pixel.ts
 
-import {TetriminoId} from "../../Modules"
+import {TetriminoId} from "./Modules"
 
 export class Pixel {
 	color : string = "empty";

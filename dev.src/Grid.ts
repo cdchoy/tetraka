@@ -1,6 +1,6 @@
 // server/Grid2d.ts
 
-import {Tetrimino, TetriminoId} from "../Modules"
+import {Tetrimino, TetriminoId} from "./Modules"
 
 export type coordinate = [number, number];  // row,col
 
