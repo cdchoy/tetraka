@@ -1,5 +1,4 @@
 import React from "react"
-import logo from "./logo.svg";
 
 class Header extends React.Component {
     constructor() {
@@ -17,12 +16,6 @@ class Header extends React.Component {
                         <li className="NavItem"><a href="/" className="NavItemText">About</a></li>
                     </ul>
                 </nav>
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <p>
-                        Under Development. Pardon our mess.
-                    </p>
-                </header>
             </div>
         )
     }
