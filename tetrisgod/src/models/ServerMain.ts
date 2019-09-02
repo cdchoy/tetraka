@@ -6,15 +6,15 @@ import http from "http";
 import { Input, Game} from "./Modules";
 
 /** SERVER INITIALIZATION */
-const server = express();
+const serv = express();
 const port = process.env.PORT || 2000;
-server.set("port", port);
-server.get("/", (request: any, response: any) => {
+serv.set("port", port);
+serv.get("/", (request: any, response: any) => {
 	response.sendFile(__dirname + '/client/index.html');
 });
-server.use(express.static(__dirname + '/client'));
+serv.use(express.static(__dirname + '/client'));
 
-const server = new http.Server(server);
+const server = new http.Server(serv);
 server.listen(port, function() {
 	console.log("listening on " + port);
 });
