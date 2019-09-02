@@ -16,7 +16,7 @@
   "scripts": {
     "start": "HOST=localhost react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"

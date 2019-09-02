@@ -35,7 +35,7 @@ tetrisgod
             ts  
         server      
             // server files not accessible by user  
-        server.ts.ts  
+        ServerMain.ts.ts  
             // entrypoint for out application.   
         Modules.ts
             // wrapper for accessing all modules
