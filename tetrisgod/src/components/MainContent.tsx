@@ -1,6 +1,6 @@
 import React from "react"
 
-function MainContent() {
+const MainContent: React.FC = () => {
     return (
         <div>
             <h1>TetrisGod</h1>
@@ -9,6 +9,6 @@ function MainContent() {
             </p>
         </div>
     )
-}
+};
 
 export default MainContent

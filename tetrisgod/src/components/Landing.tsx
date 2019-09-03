@@ -1,8 +1,10 @@
 
 import React from "react"
 import logo from "../logo.svg";
+import '../css/App.css';
 
-function Landing() {
+
+const Landing: React.FC = () => {
     return (
         <div>
             <header className="App-header">
@@ -13,4 +15,6 @@ function Landing() {
             </header>
         </div>
     )
-}
+};
+
+export default Landing
