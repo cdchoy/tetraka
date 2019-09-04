@@ -1,6 +1,7 @@
-
 import React from 'react';
 import '../css/App.css';
+import logo from "../logo.svg";
+import MyNavbar from "./MyNavbar";
 
 type AppState = {
     location: string
@@ -16,18 +17,14 @@ class App extends React.Component<{},AppState> {
 
     render() {
         return (
-            <div>
-                <header>
-                    This is my website!
+            <div className="App">
+                <MyNavbar/>
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <p>
+                        Under Development. Pardon our mess.
+                    </p>
                 </header>
-
-                <main>
-                    {this.props.children}
-                </main>
-
-                <footer>
-                    Your copyright message
-                </footer>
             </div>
         );
     }
@@ -41,7 +38,7 @@ export default App;
 //             content = (
 //                 <div>
 //                     <MyNavbar />
-//                     <LandingPage />
+//                     <HomePage />
 //                     <Footer />
 //                 </div>
 //             );
