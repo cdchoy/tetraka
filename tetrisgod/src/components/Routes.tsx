@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route } from 'react-router';
 import App from "./App";
 import LandingPage from "./LandingPage";
 import PlayPage from "./PlayPage";
@@ -12,7 +12,7 @@ import AboutPage from "./AboutPage";
  */
 export default (
     <Route path="/" component={App}>
-        <IndexRoute component={LandingPage} />
+        <Route exact path="/" component={LandingPage} />
         <Route path="/play" component={PlayPage} />
         <Route path="/about" component={AboutPage} />
     </Route>

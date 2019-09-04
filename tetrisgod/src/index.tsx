@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, hashHistory as history } from 'react-router';
+import { Router } from 'react-router';
+import { HashRouter as history } from "react-router-dom"
 import './css/index.css';
-import App from "./components/App"
-import routes from './components/routes';
+import routes from './components/Routes';
 
 import * as serviceWorker from './serviceWorker';
 
