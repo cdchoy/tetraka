@@ -1,32 +1,24 @@
 import React from "react"
-import NavbarItem from "./NavbarItem"
-import App from "./App";
-import {Redirect, Route, Switch} from "react-router";
+import {Route} from "react-router";
 import HomePage from "./HomePage";
-import PlayPage from "./PlayPage";
 import AboutPage from "./AboutPage";
+import {Link} from "react-router-dom";
 
 const MyNavbar: React.FC = () => {
     return (
-        <div>
-            <nav>
-                <ul className="Navbar">
-                    <NavbarItem text={"Home"} target={"/home"}/>
-                    <NavbarItem text={"Play"} target={"/play"}/>
-                    <NavbarItem text={"Leaderboards"} target={"/"}/>
-                    <NavbarItem text={"About"} target={"/AboutPage"}/>
-                    <NavbarItem text={"Profile"} target={"/"}/>
+        <header>
+            <div className="Navbar">
+                <ul>
+                    <li className="NavItem"> <Link to="/home" className="NavItemText">Home</Link> </li>
+                    <li className="NavItem"> <Link to="/about" className="NavItemText">About</Link> </li>
                 </ul>
-            </nav>
-
-            <Switch>
-                <Route exact path="/" component={App} />
-                <Route exact path="/home" component={HomePage} />
-                <Route path="/play" component={PlayPage} />
-                <Route path="/about" component={AboutPage} />
-                <Redirect to="/"/>
-            </Switch>
-        </div>
+            </div>
+            <div className="App-intro">
+                <Route exact path="/" component={HomePage}/>
+                <Route path="/home" component={HomePage}/>
+                <Route path="/about" component={AboutPage}/>
+            </div>
+        </header>
     )
 };
 
