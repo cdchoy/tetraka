@@ -10,6 +10,7 @@ const LandingPage: React.FC = () => {
                 <h1>Welcome to TetrisGod</h1>
                 <Link to={"/home"} className="NavItemText"> Click here to Begin </Link>
             </div>
+            <p>(this page will just be a place for us to flex our css skills and impress newcomers)</p>
         </div>
     )
 };
