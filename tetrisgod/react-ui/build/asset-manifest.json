@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/cchoy96/tetrisgod/static/css/main.e0af6f48.chunk.css",
+    "main.js": "/cchoy96/tetrisgod/static/js/main.8101fc3b.chunk.js",
+    "main.js.map": "/cchoy96/tetrisgod/static/js/main.8101fc3b.chunk.js.map",
+    "runtime~main.js": "/cchoy96/tetrisgod/static/js/runtime~main.48b8c498.js",
+    "runtime~main.js.map": "/cchoy96/tetrisgod/static/js/runtime~main.48b8c498.js.map",
+    "static/js/2.589e0746.chunk.js": "/cchoy96/tetrisgod/static/js/2.589e0746.chunk.js",
+    "static/js/2.589e0746.chunk.js.map": "/cchoy96/tetrisgod/static/js/2.589e0746.chunk.js.map",
+    "index.html": "/cchoy96/tetrisgod/index.html",
+    "precache-manifest.0f8d70397261aa34a6ae5e1bb0fd205c.js": "/cchoy96/tetrisgod/precache-manifest.0f8d70397261aa34a6ae5e1bb0fd205c.js",
+    "service-worker.js": "/cchoy96/tetrisgod/service-worker.js",
+    "static/css/main.e0af6f48.chunk.css.map": "/cchoy96/tetrisgod/static/css/main.e0af6f48.chunk.css.map",
+    "static/media/logo.svg": "/cchoy96/tetrisgod/static/media/logo.5d5d9eef.svg"
+  }
+}
