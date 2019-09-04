@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-
-git subtree push --prefix build heroku master
+npm run build
+cd ..
+git subtree push --prefix tetrisgod/build heroku master
+cd tetrisgod/
