@@ -1,6 +1,6 @@
 import React from "react"
 import '../css/App.css';
-import MyNavbar from "./MyNavbar";
+import Navbar from "./Navbar";
 import PlayContainer from "./PlayContainer";
 import Footer from "./Footer";
 
@@ -8,7 +8,7 @@ import Footer from "./Footer";
 const PlayPage: React.FC = () => {
     return (
         <div>
-            <MyNavbar/>
+            <Navbar/>
             <PlayContainer/>
             <Footer/>
         </div>

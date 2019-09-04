@@ -4,7 +4,7 @@ import HomePage from "./HomePage";
 import AboutPage from "./AboutPage";
 import {Link} from "react-router-dom";
 
-const MyNavbar: React.FC = () => {
+const Navbar: React.FC = () => {
     return (
         <header>
             <div className="Navbar">
@@ -22,4 +22,4 @@ const MyNavbar: React.FC = () => {
     )
 };
 
-export default MyNavbar
+export default Navbar
