@@ -6,53 +6,55 @@ Chris Choy (contact@chrischoy.net)
 Cole Koester (cole.koester@tufts.edu)  
 Cameron Diperna ()  
 Mollie Wild ()  
-Michael Goldsmith ()  
+
+# Running the Code
+
+`npm install` - used for installing/updating modules. writes to package & package-lock.json.  
+`npm ci` - install module dependencies determined by package & package-lock.json  
+`npm start` - compiles and runs app on localhost  
+`npm run test` - runs unit and integration tests  
+`npm run build` - builds the optimized application artifact for production deployment.  
 
 # Design
 
-TetrisGod utilizes Typescript running on Node.js to fulfill its server and backend code requirements. Angular is used to fulfill the user interface requirements. The entire application must be built following HTML5 standards without the aid of Flash (deprecated as of 2020) or other browser plugins.
+TetrisGod utilizes Typescript running on Node.js to fulfill its server and backend code 
+requirements. ReactJS is used to fulfill the user interface requirements. The entire 
+application must be built following HTML5 standards without the aid of Flash (deprecated 
+as of 2020) or other browser plugins.
+
+Under the hood, TetrisGod is a single page browser application. That is, all content is 
+accessed and updated on the index.html page. We simulate a multi-page application by 
+changing the location state in the main App component and rendering different components 
+onto the page accordingly. In the future, we may find it more practical to have multiple 
+html pages that we interchange between.
 
 ### Abbreviations & Definitions
 
-js - JavaScript     
-ts - TypeScript
-npm - Node Package Manager  
-tsc - TypeScript Compiler
+`js` - JavaScript     
+`ts` - TypeScript  
+`npm` - Node Package Manager  
+`tsc` - TypeScript Compiler  
+`.tsx` - Typescript + XML file for React
 
-## File Structure
+### File Structure
 
-Run the commmand '$ npm run tsc' within the tetrisgod/tetrisgod/ directory to compile the .ts files into their Javascript forms within the build/ directory.
-
+```$xslt
 tetrisgod  
-    build
-        // contains compiled .ts -> .js files. Managed by tsc.  
-
-    src
-        // contains uncompiled .ts files    
-        client
-            // client (user) accessible files   
-            img     
-            ts  
-        server      
-            // server files not accessible by user  
-        app.ts  
-            // entrypoint for out application.   
-        Modules.ts
-            // wrapper for accessing all modules
-
-    .env
-        // Environment variables for heroku app     
-    exec  
-        // contains shortcuts for shell scripts
-    node_modules    
-        // contains node package files. Managed by npm.
-    Procfile    
-        // heroku deployment scripts
-    package.json    
-        // node dependencies. Managed by npm.       
-    tsconfig.json       
-        // config file for tsc.     
-
+| node_modules/ - node dependency modules. managed by npm.  
+| public/ - files accessible on client side.  
+	| imgs/    
+	| index.html
+	| manifest.json - specifies installation metadata  
+	| robots.txt - specifies robot access preferences
+| src/ - business logic and react files.  
+	| components/ - React components/containers  
+	| css/
+	| models/ - business logic files
+	| test/ - testing scripts  
+| package.json - npm config.  
+| package-lock.json - tracks precise dependency versions for reinstalls. 
+| tsconfig.json - tsc config for typescript transpiler.
+```
 
 ### Tetrimino Names
 
