@@ -2,7 +2,7 @@
 import React from "react"
 import NavbarItem from "./NavbarItem"
 
-const Navbar: React.FC = () => {
+const MyNavbar: React.FC = () => {
     return (
         <div>
             <nav>
@@ -18,4 +18,4 @@ const Navbar: React.FC = () => {
     )
 };
 
-export default Navbar
+export default MyNavbar
