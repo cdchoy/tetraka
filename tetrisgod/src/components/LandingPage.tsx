@@ -3,7 +3,7 @@ import '../css/App.css';
 import logo from "../logo.svg";
 
 
-const HomePage: React.FC = () => {
+const LandingPage: React.FC = () => {
     return (
         <div className="App">
             <div className="App-header">
@@ -14,4 +14,4 @@ const HomePage: React.FC = () => {
     )
 };
 
-export default HomePage
+export default LandingPage
