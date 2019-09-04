@@ -25,8 +25,7 @@ as of 2020) or other browser plugins.
 Under the hood, TetrisGod is a single page browser application. That is, all content is 
 accessed and updated on the index.html page. We simulate a multi-page application by 
 changing the location state in the main App component and rendering different components 
-onto the page accordingly. In the future, we may find it more practical to have multiple 
-html pages that we interchange between.
+onto the page accordingly.
 
 ### Abbreviations & Definitions
 
@@ -49,6 +48,7 @@ tetrisgod
 | src/ - business logic and react files.  
 	| components/ - React components/containers  
 	| css/
+	| imgs/
 	| models/ - business logic files
 	| test/ - testing scripts  
 | package.json - npm config.  
