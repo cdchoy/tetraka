@@ -1,49 +1,25 @@
 import React from 'react';
 import '../css/App.css';
-import Navbar from "./Navbar"
-import MainContent from "./MainContent";
-import Footer from "./Footer";
-import Landing from "./Landing"
+import {Route} from "react-router";
+import TodoPage from "./TodoPage";
+import HomePage from "./HomePage";
+import PlayPage from "./PlayPage";
+import AboutPage from "./AboutPage";
+import LandingPage from "./LandingPage";
 
-type AppState = {
-    location: string
-}
 
-class App extends React.Component<{},AppState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            location: "landing"
-        };
-    }
-
-    render() {
-        let content;
-        switch (this.state.location) {
-            case "landing":
-                content = (
-                    <div>
-                        <Navbar />
-                        <Landing />
-                        <Footer />
-                    </div>
-                );
-                break;
-            case "play":
-                content = (
-                    <div>
-                        <Navbar />
-                        <MainContent />
-                        <Footer />
-                    </div>
-                );
-                break;
-            default:
-                content = (<h1>Error: Unknown page location access</h1>);
-        }
-
-        return content;
-    }
-}
+const App = () => {
+    return (
+        <div>
+            <div className="App-intro">
+                <Route exact path="/" component={LandingPage}/>
+                <Route path="/home" component={HomePage}/>
+                <Route path="/play" component={PlayPage}/>
+                <Route path="/leaderboards" component={TodoPage}/>
+                <Route path="/about" component={AboutPage}/>
+            </div>
+        </div>
+    );
+};
 
 export default App;
