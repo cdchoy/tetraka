@@ -1,7 +1,8 @@
+
 import React from 'react';
 import '../css/App.css';
 import Navbar from "./Navbar"
-import MainContent from "./MainContent";
+import PlayContainer from "./PlayContainer";
 import Footer from "./Footer";
 import Landing from "./Landing"
 
@@ -33,7 +34,7 @@ class App extends React.Component<{},AppState> {
                 content = (
                     <div>
                         <Navbar />
-                        <MainContent />
+                        <PlayContainer />
                         <Footer />
                     </div>
                 );

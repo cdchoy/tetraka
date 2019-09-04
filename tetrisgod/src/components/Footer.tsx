@@ -1,3 +1,4 @@
+
 import React, {CSSProperties} from "react"
 
 const Footer: React.FC = () => {

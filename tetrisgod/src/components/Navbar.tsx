@@ -1,18 +1,21 @@
+
 import React from "react"
+import NavbarItem from "./NavbarItem"
 
 const Navbar: React.FC = () => {
     return (
         <div>
             <nav>
                 <ul className="Navbar">
-                    <li className="NavItem"><a href="/" className="NavItemText">Home</a></li>
-                    <li className="NavItem"><a href="/" className="NavItemText">Play</a></li>
-                    <li className="NavItem"><a href="/" className="NavItemText">Leaderboards</a></li>
-                    <li className="NavItem"><a href="/" className="NavItemText">About</a></li>
+                    <NavbarItem text={"Home"} target={"/"}/>
+                    <NavbarItem text={"PlayContainer"} target={"/"}/>
+                    <NavbarItem text={"Leaderboards"} target={"/"}/>
+                    <NavbarItem text={"About"} target={"/"}/>
+                    <NavbarItem text={"Profile"} target={"/"}/>
                 </ul>
             </nav>
         </div>
     )
-}
+};
 
 export default Navbar

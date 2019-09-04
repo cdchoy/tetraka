@@ -1,6 +1,7 @@
+
 import React from "react"
 
-const MainContent: React.FC = () => {
+const PlayContainer: React.FC = () => {
     return (
         <div>
             <h1>TetrisGod</h1>
@@ -11,4 +12,4 @@ const MainContent: React.FC = () => {
     )
 };
 
-export default MainContent
+export default PlayContainer
