@@ -9,7 +9,7 @@ Mollie Wild ()
 
 # Running the Code
 
-`npm install` - used for installing/updating modules. writes to package & package-lock.json.  
+`npm install package-name --save` - install new modules. writes to package & package-lock.json.  
 `npm ci` - install module dependencies determined by package & package-lock.json  
 `npm start` - compiles and runs app on localhost  
 `npm run test` - runs unit and integration tests  

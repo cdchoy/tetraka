@@ -21,8 +21,8 @@
   },
   "scripts": {
     "start": "HOST=localhost react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test"
+    "build": "../node_modules/.bin/react-scripts build",
+    "test": "../node_modules/.bin/react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
