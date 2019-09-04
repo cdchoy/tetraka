@@ -1,5 +1,5 @@
 import React from "react"
-import logo from "../tblock.png";
+import logo from "../imgs/tblock.png";
 import {Link} from "react-router-dom";
 
 const LandingPage: React.FC = () => {
