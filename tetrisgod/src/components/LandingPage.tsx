@@ -1,14 +1,14 @@
 import React from "react"
-import '../css/App.css';
-import logo from "../logo.svg";
-
+import logo from "../tblock.png";
+import {Link} from "react-router-dom";
 
 const LandingPage: React.FC = () => {
     return (
         <div className="App">
-            <div className="App-header">
+            <div className="LandingPage">
                 <img src={logo} className="App-logo" alt="logo" />
-                <p>Under Development. Pardon our mess.</p>
+                <h1>Welcome to TetrisGod</h1>
+                <Link to={"/home"} className="NavItemText"> Click here to Begin </Link>
             </div>
         </div>
     )
