@@ -1,16 +1,16 @@
 import {Input} from "./Input";
 import {Game} from "./Game";
 
-let SOCKET_LIST = {};
-let GAME_LIST = {};
+let SOCKET_LIST : any = {};
+let GAME_LIST : any = {};
 
-function socketListener(client) {
+function socketListener(client: any) {
     onConnect(client);
     client.on('disconnect', () => { onDisconnect(client); });
     client.on('keyPress', () => { onKeyPress(client); })
 }
 
-const onConnect = (socket) => {
+const onConnect = (socket: any) => {
     socket.id = Math.random();
     socket.keyInput = new Input();
 
@@ -18,11 +18,11 @@ const onConnect = (socket) => {
     GAME_LIST[socket.id] = new Game();
 };
 
-const onDisconnect = (socket) => {
+const onDisconnect = (socket: any) => {
     delete SOCKET_LIST[socket.id];
 };
 
-const onKeyPress = (socket) => {
+const onKeyPress = (socket: any) => {
     console.log("KEY PRESSED!");
     if (socket.data.inputId === 'moveleft')
         socket.keyInput.pressingMoveLeft = socket.data.state;

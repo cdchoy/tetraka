@@ -56,7 +56,9 @@ else {
 const socketListener = require("./models/SocketHandler");
 
 const io = require('socket.io')();
-io.on('connection', socketListener);
+io.on('connection', (client) => {
+  socketListener(client)
+});
 io.listen(port);
 console.log('socket listening on port ', port);
 

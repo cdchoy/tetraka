@@ -1,3 +1,7 @@
+## CUSTOM ##
+react-app-env.d.ts
+tetrisgod/server/models/*.js
+
 ## IntelliJ ##
 .idea/
 *.iml
@@ -18,8 +22,6 @@ Dockerfile
 docker-compose.yml
 
 ## CRA ##
-
-react-app-env.d.ts
 
 # dependencies
 /node_modules
