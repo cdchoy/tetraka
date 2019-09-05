@@ -2,6 +2,8 @@
 .idea/
 *.iml
 
+## HEROKU CRA NODE ###
+
 # Node build artifacts
 node_modules
 npm-debug.log
@@ -11,11 +13,11 @@ npm-debug.log
 *.dev
 .DS_Store
 
-## HEROKU CRA NODE ###
-
 # Docker
 Dockerfile
 docker-compose.yml
+
+## CRA ##
 
 # dependencies
 /node_modules
@@ -26,7 +28,7 @@ docker-compose.yml
 /coverage
 
 # production
-/build
+*/build
 
 # misc
 .DS_Store
