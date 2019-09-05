@@ -19,7 +19,9 @@ if (!isDev && cluster.isMaster) {
     console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
   });
 
-} else {
+}
+// Normal Single-instance server hosting
+else {
   const app = express();
 
   // Priority serve any static files.
@@ -29,6 +31,11 @@ if (!isDev && cluster.isMaster) {
   app.get('/api', function (req, res) {
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Hello from the custom server!"}');
+  });
+
+  // Answer PINGs
+  app.get('/ping', function (req, res) {
+    return res.send('pong');
   });
 
   // All remaining requests return the React app, so it can handle routing.
