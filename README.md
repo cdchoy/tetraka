@@ -36,7 +36,9 @@ files for the UI and simulating actual client-server communications, you'll want
 server. These commands must be run from the `tetrisgod/tetrisgod/` directory.  
 
 `npm start` - runs the entire server on localhost
-`npm run build` - recompile the react-ui. Must be run for changes to be shown in localhost.
+`npm run build` - recompile the server and react-ui. Must be run for changes to be shown in localhost.  
+`npm run tsc` - compiles the server ts files to js   
+`npm run clean` - remove all js files from server/models   
 
 # Design
 
