@@ -6,7 +6,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node server",
     "build": "cd react-ui/ && npm install && npm run build"
   },
   "cacheDirectories": [
@@ -14,7 +14,6 @@
     "react-ui/node_modules"
   ],
   "dependencies": {
-    "@types/socket.io": "^2.1.2",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
   },
