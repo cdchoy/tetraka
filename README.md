@@ -9,11 +9,34 @@ Mollie Wild ()
 
 # Running the Code
 
+After cloning the project or checking out a branch, *always* run the `setup.sh` script. This 
+will ensure your environment is primed to run the app out of the box.
+
+**Note**: We have two package.json files. One is for testing, building, and running just our 
+React UI. The other is for running the entire server which will use the currently built version 
+of the React UI. See [File Structure](#File-Structure) for help in understanding this.
+
+### Dependency management
+
 `npm install package-name --save` - install new modules. writes to package & package-lock.json.  
 `npm ci` - install module dependencies determined by package & package-lock.json  
-`npm start` - compiles and runs app on localhost  
+
+### Testing React-UI
+This is for when you want to just test that the UI components are working properly. These 
+commands *must* be run from within the `tetrisgod/tetrisgod/react-ui` directory to reference 
+the correct package.json stored there.  
+
+`npm start` - compiles and runs app on localhost (this uses the raw files, not the build ones)  
 `npm run test` - runs unit and integration tests  
 `npm run build` - builds the optimized application artifact for production deployment.  
+
+### Testing the Server
+If you want to test the entire server as it would be seen in production, using the compiled build/ 
+files for the UI and simulating actual client-server communications, you'll want to run the entire 
+server. These commands must be run from the `tetrisgod/tetrisgod/` directory.  
+
+`npm start` - runs the entire server on localhost
+`npm run build` - recompile the react-ui. Must be run for changes to be shown in localhost.
 
 # Design
 
@@ -22,10 +45,20 @@ requirements. ReactJS is used to fulfill the user interface requirements. The en
 application must be built following HTML5 standards without the aid of Flash (deprecated 
 as of 2020) or other browser plugins.
 
+### Frontend
 Under the hood, TetrisGod is a single page browser application. That is, all content is 
 accessed and updated on the index.html page. We simulate a multi-page application by 
-changing the location state in the main App component and rendering different components 
-onto the page accordingly.
+using the React-Router package. In addition to the UI, TetrisGod also answers API and PING 
+calls through the /api and /ping pages.
+
+### Backend
+The logic for TetrisGod games is handled server side so as to eliminate cheating. The game 
+states can only be updated by the server and clients can only emit movement keys. This 
+approach reflects the philosophy that we shouldn't blindly trust packets received from 
+the client.
+
+To reduce communication overhead within the sockets, the server only broadcasts as simple 
+2D integer array to represent the game state. All rendering logic is done client-side. 
 
 ### Abbreviations & Definitions
 
@@ -39,21 +72,31 @@ onto the page accordingly.
 
 ```$xslt
 tetrisgod  
-| node_modules/ - node dependency modules. managed by npm.  
-| public/ - files accessible on client side.  
-	| imgs/    
-	| index.html
-	| manifest.json - specifies installation metadata  
-	| robots.txt - specifies robot access preferences
-| src/ - business logic and react files.  
-	| components/ - React components/containers  
-	| css/
-	| imgs/
-	| models/ - business logic files
-	| test/ - testing scripts  
+| react-ui/
+	| node_modules/ - node dependency modules. managed by npm.  
+	| public/ - files accessible on client side.  
+	    | imgs/    
+	    | index.html
+	    | manifest.json - specifies installation metadata  
+	    | robots.txt - specifies robot access preferences
+	| src/ - business logic and react files.  
+	    | components/ - React components/containers  
+	    | css/
+	    | media/
+	    | test/ - testing scripts  
+	    | App.jsx - root for the entire react application
+	    | index.jsx - bridges App and index.html
+	| package.json - npm config.  
+	| package-lock.json - tracks precise dependency versions for reinstalls. 
+	| tsconfig.json - tsc config for typescript transpiler.
+| server/
+	| models/ - business logic files for nodejs server
+	| index.js - server root file
+| app.json - specifies Heroku config
 | package.json - npm config.  
 | package-lock.json - tracks precise dependency versions for reinstalls. 
-| tsconfig.json - tsc config for typescript transpiler.
+| deploy.sh - script for deploying to production
+| setup.sh - script for setting up dev environment
 ```
 
 ### Tetrimino Names
