@@ -4,16 +4,17 @@ import {UserSettings} from "./components/UserSettings";
 const socket = openSocket('http://localhost:5000');
 let settings = new UserSettings();
 
-function subscribeToTimer(cb) {
-    socket.on('timer', timestamp => cb(null, timestamp));
-    socket.emit('subscribeToTimer', 1000);
-}
-
-function updateGame(cb) {
-    socket.on('game-package', data => cb(null, data));
-}
+// function subscribeToTimer(cb) {
+//     socket.on('timer', timestamp => cb(null, timestamp));
+//     socket.emit('subscribeToTimer', 1000);
+// }
+//
+// function updateGame(cb) {
+//     socket.on('game-package', data => cb(null, data));
+// }
 
 function emitKeyDown(event) {
+    console.log(event.keyCode);
     switch(event.code) {
         case settings.moveLeftKey:
             socket.emit('keyPress',{inputId:'moveleft',state:true});

@@ -2,7 +2,7 @@ import React from "react"
 import '../css/App.css';
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import {emitKeyDown} from "../API";
+import {emitKeyDown, emitKeyUp} from "../API";
 
 type PlayPageState = {}
 
@@ -10,12 +10,6 @@ class PlayPage extends React.Component<{},PlayPageState> {
     constructor(props: any) {
         super(props);
         this.state = {};
-        this.onKeyDown.bind(this)
-    }
-
-    onKeyDown(e : React.KeyboardEvent<any>) {
-        console.log(e.keyCode);
-        emitKeyDown(e)
     }
 
     render() {
@@ -23,7 +17,8 @@ class PlayPage extends React.Component<{},PlayPageState> {
             <div>
                 <Navbar/>
                 <div className="PlayPage"
-                     onKeyDown={this.onKeyDown}
+                     onKeyDown={emitKeyDown}
+                     onKeyUp={emitKeyUp}
                      tabIndex={0}
                 >
                     <h1>Play Page</h1>
