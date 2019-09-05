@@ -1,6 +1,3 @@
-import {Input} from "./models/Input";
-import {Game} from "./models/Game";
-
 /** Server Initialization */
 const express = require('express');
 const path = require('path');
@@ -55,53 +52,22 @@ else {
 
 
 /** SOCKET EVENT HANDLER */
-let SOCKET_LIST = {};
-let GAME_LIST = {};
 
-const io = require('socket.io')();
-io.on('connection', (client) => {
-  onConnect(client);
-  client.on('disconnect', () => { onDisconnect(client); });
-  client.on('keyPress', () => { onKeyPress(client); })
-});
+// const socketListener = require("./models/SocketHandler");
+//
+// const io = require('socket.io')();
+// io.on('connection', socketListener);
+// io.listen(port);
+// console.log('socket listening on port ', port);
 
-io.listen(port);
-console.log('socket listening on port ', port);
-
-const onConnect = (socket) => {
-  socket.id = Math.random();
-  socket.keyInput = new Input();
-
-  SOCKET_LIST[socket.id] = socket;
-  GAME_LIST[socket.id] = new Game();
-};
-
-const onDisconnect = (socket) => {
-  delete SOCKET_LIST[socket.id];
-};
-
-const onKeyPress = (socket) => {
-  if (socket.data.inputId === 'moveleft')
-    socket.keyInput.pressingMoveLeft = socket.data.state;
-  else if (socket.data.inputId === 'rotateright')
-    socket.keyInput.pressingRotateRight = socket.data.state;
-  else if (socket.data.inputId === 'moveright')
-    socket.keyInput.pressingMoveRight = socket.data.state;
-  else if (socket.data.inputId === 'softdrop')
-    socket.keyInput.pressingSoftDrop = socket.data.state;
-  else if (socket.data.inputId === 'harddrop')
-    socket.keyInput.pressingHardDrop = socket.data.state;
-  else if (socket.data.inputId === 'hold')
-    socket.keyInput.pressingHold = socket.data.state;
-};
 /** END SOCKET EVENT HANDLER */
 
 /** MAIN FUNCTION
  *  Determines fps and runs every frame */
 setInterval(() => {
 
-  for (let socket of SOCKET_LIST) {
-    let game = GAME_LIST[socket.id];
-    game.update(socket);
-  }
+  // for (let socket of SOCKET_LIST) {
+  //   let game = GAME_LIST[socket.id];
+  //   game.update(socket);
+  // }
 },1000/25);  // 25fps

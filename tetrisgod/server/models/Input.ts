@@ -1,4 +1,4 @@
-// server/ClientEmitter.ts
+// server/Input.ts
 
 export class Input {
 	pressingMoveLeft    : boolean = false;
