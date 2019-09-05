@@ -2,11 +2,12 @@
 # Script to push tetrisgod/tetrisgod/ directory onto heroku remote
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
+REPO_DIR=${PWD##*/tetrisgod/}
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 
-if [[ "${PWD##*/tetrisgod/}" != "tetrisgod" ]]; then
+if [[ "$REPO_DIR" != "tetrisgod" ]]; then
 	echo -e >&2 "${RED}ERROR: Deploy script must be executed from its own directory.${NC}"
 	echo >&2 "Aborting..."
 	exit 1;
