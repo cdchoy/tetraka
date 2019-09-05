@@ -28,7 +28,7 @@ docker-compose.yml
 /coverage
 
 # production
-*/build
+*/react-ui/build/
 
 # misc
 .DS_Store
