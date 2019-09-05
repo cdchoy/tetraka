@@ -7,8 +7,9 @@
   },
   "scripts": {
     "start": "node server",
-    "build": "tsc && cd react-ui/ && npm install && npm run build",
-    "clean": "rm -rf server/models/*.js && rm -rf react-ui/build/"
+    "build": "tsc server/models/*.ts && cd react-ui/ && npm install && npm run build",
+    "tsc": "tsc server/models/*.ts",
+    "clean": "rm -rf server/models/*.js"
   },
   "cacheDirectories": [
     "node_modules",
