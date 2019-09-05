@@ -1,11 +1,11 @@
 import React from 'react';
-import '../css/App.css';
+import './css/App.css';
 import {Route} from "react-router";
-import TodoPage from "./TodoPage";
-import HomePage from "./HomePage";
-import PlayPage from "./PlayPage";
-import AboutPage from "./AboutPage";
-import LandingPage from "./LandingPage";
+import TodoPage from "./components/TodoPage";
+import HomePage from "./components/HomePage";
+import PlayPage from "./components/PlayPage";
+import AboutPage from "./components/AboutPage";
+import LandingPage from "./components/LandingPage";
 
 
 const App = () => {
