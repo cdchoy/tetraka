@@ -1,14 +1,13 @@
 import React from 'react';
-import '../css/App.css';
+import './css/App.css';
 import {Route} from "react-router";
-import TodoPage from "./TodoPage";
-import HomePage from "./HomePage";
-import PlayPage from "./PlayPage";
-import AboutPage from "./AboutPage";
-import LandingPage from "./LandingPage";
+import LandingPage from "./components/LandingPage";
+import HomePage from "./components/HomePage";
+import PlayPage from "./components/PlayPage";
+import TodoPage from "./components/TodoPage";
+import AboutPage from "./components/AboutPage";
 
-
-const App = () => {
+function App() {
     return (
         <div>
             <div className="App-intro">
@@ -20,6 +19,7 @@ const App = () => {
             </div>
         </div>
     );
-};
+
+}
 
 export default App;
