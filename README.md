@@ -92,11 +92,12 @@ tetrisgod
 	| package-lock.json - tracks precise dependency versions for reinstalls. 
 	| tsconfig.json - tsc config for typescript transpiler.
 | server/
-	| models/ - business logic files for nodejs server
+	| models/ - business logic files for nodejs server. DO NOT put .js files in here.
 	| index.js - server root file
 | app.json - specifies Heroku config
 | package.json - npm config.  
 | package-lock.json - tracks precise dependency versions for reinstalls. 
+| tsconfig.json - tsc config
 | deploy.sh - script for deploying to production
 | setup.sh - script for setting up dev environment
 ```
