@@ -1,6 +1,6 @@
 // client/scripts/ClientEmitter.ts
 
-import {UserSettings} from "./UserSettings";
+import {UserSettings} from "../../react-ui/src/components/UserSettings";
 
 let canvas : any = document.getElementById("ctx");
 let ctx : any = canvas.getContext("2d");

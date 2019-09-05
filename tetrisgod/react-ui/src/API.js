@@ -1,28 +1,19 @@
 import openSocket from 'socket.io-client';
-const  socket = openSocket('http://localhost:5000');
+import {UserSettings} from "./components/UserSettings";
+
+const socket = openSocket('http://localhost:5000');
+let settings = new UserSettings();
 
 function subscribeToTimer(cb) {
     socket.on('timer', timestamp => cb(null, timestamp));
     socket.emit('subscribeToTimer', 1000);
 }
 
-function update(cb) {
+function updateGame(cb) {
     socket.on('game-package', data => cb(null, data));
 }
 
-export { subscribeToTimer };
-
-///////
-
-import {UserSettings} from "./UserSettings";
-
-let canvas = document.getElementById("ctx");
-let ctx = canvas.getContext("2d");
-ctx.font = "30px Arial";
-
-let settings = new UserSettings;
-
-document.onkeydown = function(event) {
+function emitKeyDown(event) {
     switch(event.code) {
         case settings.moveLeftKey:
             socket.emit('keyPress',{inputId:'moveleft',state:true});
@@ -48,9 +39,9 @@ document.onkeydown = function(event) {
         default:
         // do nothing
     }
-};
+}
 
-document.onkeyup = function(event) {
+function emitKeyUp(event) {
     switch(event.code) {
         case settings.moveLeftKey:
             socket.emit('keyPress',{inputId:'moveleft',state:false});
@@ -76,4 +67,6 @@ document.onkeyup = function(event) {
         default:
         // do nothing
     }
-};
+}
+
+export {emitKeyDown, emitKeyUp}

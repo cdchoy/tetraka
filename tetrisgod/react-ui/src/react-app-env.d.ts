@@ -1,3 +1,4 @@
 /// <reference types="react-scripts" />
 
-GENERATE_SOURCEMAP=false
+GENERATE_SOURCEMAP=false;
+
