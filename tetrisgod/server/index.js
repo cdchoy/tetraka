@@ -53,12 +53,12 @@ else {
 
 /** SOCKET EVENT HANDLER */
 
-// const socketListener = require("./models/SocketHandler");
-//
-// const io = require('socket.io')();
-// io.on('connection', socketListener);
-// io.listen(port);
-// console.log('socket listening on port ', port);
+const socketListener = require("./models/SocketHandler");
+
+const io = require('socket.io')();
+io.on('connection', socketListener);
+io.listen(port);
+console.log('socket listening on port ', port);
 
 /** END SOCKET EVENT HANDLER */
 
