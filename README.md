@@ -35,7 +35,7 @@ If you want to test the entire server as it would be seen in production, using t
 files for the UI and simulating actual client-server communications, you'll want to run the entire 
 server. These commands must be run from the `tetrisgod/tetrisgod/` directory.  
 
-`npm start` - runs the entire server on localhost
+`npm start` - runs the entire server on localhost  
 `npm run build` - recompile the react-ui. Must be run for changes to be shown in localhost.
 
 # Design
