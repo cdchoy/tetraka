@@ -1,16 +1,14 @@
 import {Input} from "./models/Input";
+import * as SocketIO from "socket.io";
 
-/** Server Initialization */
-const express = require('express');
-const path = require('path');
 const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-
 const isDev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 5000;
 
-// Multi-process to utilize all CPU cores.
+/** Multi-process to utilize all CPU cores. */
 if (!isDev && cluster.isMaster) {
+  const numCPUs = require('os').cpus().length;
+
   console.error(`Node cluster master ${process.pid} is running`);
 
   // Fork workers.
@@ -23,8 +21,12 @@ if (!isDev && cluster.isMaster) {
   });
 
 }
-// Normal Single-instance server hosting
+
+/** Normal Single-instance server hosting */
 else {
+  /** SERVER SETUP */
+  const express = require('express');
+  const path = require('path');
   const app = express();
   const server = require('http').Server(app);
   const io = require('socket.io')(server);
@@ -50,30 +52,58 @@ else {
   app.get('*', function(request, response) {
     response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
   });
+  /** END SERVER SETUP */
 
-  // Answer Socket.io Communications
-  let SOCKET_LIST = {};
+
+  /** SOCKET EVENT HANDLER */
+  let SOCKET_LIST : Array<SocketIO.Socket> = new Array<SocketIO.Socket>();
+
   io.on('connection', (socket) => {
+    onConnect(socket);
+    socket.on('disconnect', () => { onDisconnect(socket); });
+    // socket.on('keyPress', () => { onKeyPress(socket); })
+
+  });
+
+  const onConnect = (socket: SocketIO.Socket) => {
     socket.id = Math.random();
     socket.keyInput = new Input();
     SOCKET_LIST[socket.id] = socket;
+  };
 
-    // socket.on('disconnect', () => { onDisconnect(socket); });
-    // socket.on('keyPress', () => { onKeyPress(socket); })
-  });
+  const onDisconnect = (socket: SocketIO.Socket) => {
+    delete SOCKET_LIST[socket.id];
+  };
+
+  const onKeyPress = (socket: SocketIO.Socket) => {
+    console.log("KEY PRESSED!");
+    if (socket.data.inputId === 'moveleft')
+      socket.keyInput.pressingMoveLeft = socket.data.state;
+    else if (socket.data.inputId === 'rotateright')
+      socket.keyInput.pressingRotateRight = socket.data.state;
+    else if (socket.data.inputId === 'moveright')
+      socket.keyInput.pressingMoveRight = socket.data.state;
+    else if (socket.data.inputId === 'softdrop')
+      socket.keyInput.pressingSoftDrop = socket.data.state;
+    else if (socket.data.inputId === 'harddrop')
+      socket.keyInput.pressingHardDrop = socket.data.state;
+    else if (socket.data.inputId === 'hold')
+      socket.keyInput.pressingHold = socket.data.state;
+  };
+
+
+  setInterval(() => {
+    for (let socket of SOCKET_LIST) {
+      socket.emit('test');
+      // let game = GAME_LIST[socket.id];
+      // game.update(socket);
+    }
+  },1000/25);  // 25fps
+
+  /** END SOCKET EVENT HANDLER */
 }
-/** END SERVER INITIALIZATION */
 
 
-/** SOCKET EVENT HANDLER */
-
-
-/** END SOCKET EVENT HANDLER */
-// app.listen(port, function () {
-//   console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${port}`);
-// });
-// io.listen(port);
-// console.log('socket listening on port ', port);
 
 
 

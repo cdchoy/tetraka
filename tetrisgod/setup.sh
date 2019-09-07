@@ -15,5 +15,8 @@ cd react-ui/; npm ci; cd ..
 # Generate the React build directory
 cd react-ui/; npm run build; cd ..
 
+# Compile server typescript
+npm run tsc
+
 # Termination message
 echo -e "${GREEN}SETUP COMPLETE!${NC} Run ${PURP}npm start${NC} to run the server locally."
