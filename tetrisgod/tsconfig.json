@@ -21,7 +21,8 @@
     "jsx": "react"
   },
   "include": [
-    "server/models/*.ts"
+    "server/models/*.ts",
+    "server/index"
   ],
   "exclude": [
     "node_modules",

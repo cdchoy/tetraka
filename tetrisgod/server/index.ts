@@ -1,3 +1,5 @@
+import {Input} from "./models/Input";
+
 /** Server Initialization */
 const express = require('express');
 const path = require('path');
@@ -24,6 +26,11 @@ if (!isDev && cluster.isMaster) {
 // Normal Single-instance server hosting
 else {
   const app = express();
+  const server = require('http').Server(app);
+  const io = require('socket.io')(server);
+
+  // Begin Listening for socket & app communications
+  server.listen(port);
 
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
@@ -44,8 +51,15 @@ else {
     response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
   });
 
-  app.listen(port, function () {
-    console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${port}`);
+  // Answer Socket.io Communications
+  let SOCKET_LIST = {};
+  io.on('connection', (socket) => {
+    socket.id = Math.random();
+    socket.keyInput = new Input();
+    SOCKET_LIST[socket.id] = socket;
+
+    // socket.on('disconnect', () => { onDisconnect(socket); });
+    // socket.on('keyPress', () => { onKeyPress(socket); })
   });
 }
 /** END SERVER INITIALIZATION */
@@ -53,23 +67,14 @@ else {
 
 /** SOCKET EVENT HANDLER */
 
-const socketListener = require("./models/SocketHandler");
-
-const io = require('socket.io')();
-io.on('connection', (client) => {
-  socketListener(client)
-});
-io.listen(port);
-console.log('socket listening on port ', port);
 
 /** END SOCKET EVENT HANDLER */
+// app.listen(port, function () {
+//   console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${port}`);
+// });
+// io.listen(port);
+// console.log('socket listening on port ', port);
 
-/** MAIN FUNCTION
- *  Determines fps and runs every frame */
-setInterval(() => {
 
-  // for (let socket of SOCKET_LIST) {
-  //   let game = GAME_LIST[socket.id];
-  //   game.update(socket);
-  // }
-},1000/25);  // 25fps
+
+

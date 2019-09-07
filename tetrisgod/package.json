@@ -7,15 +7,17 @@
   },
   "scripts": {
     "start": "node server",
-    "build": "tsc server/models/*.ts && cd react-ui/ && npm install && npm run build",
-    "tsc": "tsc server/models/*.ts",
-    "clean": "rm -rf server/models/*.js"
+    "build": "tsc server/index && cd react-ui/ && npm install && npm run build",
+    "tsc": "tsc server/index",
+    "clean": "rm server/models/*.js; rm server/index.js"
   },
   "cacheDirectories": [
     "node_modules",
     "react-ui/node_modules"
   ],
   "dependencies": {
+    "@types/express": "^4.17.1",
+    "@types/socket.io": "^2.1.2",
     "express": "^4.16.4",
     "socket.io": "^2.2.0",
     "typescript": "^3.6.2"

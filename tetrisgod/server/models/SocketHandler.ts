@@ -1,25 +1,21 @@
 import {Input} from "./Input";
-import {Game} from "./Game";
 
-let SOCKET_LIST : any = {};
 let GAME_LIST : any = {};
 
-function socketListener(client: any) {
-    onConnect(client);
-    client.on('disconnect', () => { onDisconnect(client); });
-    client.on('keyPress', () => { onKeyPress(client); })
+function socketListener(socket: any) {
+    socket.id = Math.random();
+    socket.keyInput = new Input();
+    // SOCKET_LIST[socket.id] = socket;
 }
 
 const onConnect = (socket: any) => {
     socket.id = Math.random();
     socket.keyInput = new Input();
-
-    SOCKET_LIST[socket.id] = socket;
-    GAME_LIST[socket.id] = new Game();
+    // SOCKET_LIST[socket.id] = socket;
 };
 
 const onDisconnect = (socket: any) => {
-    delete SOCKET_LIST[socket.id];
+    // delete SOCKET_LIST[socket.id];
 };
 
 const onKeyPress = (socket: any) => {
@@ -37,5 +33,13 @@ const onKeyPress = (socket: any) => {
     else if (socket.data.inputId === 'hold')
         socket.keyInput.pressingHold = socket.data.state;
 };
+
+
+setInterval(() => {
+    // for (let socket of SOCKET_LIST) {
+    //     let game = GAME_LIST[socket.id];
+    //     game.update(socket);
+    // }
+},1000/25);  // 25fps
 
 export default socketListener;
