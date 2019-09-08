@@ -94,13 +94,16 @@ class TGServer {
   };
 
   private onKeyPress = (socket: SocketIO.Socket, data: any) => {
-    console.log("KEY PRESSED!");
+    if (data.state) console.log(data.inputId);  //todo rm
+
     let client: ClientConnection = this.CONNECTION_LIST[socket.client.id];
 
     if (data.inputId === 'moveleft')
       client.input.pressingMoveLeft = data.state;
     else if (data.inputId === 'rotateright')
       client.input.pressingRotateRight = data.state;
+    else if (data.inputId === 'rotateleft')
+      client.input.pressingRotateLeft = data.state;
     else if (data.inputId === 'moveright')
       client.input.pressingMoveRight = data.state;
     else if (data.inputId === 'softdrop')

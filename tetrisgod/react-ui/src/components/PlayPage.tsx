@@ -18,19 +18,15 @@ class PlayPage extends React.Component<{},PlayPageState> {
             <div>
                 <Navbar/>
 
-                <SocketContext.Consumer>
-                    {socket =>
-                        <div className="PlayPage"
-                        onKeyDown={socket.emitKeyDown}
-                        onKeyUp={socket.emitKeyUp}
-                        tabIndex={0}
-                        >
-                            {console.log(socket)}
-                            <h1>Play Page</h1>
-                            <p>This will be where we play tetris</p>
-                        </div>
-                    }
-                </SocketContext.Consumer>
+                <div className="PlayPage"
+                    onKeyDown={this.context.emitKeyDown}
+                    onKeyUp={this.context.emitKeyUp}
+                    tabIndex={0}
+                >
+                    <h1>Play Page</h1>
+                    <p>This will be where we play tetris</p>
+                </div>
+
 
 
                 <Footer/>

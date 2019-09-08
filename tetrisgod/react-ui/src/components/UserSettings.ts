@@ -5,7 +5,7 @@ export class UserSettings {
     public moveRightKey  : number = 39;  // rightArrow
     public moveLeftKey   : number = 37;  // leftArrow
     public rotateRightKey: number = 38;  // upArrow
-    public rotateLeftKey : number = 90;  // z
+    public rotateLeftKey : number = 67;  // c
     public softDropKey   : number = 40;  // downArrow
     public hardDropKey   : number = 32;  // space
     public holdKey       : number = 16;  // shift
