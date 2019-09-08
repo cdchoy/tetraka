@@ -4,9 +4,15 @@ import './css/index.css';
 import * as serviceWorker from './serviceWorker';
 import App from "./App";
 import {BrowserRouter} from "react-router-dom";
+import {SocketContext} from "./components/SocketContext";
+import {SocketService} from "./components/SocketService";
+
+const socket = new SocketService();
 
 ReactDOM.render(
-    <BrowserRouter><App/></BrowserRouter>,
+    <BrowserRouter><SocketContext.Provider value={socket}>
+        <App/>
+    </SocketContext.Provider></BrowserRouter>,
     document.getElementById('root')
 );
 

@@ -1,14 +1,14 @@
-// server/UserSettings.tss.ts
+// server/UserSettings.ts
 
 export class UserSettings {
     /* Key Codes - https://keycode.info/ */
-    public moveRightKey  : string = "39";  // rightArrow
-    public moveLeftKey   : string = "37";  // leftArrow
-    public rotateRightKey: string = "38";  // upArrow
-    public rotateLeftKey : string = "90";  // z
-    public softDropKey   : string = "40";  // downArrow
-    public hardDropKey   : string = "32";  // space
-    public holdKey       : string = "16";  // shift
+    public moveRightKey  : number = 39;  // rightArrow
+    public moveLeftKey   : number = 37;  // leftArrow
+    public rotateRightKey: number = 38;  // upArrow
+    public rotateLeftKey : number = 90;  // z
+    public softDropKey   : number = 40;  // downArrow
+    public hardDropKey   : number = 32;  // space
+    public holdKey       : number = 16;  // shift
 
     /* Time Delays in Millis */
     public autoRepeatDelay: number = 170;  // aka DAS (delay auto speed)
