@@ -86,7 +86,6 @@ tetrisgod
 	    | css/
 	    | media/
 	    | test/ - testing scripts  
-	    | API.js - client socket emitter/receiver
 	    | App.jsx - root for the entire react application
 	    | index.jsx - bridges App and index.html
 	    | serviceWorker.js - allows for offline app access. we don't use it
