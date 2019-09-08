@@ -7,6 +7,7 @@ import {SocketContext} from "./SocketContext";
 type PlayPageState = {}
 
 class PlayPage extends React.Component<{},PlayPageState> {
+    static contextType = SocketContext;
 
     constructor(props: any) {
         super(props);
@@ -14,19 +15,19 @@ class PlayPage extends React.Component<{},PlayPageState> {
     }
 
     render() {
+        let socket = this.context;
         return (
             <div>
                 <Navbar/>
 
                 <div className="PlayPage"
-                    onKeyDown={this.context.emitKeyDown}
-                    onKeyUp={this.context.emitKeyUp}
+                    onKeyDown={socket.emitKeyDown}
+                    onKeyUp={socket.emitKeyUp}
                     tabIndex={0}
                 >
                     <h1>Play Page</h1>
                     <p>This will be where we play tetris</p>
                 </div>
-
 
 
                 <Footer/>
@@ -35,7 +36,5 @@ class PlayPage extends React.Component<{},PlayPageState> {
         )
     }
 }
-PlayPage.contextType = SocketContext;
-
 
 export default PlayPage
