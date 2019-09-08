@@ -3,8 +3,7 @@ import * as Path from "path";
 import * as Cluster from "cluster";
 import * as Express from "express";
 import * as SocketIO from "socket.io";
-
-import {Input} from "./models/Input";
+import ClientConnection from "./models/ClientConnection";
 
 /**
  * Multi-process to utilize all CPU cores.
@@ -27,7 +26,7 @@ function startClusterMaster() {
 /**
  * Normal Single-instance server hosting
  * */
-class MyServer {
+class TGServer {
   public static readonly PORT: number = 5000;
 
   readonly app: Express.Application;
@@ -35,11 +34,11 @@ class MyServer {
   readonly server: HTTP.Server;
   private io: SocketIO.Server;
 
-  private SOCKET_LIST: Array<any> = new Array<any>();
+  private CONNECTION_LIST: object = {};
 
   constructor() {
     this.app = Express();
-    this.port = process.env.PORT || MyServer.PORT;
+    this.port = process.env.PORT || TGServer.PORT;
     this.setupApp();
     this.server = HTTP.createServer(this.app);
     this.io = SocketIO(this.server);
@@ -73,44 +72,43 @@ class MyServer {
     });
 
     // socket events
-    this.io.on('connection', (client) => {
-      this.onConnect(client);
-      client.on('disconnect', () => { this.onDisconnect(client); });
-      client.on('keyPress', () => { this.onKeyPress(client); })
+    this.io.on('connection', (socket: SocketIO.Socket) => {
+      let id: string = socket.client.id;
+      this.onConnect(socket);
+      socket.on('disconnect', () => { this.onDisconnect(socket) });
+      socket.on('keyPress', (data: any) => { this.onKeyPress(socket, data) });
     });
 
     // runs every frame
     setInterval(() => {
-      for (let socket of this.SOCKET_LIST) {
-        socket.emit('test');
-      }
+
     },1000/25);  // 25fps
   }
 
-  private onConnect = (client: any) => {
-    client.id = Math.random();
-    client.keyInput = new Input();
-    this.SOCKET_LIST[client.id] = client;
+  private onConnect = (socket: SocketIO.Socket) => {
+    this.CONNECTION_LIST[socket.client.id] = new ClientConnection(socket);
   };
 
-  private onDisconnect = (client: any) => {
-    delete this.SOCKET_LIST[client.id];
+  private onDisconnect = (socket: SocketIO.Socket) => {
+    delete this.CONNECTION_LIST[socket.client.id];
   };
 
-  private onKeyPress = (client: any) => {
+  private onKeyPress = (socket: SocketIO.Socket, data: any) => {
     console.log("KEY PRESSED!");
-    if (client.data.inputId === 'moveleft')
-      client.keyInput.pressingMoveLeft = client.data.state;
-    else if (client.data.inputId === 'rotateright')
-      client.keyInput.pressingRotateRight = client.data.state;
-    else if (client.data.inputId === 'moveright')
-      client.keyInput.pressingMoveRight = client.data.state;
-    else if (client.data.inputId === 'softdrop')
-      client.keyInput.pressingSoftDrop = client.data.state;
-    else if (client.data.inputId === 'harddrop')
-      client.keyInput.pressingHardDrop = client.data.state;
-    else if (client.data.inputId === 'hold')
-      client.keyInput.pressingHold = client.data.state;
+    let client: ClientConnection = this.CONNECTION_LIST[socket.client.id];
+
+    if (data.inputId === 'moveleft')
+      client.input.pressingMoveLeft = data.state;
+    else if (data.inputId === 'rotateright')
+      client.input.pressingRotateRight = data.state;
+    else if (data.inputId === 'moveright')
+      client.input.pressingMoveRight = data.state;
+    else if (data.inputId === 'softdrop')
+      client.input.pressingSoftDrop = data.state;
+    else if (data.inputId === 'harddrop')
+      client.input.pressingHardDrop = data.state;
+    else if (data.inputId === 'hold')
+      client.input.pressingHold = data.state;
   };
 }
 
@@ -120,7 +118,7 @@ function main() {
   if (!isDev && Cluster.isMaster) {
     startClusterMaster();
   } else {
-    new MyServer();
+    new TGServer();
   }
 }
 
