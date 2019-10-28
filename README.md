@@ -40,6 +40,16 @@ server. These commands must be run from the `tetraka/tetraka/` directory.
 `npm run tsc` - compiles the server ts files to js   
 `npm run clean` - remove all js files from server/models   
 
+# Hosting and Deployment
+At the moment, Tetraka uses heroku to host the web application. 
+
+```$xslt
+$ heroku apps:create tetraka
+$ ./deploy.sh
+$ heroku ps:scale web=1
+$ heroku open
+```
+
 # Design
 
 Tetraka utilizes Typescript running on Node.js to fulfill its server and backend code 
