@@ -40,6 +40,7 @@ server. These commands must be run from the `tetraka/tetraka/` directory.
 `npm run tsc` - compiles the server ts files to js   
 `npm run clean` - remove all js files from server/models   
 
+
 # Design
 
 Tetraka utilizes Typescript running on Node.js to fulfill its server and backend code 
