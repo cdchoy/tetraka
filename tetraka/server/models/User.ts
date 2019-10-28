@@ -7,9 +7,9 @@ export class User {
 	private email	 : string;  // unique identifier
 	private socketid : number;
 
-	private username : string = "TetrisGod";
+	private username : string = "Tetraka";
 	private usertag  : string = "#0123";
-	private userid 	 : string = "TetrisGod#0123";
+	private userid 	 : string = "Tetraka#0123";
 	private rank     : number = 1;
 
 	constructor(name:string, username:string, email:string, socket:any) {

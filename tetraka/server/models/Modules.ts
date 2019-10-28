@@ -1,5 +1,5 @@
 // src/Modules.ts
-// Wrapper class for accessing all tetrisgod modules
+// Wrapper class for accessing all tetraka modules
 
 export * from "./User";
 export * from "./Input";

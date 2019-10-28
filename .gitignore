@@ -1,7 +1,7 @@
 ## CUSTOM ##
 react-app-env.d.ts
-tetrisgod/server/index.js
-tetrisgod/server/models/*.js
+tetraka/server/index.js
+tetraka/server/models/*.js
 
 ## IntelliJ ##
 .idea/

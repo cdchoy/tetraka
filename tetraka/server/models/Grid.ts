@@ -26,7 +26,7 @@ export class Grid {
     this.activeMino = new Tetrimino(TetriminoId.None);
     this.matrix = new Array<Array<TetriminoId>>();
 
-    // Initiate lineOccupancy and matrix
+    // Initiate lineOccupancy and grid
     for (let row = 0; row < height; row++) {
       this.lineOccupancy.push(0);
       let newRow = new Array<number>();
@@ -115,7 +115,7 @@ export class Grid {
   /**
    * Returns the level the tetrimino is at. Used in calculating the score update.
    * !!! MUST be called before clearCompleteLines() in landing processing. !!!
-   * Level is 0 indexed from the bottom of the matrix.
+   * Level is 0 indexed from the bottom of the grid.
    */
   public getLevel() : number {
     return this.completeLines.sort((n1,n2) => n1-n2)[0];  // row number of lowest complete line
@@ -236,7 +236,7 @@ export class Grid {
     }
 
     // No possible rotation iterations even with kicking.
-    // Undo Form change and don't change the matrix
+    // Undo Form change and don't change the grid
     (direction == "left") ? this.activeMino.rotateRight(this.origin) : this.activeMino.rotateLeft(this.origin);
   }
 }

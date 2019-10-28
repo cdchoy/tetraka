@@ -83,7 +83,7 @@ export class Tetrimino {
 /**
  * Sets up the tetrimino class' base coordinates. Applying these to the grid's origin coordinate will produce
  * the 4 coordinates that the tetrimino is currently at. The origin is set to be the coordinate of the bottom
- * left box in the matrix that makes up the tetrimino.
+ * left box in the grid that makes up the tetrimino.
  * @param id - TetriminoId of the Tetrimino class we're creating
  */
 function setupCoords(id : TetriminoId) : Array<Array<coordinate>> {

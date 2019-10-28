@@ -86,6 +86,7 @@ class TGServer {
         },1000/25);  // 25fps
     }
 
+    /** SOCKET HANDLER FUNCTIONS */
     private onConnect = (socket: SocketIO.Socket) => {
         console.log("connection! ", socket.client.id);
         this.CONNECTION_LIST[socket.client.id] = new ClientConnection(socket);
@@ -115,6 +116,7 @@ class TGServer {
         else if (data.inputId === 'hold')
             client.input.pressingHold = data.state;
     };
+    /** END SOCKET HANDLER FUNCTIONS */
 }
 
 

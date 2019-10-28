@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
         <div>
             <Navbar/>
             <div className="HomePage">
-                <h1>Welcome to TetrisGod</h1>
+                <h1>Welcome to Tetraka</h1>
                 <p> This is our home page. It will feature announcements, statistics, and a chat room in the future! </p>
                 <p> There is still a LOT of work for us to do.</p>
             </div>

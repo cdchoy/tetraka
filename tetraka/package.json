@@ -1,5 +1,5 @@
 {
-  "name": "tetrisgod",
+  "name": "tetraka",
   "version": "1.0.0",
   "description": "An in browser tetris game",
   "engines": {
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cchoy96/tetrisgod.git"
+    "url": "git+https://github.com/cchoy96/tetraka.git"
   },
   "keywords": [
     "node",

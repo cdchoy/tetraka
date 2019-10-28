@@ -1,5 +1,5 @@
 {
-  "name": "tetrisgod",
+  "name": "tetraka",
   "version": "1.0.0",
   "description": "An in-browser puzzle game",
   "private": true,
@@ -44,13 +44,13 @@
   "proxy": "http://localhost:5000",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cchoy96/tetrisgod.git"
+    "url": "git+https://github.com/cchoy96/tetraka.git"
   },
   "keywords": [
     "tetris"
   ],
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/cchoy96/tetrisgod/issues"
+    "url": "https://github.com/cchoy96/tetraka/issues"
   }
 }

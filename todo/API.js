@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-import {UserSettings} from "../tetrisgod/react-ui/src/components/UserSettings";
+import {UserSettings} from "../tetraka/react-ui/src/components/UserSettings";
 
 const socket = openSocket('http://localhost:5000');
 let settings = new UserSettings();
