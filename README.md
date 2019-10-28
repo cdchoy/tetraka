@@ -41,7 +41,8 @@ server. These commands must be run from the `tetraka/tetraka/` directory.
 `npm run clean` - remove all js files from server/models   
 
 # Hosting and Deployment
-At the moment, Tetraka uses heroku to host the web application. 
+At the moment, Tetraka uses heroku to host the web application. For our initial deployment onto 
+[tetraka.herokuapp.com](https://tetraka.herokuapp.com), we ran the following:
 
 ```$xslt
 $ heroku apps:create tetraka
@@ -49,6 +50,9 @@ $ ./deploy.sh
 $ heroku ps:scale web=1
 $ heroku open
 ```
+
+For future updates to the production build, run only the `deploy.sh` script. As is, only Admin Chris may 
+deploy to the tetraka heroku app and only from the master branch.
 
 # Design
 
