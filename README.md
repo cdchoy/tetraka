@@ -1,5 +1,5 @@
-# tetrisgod
-Codebase for TetrisGod.com
+# tetraka
+Codebase for tetraka.com
 
 ## Collaborators  
 Chris Choy (contact@chrischoy.net)  
@@ -23,7 +23,7 @@ of the React UI. See [File Structure](#File-Structure) for help in understanding
 
 ### Testing React-UI
 This is for when you want to just test that the UI components are working properly. These 
-commands *must* be run from within the `tetrisgod/tetrisgod/react-ui` directory to reference 
+commands *must* be run from within the `tetraka/tetraka/react-ui` directory to reference 
 the correct package.json stored there.  
 
 `npm start` - compiles and runs app on localhost (this uses the raw files, not the build ones)  
@@ -33,26 +33,29 @@ the correct package.json stored there.
 ### Testing the Server
 If you want to test the entire server as it would be seen in production, using the compiled build/ 
 files for the UI and simulating actual client-server communications, you'll want to run the entire 
-server. These commands must be run from the `tetrisgod/tetrisgod/` directory.  
+server. These commands must be run from the `tetraka/tetraka/` directory.  
 
 `npm start` - runs the entire server on localhost  
-`npm run build` - recompile the react-ui. Must be run for changes to be shown in localhost.
+`npm run build` - recompile the server and react-ui. Must be run for changes to be shown in localhost.  
+`npm run tsc` - compiles the server ts files to js   
+`npm run clean` - remove all js files from server/models   
+
 
 # Design
 
-TetrisGod utilizes Typescript running on Node.js to fulfill its server and backend code 
+Tetraka utilizes Typescript running on Node.js to fulfill its server and backend code 
 requirements. ReactJS is used to fulfill the user interface requirements. The entire 
 application must be built following HTML5 standards without the aid of Flash (deprecated 
 as of 2020) or other browser plugins.
 
 ### Frontend
-Under the hood, TetrisGod is a single page browser application. That is, all content is 
+Under the hood, Tetraka is a single page browser application. That is, all content is 
 accessed and updated on the index.html page. We simulate a multi-page application by 
-using the React-Router package. In addition to the UI, TetrisGod also answers API and PING 
+using the React-Router package. In addition to the UI, Tetraka also answers API and PING 
 calls through the /api and /ping pages.
 
 ### Backend
-The logic for TetrisGod games is handled server side so as to eliminate cheating. The game 
+The logic for Tetraka games is handled server side so as to eliminate cheating. The game 
 states can only be updated by the server and clients can only emit movement keys. This 
 approach reflects the philosophy that we shouldn't blindly trust packets received from 
 the client.
@@ -71,7 +74,7 @@ To reduce communication overhead within the sockets, the server only broadcasts 
 ### File Structure
 
 ```$xslt
-tetrisgod  
+tetraka  
 | react-ui/
 	| node_modules/ - node dependency modules. managed by npm.  
 	| public/ - files accessible on client side.  
@@ -86,15 +89,17 @@ tetrisgod
 	    | test/ - testing scripts  
 	    | App.jsx - root for the entire react application
 	    | index.jsx - bridges App and index.html
+	    | serviceWorker.js - allows for offline app access. we don't use it
 	| package.json - npm config.  
 	| package-lock.json - tracks precise dependency versions for reinstalls. 
 	| tsconfig.json - tsc config for typescript transpiler.
 | server/
-	| models/ - business logic files for nodejs server
+	| models/ - business logic files for nodejs server. DO NOT put .js files in here.
 	| index.js - server root file
 | app.json - specifies Heroku config
 | package.json - npm config.  
 | package-lock.json - tracks precise dependency versions for reinstalls. 
+| tsconfig.json - tsc config
 | deploy.sh - script for deploying to production
 | setup.sh - script for setting up dev environment
 ```
