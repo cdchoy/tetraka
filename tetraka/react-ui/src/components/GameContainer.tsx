@@ -13,6 +13,9 @@ type GameContainerState = {
     matrix: cell[][]
 }
 
+/**
+ * Stores and renders game metadata including cell matrix and number grid
+ */
 class GameContainer extends React.Component<GameContainerProps,GameContainerState> {
     static contextType = SocketContext;
     readonly columns: number;
@@ -24,7 +27,7 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
             matrix: this.initializeMatrix(props.rows, props.columns)
         };
         this.columns = props.columns;
-        this.updateMatrix = this.updateMatrix.bind(this);
+        this.updateMatrixFromGrid = this.updateMatrixFromGrid.bind(this);
         this.numberToColor = this.numberToColor.bind(this);
     }
 
@@ -57,7 +60,8 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
             for (let row=0; row < height; row++) {
                 let c: cell = {
                     width: 100/this.columns,
-                    color: 'white'
+                    color: 'white',
+                    pos: {row:row, col:col}
                 };
                 newCol.push(c);
             }
@@ -66,7 +70,7 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
         return matrix;
     }
 
-    updateMatrix(grid: number[][]) {
+    updateMatrixFromGrid(grid: number[][]) {
         for (let y in grid) {
             for (let x in grid[y]) {
                 let color: string = this.numberToColor(grid[x][y]);
