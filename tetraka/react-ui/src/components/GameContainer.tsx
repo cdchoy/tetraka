@@ -19,9 +19,11 @@ type GameContainerState = {
 class GameContainer extends React.Component<GameContainerProps,GameContainerState> {
     static contextType = SocketContext;
     readonly columns: number;
+    private canvas: React.RefObject<HTMLCanvasElement>;
 
     constructor(props: GameContainerProps) {
         super(props);
+        this.canvas = React.createRef();
         this.state = {
             grid: GameContainer.initializeGrid(props.rows, props.columns),
             matrix: this.initializeMatrix(props.rows, props.columns)
@@ -36,7 +38,16 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
 
         return (
             <div onKeyDown={socket.emitKeyDown} onKeyUp={socket.emitKeyUp} tabIndex={0}>
-                <PixelGrid matrix={this.state.matrix}/>
+                <canvas
+                    ref = { this.canvas }
+                    width = { 320 }
+                    height = { 640 }
+                    onMouseDown = { 
+                        () => {
+                            this.drawPixel(0, 0);
+                        }   
+                    }
+                />
             </div>
         )
     }
@@ -88,6 +99,13 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
     numberToColor(tetriminoID: number): string {
         let settings: UserSettings = new UserSettings(); // todo grab from global user acct
         return settings.BlockColors[tetriminoID];
+    }
+
+    drawPixel(x: number, y: number) {
+        console.log("Drawing Square");
+        const curr: HTMLCanvasElement | null = this.canvas.current;
+        const ctx: CanvasRenderingContext2D | null = curr!.getContext("2d");
+        ctx!.fillRect(0, 0, 32, 32);
     }
 }
 
