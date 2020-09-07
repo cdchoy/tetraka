@@ -9,7 +9,7 @@ command -v node >/dev/null 2>&1 || { echo -e >&2 "${RED}ERR: Node not installed.
 command -v npm >/dev/null 2>&1 || { echo -e >&2 "${RED}ERR: Npm not installed. ${NC}"; exit 1; }
 
 # Install package dependencies
-npm ci;
+cd server/; npm ci; cd ..
 cd react-ui/; npm ci; cd ..
 
 # Generate the React build directory
@@ -19,4 +19,4 @@ cd react-ui/; npm run build; cd ..
 npm run tsc
 
 # Termination message
-echo -e "${GREEN}SETUP COMPLETE!${NC} Run ${PURP}npm start${NC} to run the server locally."
+echo -e "${GREEN}SETUP COMPLETE!${NC} Run ${PURP}docker-compose up --build${NC} to run the server locally."

@@ -1,8 +1,8 @@
 import * as HTTP from "http";
 import * as Path from "path";
 import * as Cluster from "cluster";
-import * as Express from "express";
-import * as SocketIO from "socket.io";
+import Express from "express";
+import SocketIO from "socket.io";
 import ClientConnection from "./models/ClientConnection";
 
 /**
@@ -34,7 +34,7 @@ class TGServer {
     readonly server: HTTP.Server;
     private io: SocketIO.Server;
 
-    private CONNECTION_LIST: object = {};
+    private CONNECTION_LIST: { [socketId : string] : ClientConnection} = {};
 
     constructor() {
         this.app = Express();

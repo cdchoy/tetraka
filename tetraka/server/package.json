@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "An in browser tetris game",
   "engines": {
-    "node": "10.x"
+    "node": "14.x"
   },
   "scripts": {
-    "start": "node server",
-    "build": "tsc server/index && cd react-ui/ && npm install && npm run build",
-    "tsc": "tsc server/index",
-    "clean": "rm server/models/*.js; rm server/index.js"
+    "start": "node .",
+    "build": "tsc index && npm install",
+    "tsc": "tsc -p tsconfig.json",
+    "clean": "rm models/*.js; rm index.js"
   },
   "cacheDirectories": [
     "node_modules",

@@ -21,11 +21,10 @@
     "jsx": "react"
   },
   "include": [
-    "server/models/*.ts",
-    "server/index"
+    "models/*.ts",
+    "index.ts"
   ],
   "exclude": [
-    "node_modules",
-    "react-ui"
+    "node_modules"
   ]
 }
