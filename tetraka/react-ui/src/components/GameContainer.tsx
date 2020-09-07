@@ -13,18 +13,23 @@ type GameContainerState = {
     matrix: cell[][]
 }
 
+/**
+ * Stores and renders game metadata including cell matrix and number grid
+ */
 class GameContainer extends React.Component<GameContainerProps,GameContainerState> {
     static contextType = SocketContext;
     readonly columns: number;
+    private canvas: React.RefObject<HTMLCanvasElement>;
 
     constructor(props: GameContainerProps) {
         super(props);
+        this.canvas = React.createRef();
         this.state = {
             grid: GameContainer.initializeGrid(props.rows, props.columns),
             matrix: this.initializeMatrix(props.rows, props.columns)
         };
         this.columns = props.columns;
-        this.updateMatrix = this.updateMatrix.bind(this);
+        this.updateMatrixFromGrid = this.updateMatrixFromGrid.bind(this);
         this.numberToColor = this.numberToColor.bind(this);
     }
 
@@ -33,7 +38,16 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
 
         return (
             <div onKeyDown={socket.emitKeyDown} onKeyUp={socket.emitKeyUp} tabIndex={0}>
-                <PixelGrid matrix={this.state.matrix}/>
+                <canvas
+                    ref = { this.canvas }
+                    width = { 320 }
+                    height = { 640 }
+                    onMouseDown = { 
+                        () => {
+                            this.drawPixel(0, 0);
+                        }   
+                    }
+                />
             </div>
         )
     }
@@ -57,7 +71,8 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
             for (let row=0; row < height; row++) {
                 let c: cell = {
                     width: 100/this.columns,
-                    color: 'white'
+                    color: 'white',
+                    pos: {row:row, col:col}
                 };
                 newCol.push(c);
             }
@@ -66,7 +81,7 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
         return matrix;
     }
 
-    updateMatrix(grid: number[][]) {
+    updateMatrixFromGrid(grid: number[][]) {
         for (let y in grid) {
             for (let x in grid[y]) {
                 let color: string = this.numberToColor(grid[x][y]);
@@ -84,6 +99,13 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
     numberToColor(tetriminoID: number): string {
         let settings: UserSettings = new UserSettings(); // todo grab from global user acct
         return settings.BlockColors[tetriminoID];
+    }
+
+    drawPixel(x: number, y: number) {
+        console.log("Drawing Square");
+        const curr: HTMLCanvasElement | null = this.canvas.current;
+        const ctx: CanvasRenderingContext2D | null = curr!.getContext("2d");
+        ctx!.fillRect(0, 0, 32, 32);
     }
 }
 

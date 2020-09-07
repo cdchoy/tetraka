@@ -4,12 +4,10 @@ Codebase for tetraka.com
 ## Collaborators  
 Chris Choy (contact@chrischoy.net)  
 Cole Koester (cole.koester@tufts.edu)  
-Cameron Diperna ()  
-Mollie Wild ()  
 
 # Running the Code
 
-After cloning the project or checking out a branch, *always* run the `setup.sh` script. This 
+After cloning the project or checking out a branch, *always run the `setup.sh` script*. This 
 will ensure your environment is primed to run the app out of the box.
 
 **Note**: We have two package.json files. One is for testing, building, and running just our 
@@ -18,17 +16,8 @@ of the React UI. See [File Structure](#File-Structure) for help in understanding
 
 ### Dependency management
 
-`npm install package-name --save` - install new modules. writes to package & package-lock.json.  
+`npm install package-name --save` - for installing new modules. writes to package & package-lock.json.  
 `npm ci` - install module dependencies determined by package & package-lock.json  
-
-### Testing React-UI
-This is for when you want to just test that the UI components are working properly. These 
-commands *must* be run from within the `tetraka/tetraka/react-ui` directory to reference 
-the correct package.json stored there.  
-
-`npm start` - compiles and runs app on localhost (this uses the raw files, not the build ones)  
-`npm run test` - runs unit and integration tests  
-`npm run build` - builds the optimized application artifact for production deployment.  
 
 ### Testing the Server
 If you want to test the entire server as it would be seen in production, using the compiled build/ 
@@ -39,6 +28,15 @@ server. These commands must be run from the `tetraka/tetraka/` directory.
 `npm run build` - recompile the server and react-ui. Must be run for changes to be shown in localhost.  
 `npm run tsc` - compiles the server ts files to js   
 `npm run clean` - remove all js files from server/models   
+
+### Testing React-UI
+This is for when you want to just test that the UI components are working properly. These 
+commands *must* be run from within the `tetraka/tetraka/react-ui` directory to reference 
+the correct package.json stored there.  
+
+`npm start` - compiles and runs app on localhost (this uses the raw files, not the build ones)  
+`npm run test` - runs unit and integration tests  
+`npm run build` - builds the optimized application artifact for production deployment.  
 
 # Hosting and Deployment
 At the moment, Tetraka uses heroku to host the web application. For our initial deployment onto 
@@ -73,8 +71,8 @@ states can only be updated by the server and clients can only emit movement keys
 approach reflects the philosophy that we shouldn't blindly trust packets received from 
 the client.
 
-To reduce communication overhead within the sockets, the server only broadcasts as simple 
-2D integer array to represent the game state. All rendering logic is done client-side. 
+To reduce communication overhead within the sockets, the server only broadcasts a simple 
+2D integer array which represents the game state to players. All rendering logic is done client-side. 
 
 ### Abbreviations & Definitions
 
@@ -104,10 +102,10 @@ tetraka
 	    | index.jsx - bridges App and index.html
 	    | serviceWorker.js - allows for offline app access. we don't use it
 	| package.json - npm config.  
-	| package-lock.json - tracks precise dependency versions for reinstalls. 
+	| package-lock.json - specifies static versions of dependencies. 
 	| tsconfig.json - tsc config for typescript transpiler.
 | server/
-	| models/ - business logic files for nodejs server. DO NOT put .js files in here.
+	| models/ - business logic files for nodejs server. *DO NOT* put .js files in here.
 	| index.js - server root file
 | app.json - specifies Heroku config
 | package.json - npm config.  

@@ -1,29 +1,50 @@
 import React from "react"
+import {cell} from "./PixelGrid";
 
 const GRID_INITIAL_COLOR: string = '#313131';
 
 type PixelProps = {
-    width:number;
-    color:string;
+    cellData:cell;
 }
 
+/**
+ * Renders the pixel as a div block
+ */
 class Pixel extends React.Component<PixelProps, {}> {
 
+    constructor(props: any) {
+        super(props);
+        this.columnToWidth = this.columnToWidth.bind(this);
+    }
+
     shouldComponentUpdate(nextProps: Readonly<PixelProps>, nextState: Readonly<{}>, nextContext: any): boolean {
-        const isSame: boolean = (this.props.width === nextProps.width) || (this.props.color === nextProps.color);
+        const cell = this.props.cellData;
+        const nextCell = nextProps.cellData;
+        const isSame: boolean = (cell.width === nextCell.width) && (cell.color === nextCell.color);
         return !isSame;
     }
 
     render() {
-        const {width, color} = this.props;
+        const cell = this.props.cellData;
 
         const styles = {
-            width: width + '%',
-            paddingBottom: width + '%',
-            backgroundColor: color || GRID_INITIAL_COLOR
+            width: '10%',
+            paddingBottom: '10%',
+            marginLeft: this.columnToWidth(cell.pos.col),
+            marginTop: this.columnToWidth(cell.pos.row),
+            borderStyle: 'groove',
+            borderWidth: 1,
+            backgroundColor: cell.color || GRID_INITIAL_COLOR
         };
 
-        return (<div style={styles}/>)
+        console.log(cell.width);
+
+        return (<div style={styles} className={"foobar"}/>)
+    }
+
+    columnToWidth(n: number) {
+        const s = n * 10 + 1;
+        return s.toString() + '%'
     }
 }
 
