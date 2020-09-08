@@ -31,6 +31,12 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
         this.columns = props.columns;
         this.updateMatrixFromGrid = this.updateMatrixFromGrid.bind(this);
         this.numberToColor = this.numberToColor.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
+
+    componentDidMount(): void {
+        console.log("here")
+        this.canvas.current!.addEventListener('keydown', this.handleKeyDown, false);
     }
 
     render() {
@@ -40,6 +46,8 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
             <div onKeyDown={socket.emitKeyDown} onKeyUp={socket.emitKeyUp} tabIndex={0}>
                 <canvas
                     ref = { this.canvas }
+                    tabIndex={0}
+                    onKeyPress = {this.handleKeyDown}
                     width = { 320 }
                     height = { 640 }
                     onMouseDown = { 
@@ -50,6 +58,11 @@ class GameContainer extends React.Component<GameContainerProps,GameContainerStat
                 />
             </div>
         )
+    }
+
+    handleKeyDown(evt: KeyboardEvent) {
+        console.log("here");
+        console.log(evt);
     }
 
     static initializeGrid(height:number, width:number): number[][] {
