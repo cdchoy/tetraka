@@ -5,7 +5,7 @@ networks:
     external: true
 
 services:
-  tetraka_server:
+  server:
     networks:
       - tetraka
     build:
@@ -16,3 +16,14 @@ services:
     ports:
       # HOST:CONTAINER or just CONTAINER
       - 5000:5000
+
+  frontend:
+    networks:
+      - tetraka
+    build:
+      context: react-ui
+      dockerfile: Dockerfile
+    environment:
+      ENV_NAME: dev
+    ports:
+      - 3000:80
