@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: tetraka-frontend
+    build:
+      context: ./react-ui
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 5000:5000
