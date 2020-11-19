@@ -18,9 +18,7 @@ npm-debug.log
 *.dev
 .DS_Store
 
-# Docker
-Dockerfile
-docker-compose.yml
+
 
 ## CRA ##
 
