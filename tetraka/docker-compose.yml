@@ -1,8 +1,5 @@
 version: '3.8'
 
-networks: 
-  tetraka: {}
-
 services:
   frontend:
     container_name: tetraka-frontend
@@ -14,9 +11,17 @@ services:
     environment:
       PORT: 5000
       CHOKIDAR_USEPOLLING: "true"
-    networks: 
-      - tetraka
     stdin_open: true
     volumes:
       - './react-ui:/app'
       - '/app/node_modules'
+
+  backend:
+    container_name: tetraka-backend
+    build: 
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - 8000:5000
+    environment:
+      PORT: 5000
