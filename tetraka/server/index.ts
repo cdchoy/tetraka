@@ -28,6 +28,7 @@ function startClusterMaster() {
  * */
 class TGServer {
     public static readonly PORT: number = 5000;
+    public static readonly HOST: string = '0.0.0.0';
 
     readonly app: Express.Application;
     readonly port: string | number;
@@ -46,7 +47,13 @@ class TGServer {
     }
 
     private setupApp(): void {
-        this.app.use(Express.static(Path.resolve(__dirname, '../react-ui/build')));
+        // how to handle this?
+        /* 
+        I'm not sure this block below is actually doing anything. I will leave it commented out until it causes 
+        problems. As I understand it, react clientside routing is handled by react already, and does not need 
+        to involve server-side express code. 
+        */
+        // this.app.use(Express.static(Path.resolve(__dirname, '../react-ui/build')));
 
         // Answer API requests.
         this.app.get('/api', (req, res) => {
@@ -60,9 +67,9 @@ class TGServer {
         });
 
         // All remaining requests return the React app, so it can handle routing.
-        this.app.get('*', (request, response) => {
-            response.sendFile(Path.resolve(__dirname, '../react-ui/build', 'index.html'));
-        });
+        // this.app.get('*', (request, response) => {
+        //     response.sendFile(Path.resolve(__dirname, '../react-ui/build', 'index.html'));
+        // });
     }
 
     private listen(): void {
