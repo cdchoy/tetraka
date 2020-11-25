@@ -6,8 +6,8 @@
     "node": "15.x"
   },
   "scripts": {
-    "start": "node server",
-    "build": "tsc server/index && cd react-ui/ && npm install && npm run build",
+    "start": "node index.js",
+    "build": "tsc server/index",
     "tsc": "tsc server/index",
     "clean": "rm server/models/*.js; rm server/index.js"
   },
@@ -28,7 +28,6 @@
   },
   "keywords": [
     "node",
-    "heroku",
     "create-react-app",
     "react"
   ],
